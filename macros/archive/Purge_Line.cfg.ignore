@@ -1,0 +1,15 @@
+#####################################################################
+[gcode_macro _PURGE_LINE] ; fat purge line to left of bed
+#####################################################################
+gcode:
+    G92 E0                        ; zero/reset extruder
+    G1 X0 Y0 Z7 F{printer.configfile.settings.printer.max_velocity*40} ; move to start position at safe Z
+    G1 Z0.3                       ; get close    
+
+    G1 E+5 F100                   ; extrude to put the pressure (-20 from purge macro)
+    G92 E0
+
+    G1 X0 Y100 Z0.3 F500 E20      ; extrude fat line
+    G92 E0                        ; zero/reset extruder
+    G1 Z2 E-0.1 F3000             ; lift nozzle & retract a little
+    G92 E0                        ; zero/reset extruder

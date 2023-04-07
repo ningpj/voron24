@@ -1,0 +1,207 @@
+#####################################################################
+[display] ; mini12864 LCD Display
+#####################################################################
+
+lcd_type:                   uc1701
+cs_pin:                     PC11
+a0_pin:                     PD2
+rst_pin:                    PC10
+encoder_pins:               ^PC6,^PC7
+click_pin:                  ^!PA8
+contrast:                   63
+encoder_steps_per_detent:   2
+
+spi_software_mosi_pin:      PA7        ; SPI1
+spi_software_miso_pin:      PA6        ; SPI1
+spi_software_sclk_pin:      PA5        ; SPI1
+
+#####################################################################
+[neopixel lcd] ; Fysetc mini12864 neopixel RGB controls
+#####################################################################
+
+pin:                        PC12
+chain_count:                3
+initial_RED:                0
+initial_GREEN:              0
+initial_BLUE:               0
+color_order:                RGB
+
+[output_pin beeper]
+pin:                        PC9
+pwm:                        True
+#static_value:
+value:                      0
+shutdown_value:             0
+cycle_time:                 0.0005
+
+#####################################################################
+[delayed_gcode setdisplayneopixel] ; set initial display state
+#####################################################################
+
+initial_duration: 1
+gcode:
+    _RESETLCD
+    _BEEP BEEPS=2                                               ; beep the beeper
+    _LOWERZCURRENT                                              ; default to lower z currents on startup. these will be toggled in print_start and end
+    STATUS_READY                                                ; set stealth burner LEDs to READY
+
+#####################################################################
+[gcode_macro _RESETLCD] ; Default RGB
+#####################################################################
+
+; Set RGB values for each 12864 Neopixel display 
+; Index 1 = display, Index 2 = Knob 1, Index 3 = Knob 2
+
+gcode:
+    SET_LED LED=lcd RED=1   GREEN=0.4  BLUE=0.4 INDEX=1 TRANSMIT=0
+    SET_LED LED=lcd RED=0.4 GREEN=0    BLUE=0   INDEX=2 TRANSMIT=0
+    SET_LED LED=lcd RED=0.4 GREEN=0    BLUE=0   INDEX=3 TRANSMIT=1
+
+#####################################################################
+[gcode_macro _LCDRGB] ; Change 12864 screen colours e.g _LCDRGB R=1 G=0 B=0
+#####################################################################
+gcode:
+    {% set r = params.R|default(1)|float %}
+    {% set g = params.G|default(1)|float %}
+    {% set b = params.B|default(1)|float %}
+
+    SET_LED LED=lcd RED={r} GREEN={g} BLUE={b} INDEX=1
+    SET_LED LED=lcd RED={r} GREEN={g} BLUE={b} INDEX=2
+    SET_LED LED=lcd RED={r} GREEN={g} BLUE={b} INDEX=3
+
+#####################################################################
+[display_glyph chamber] ; Chamber temp icon
+#####################################################################
+
+data:
+    ................
+    ................
+    ..........***...
+    .........*...*..
+    ........*..*.*..
+    .......*..*..*..
+    ......*..*..*...
+    .....*..*..*....
+    ...**..*..*.....
+    ..*...*..*......
+    .*..*...*.......
+    .*.***.*........
+    .*..*..*........
+    ..*...*.........
+    ...***..........
+    ................
+  
+#####################################################################
+[display_glyph voronlogo] ; Voron logo
+#####################################################################
+
+data:
+   .......**.......
+   .....******.....
+   ....********....
+   ..************..
+   .*****..**..***.
+   .****..**..****.
+   .***..**..*****.
+   .**..**..******.
+   .******..**..**.
+   .*****..**..***.
+   .****..**..****.
+   .***..**..*****.
+   ..************..
+   ....********....
+   .....******.....
+   .......**.......
+
+#####################################################################
+[display] ; Override default klipper LCD screen template
+#####################################################################
+
+display_group: __voron_display
+
+[display_template _vheater_temperature]
+param_heater_name: "extruder"
+text:
+  {% if param_heater_name in printer %}
+     {% set heater = printer[param_heater_name] %}
+     # Show glyph
+     {% if param_heater_name == "heater_bed" %}
+        {% if heater.target %}
+          {% set frame = (printer.toolhead.estimated_print_time|int % 2) + 1 %}
+          ~bed_heat{frame}~
+        {% else %}
+          ~bed~
+        {% endif %}
+     {% else %}
+        ~extruder~
+     {% endif %}
+     # Show temperature
+     { "%3.0f" % (heater.temperature,) }
+     # Optionally show target
+     {% if heater.target and (heater.temperature - heater.target)|abs > 2 %}
+        ~right_arrow~
+        { "%0.0f" % (heater.target,) }
+     {% endif %}
+     ~degrees~
+  {% endif %}
+
+[display_data __voron_display extruder]
+position: 0, 0
+text: { render("_vheater_temperature", param_heater_name="extruder") }
+
+[display_data __voron_display fan]
+position: 0, 10
+text:
+  {% if 'fan' in printer %}
+     {% set speed = printer.fan.speed %}
+     {% if speed %}
+        {% set frame = (printer.toolhead.estimated_print_time|int % 2) + 1 %}
+        ~fan{frame}~
+     {% else %}
+        ~fan1~
+     {% endif %}
+     { "{:>4.0%}".format(speed) }
+  {% endif %}
+
+[display_data __voron_display bed]
+position: 1, 0
+text: { render("_vheater_temperature", param_heater_name="heater_bed") }
+
+[display_data __voron_display progress_text]
+position: 1, 10
+text:
+  {% set progress = printer.display_status.progress %}
+  { "{:^6.0%}".format(progress) }
+  
+[display_data __voron_display progress_text2]
+position: 1, 10
+text:
+  {% set progress = printer.display_status.progress %}
+  { draw_progress_bar(1, 10, 6, progress) }
+
+[display_data __voron_display printing_time]
+position: 2, 10
+text:
+  {% set ptime = printer.idle_timeout.printing_time %}
+  { "%02d:%02d" % (ptime // (60 * 60), (ptime // 60) % 60) }
+
+[display_data __voron_display chamber]
+position: 2, 0
+text:
+  {% set chamber = printer['temperature_fan chamber'] %}
+  ~chamber~
+  { "%3.0f" % (chamber.temperature,) }
+  ~degrees~
+
+[display_data __voron_display print_status]
+position: 3, 0
+text: 
+  {% if printer.display_status.message %}
+     { printer.display_status.message }
+  {% elif printer.idle_timeout.printing_time %}
+     {% set pos = printer.toolhead.position %}
+     { "X%-4.0fY%-4.0fZ%-5.2f" % (pos.x, pos.y, pos.z) }
+  {% else %}
+     { "V2.2726 " }
+     ~voronlogo~
+  {% endif %}

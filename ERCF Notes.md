@@ -1,0 +1,80 @@
+# Enraged Rabbit Carrot Feeder (ERCF) MMU Guidance
+
+ERCF is an awesome addition to any klipper based 3d printer but can take time to calibrate and tune to get it to operate reliably. As fluedddi said recently in discord, *Having one beats needing one!* :-) Taking extra care during assembly will eliminate much frustration later on :-)
+
+## Preparation
+* **`Manual:`**  Read the ERCF manual and familiarise yourself with overall build process before commencing assembly. 
+<br>The current version can be found here: https://github.com/EtteGit/EnragedRabbitProject/blob/main/Documentation/ERCF_Manual.pdf
+
+* **`Printed Parts:`**  Like all other Voron printed parts, ERCF parts are designed to accommodate ABS shrinkage. If using other filaments like PLA YMMV, please check tolerances by printing the calibration part and test fitting 8mm rod, m5 nut, magnet and filament (refer Pg 6 of the ERCF Manual).
+<br><br>Parts are printed using standard Voron print settings (Refer Pg 4 of ERCF manual)
+  ```  0.2mm layers
+    Forced 0.4mm width
+    40% infill - Grid, Gyroid, Honeycomb, Triangle or Cubic
+    4 walls
+    5 top and bottom layers    
+*  **`Extruder Bowden:`**  You will need a Clockwork 1/2 face plate (& latch) or extruder with EACS or PC8 connectors to secure the bowden during ERCF load operations. e.g Clockwork 2 alternate: 
+https://github.com/EtteGit/EnragedRabbitProject/tree/main/usermods/CW2_with_ECAS_and_optional_sensor
+
+* **`ERCF Software:`** While the ERCF Github repo includes macros and python klipper extension these aren't being actively maintained or enhanced and recommend you install the Happy Hare v3 driver. Happy Hare includes a custom klipper servo driver to work around klipper timing issues, automated run out management and setup, sensor-less and sensor based filament homing options, very useful debug and other highly evolved operational features to improve the overall user experience! Full details and setup instructions here: https://github.com/moggieuk/ERCF-Software-V3
+
+## Build
+* **`Filament Gates:`**  Check gate washers during assembly to make sure they are 1) magnetic and 2) are SMOOTH on both sides otherwise they can get stuck in the carrier and cause intermittent issues.  One side is usually smooth as they are manufactured using a die punch. Run the rough side across a fine file or sand paper to smoot.  Also check the washer carrier for any print artefacts / obstructions that could cause them to get stuck. <br> <br> You can also consider using upspec'd N52 magnets rather than more common N35 magnets for the encoder cart to improve gate reliability and operation.  Its not essential but will help eliminate load failures and a potential source of *~~frustration~~* friction from the filament path. 
+
+* **`M5 Rods:`**  Leave tightening the main ERCF M5 rods until you have the ERCF on a flat surface or secured to a 2020 rail.  Its really easy to over tighten these and create a back bow which may prevent the main drive shaft form turning freely. The shaft should turn easily without any binding with the GT2 belt unattached. Remember when tightening, the rods only need to be snug not hulk tight.
+
+* **`Drive Shaft:`**  As above, during assembly check the main drive shaft spins freely. If you any feel resistance or binding (rubbing) recheck and adjust the tension of the M5 nuts on the main rods and check for binding in other areas e.g. 
+  * 80T centred & clearance, gearbox is 100% square, printed spacers are installed correctly on either side of the 80T.
+  * 80T GT2 20T hub is fully seated and you have used the correct button head screws (BHCS).
+  * BMG gears are centred in their carts and the grub screws aren't catching or protruding.
+
+* **`Top Hats:`**  Start with the same thickness e.g. One Dot and save tuning these until you have the ERCF secured to a 2020 rail or on a flat surface.  Assuming all BMG gears are from the same supplier all top hats "will" generally be the same thickness if the ERCF is true and flat.  Work your way up until your filament doesn’t slip. Its fine if one or two are thicker to account for part and BMG gear variations. However if you find you need thicker top hats on middle gates you may have a bowed ERCF.    
+
+* **`Drive Belt:`** There's a tendency to over tension the 80T GT2 belt …. don't, its not necessary.  In fact it needs to be looser than you think to compensate for rotational variations of the printed 80T part and hub.  Make sure the 80T wheel is as centred and square as you can get it though or use a printed jig during assembly (https://github.com/moggieuk/ERCF-Projects/tree/main/80T-Gear-Guide/STLs). Unfortunately you will never be able to get it perfectly true which is why the drive belt needs to be loose. If you don’t the Nema 14 will bind and make alarming noises or honk like a goose when spinning up and down. Alot of people are critical of the printed 80T for the above reasons. However given its relatively low mass, the Nema 14 is able to spin it very quickly...the need for speed!    
+
+* **`Nema 14:`**  Contrary to popular belief the Nema 14 is plenty fast and has low rotation mass so it can spin very quickly. It just doesn’t have much torque when initially spinning up so you need to make sure the main belt and drive shaft spin freely.  I load filament at 300mm/sec with run_current @ 0.5A on a LDO Nema 14 (LDO-35STH28-1004AC3DT) without issue.
+
+* **`Filament Passthrough Mount:`**  IMHO this user mod should be a standard part of the build as its really handy to be able to manually load filament from time to time.  Print and fit one passthrough (bypass) mount from the user mod directory during assembly as its much easier and less frustrating than tearing it down later and risk stripping BMG grub screws - ask me how I know :-( (https://github.com/EtteGit/EnragedRabbitProject/tree/main/usermods/Bearing_Block_Passthrough).
+
+* **`ECAS:`**  Install the ECAS connectors by rocking them gently from side to side as you press them in.  If you press them in square you will almost always split the part.
+
+* **`Latches:`**  Scrape and smooth extrusion layers on latch points with a blade if you find your latches are too hard to operate when test fitting them. They will eventually sort themselves out over time but is easier to clean them up during assembly. Also be careful when pushing down and latching top hats as its relatively easy to break the top hat guide posts on the cart. Just make sure the top hat is centred before latching. 
+
+* **`Encoder Cart:`**  Make sure you install the captive M3x16 SHCS encoder adjustment screw correctly and the bolt is retained by the encoder_locker inserted from the side so you can adjust the encoder height up and down.  i.e. Insert the M3 fully then the retainer to lock it in place. Correct orientation:
+<p align="center"> <img width="400" class="aligncenter" alt="image" src="https://user-images.githubusercontent.com/36124687/224508911-d9e111a0-70fb-4be7-b18c-306d11dffa7a.png"> </p>
+ 
+* **`Encoder:`**  If the encoder TCRT board is too close to the BMG gear it might not read reliably. There's a sweet spot and may need to elevate it to get reliable readings.  In my experience close isn't always best in this instance. The TCRT sends pulses when it detects movement and the LED will flash and remain in its last state (on or off) until movement is detected.  Adjust and test using a piece of filament until you get the LED to blink reliably. I usually adjust it until it touches the BMG gear then back it off until the LED blinks reliabily before continuing calibration. <br><br>
+If the encoder isn't reading accurately, try the following:
+  * Check you have installed the cage/blackout box around the BMG gear ([black]_Encoder_Cage.stl).
+  * Adjust TCRT height (up/down) and test with filament and ERCF_DISPLAY_ENCODER_POS (standard ERCF python driver) or ERCF_TEST_TRACKING (Happy Hare) to verify.
+  * If you feel filament is slipping, you can temporarily apply more pressure to the filament roller while loading/unloading filament (use a finger or rubber band wrapped around the selector cart) to see if this helps. If it does, you can install an optional M3 bolt on the bottom of the cart to permanently increase tension. Be careful to use the correct length and not strip the plastic.  
+  * Blacken the top of each tooth on the BMG gear with a permanent marker or paint to create a clear differentiation for the encoder to read.  <br><br>
+Excellent encoder setup guide from the author of Happy Hare (https://github.com/moggieuk/ERCF-Software-V3/blob/master/doc/ENCODER.md).
+
+## Servo Issues
+* **`Easy Bird:`**  If you experience servo issues, replacing the 7805 linear voltage regulator with a buck convertor or bypassing it entirely and wiring 5v directly to the board will help as peak servo load can get close to exceeding 1A and triggering thermal limits of the 7805 package. I fitted a 7805 pin compatible 5v buck converter as a precaution to mitigate this.
+
+* **`Savox:`**  Digital servos like the Gucci Savox option are proven to be less susceptible to 5v power issues or not holding position. In my experience Tower Pro clones can work reliably especially now there we have a custom Happy Hare servo driver and fix for Klipper PWM timing issue causing servos to move from their position when powering off. If you are using Happy Hare, make sure you are using an up-to-date version. The Savox also needs a small printed adaptor under the Options directory (Savox_Adapter.stl)
+
+* Make sure the servo arm moves to the correct position on the top hat (refer Pg 104 in ERCF manual). Its difficult to see but the servo arm actually mechanically locks in place on a small indentation on the top hat and may not hold after power is turned off if the servo down angle / position isn't correctly tuned.
+
+* Servo issues can also be caused by a stripped servo arm especially after playing around with high top hats to address slippage issues. Not always, but not alway obvious so useful to check and print a few spares to have on hand.
+
+## Setup
+* If not using Happy Hare software, set hold_currents for both steppers as they can get quite hot when idle. Happy Hare defaults are a good starting point (0.1 gear, 0.3 selector).  If using sensorless homing you "may" need to increase selector hold current to avoid TMC errors.  If not, hold current can be lower.
+* Setting sync_unload to 40 and sync_unload_speed to 50 can help improve unload reliability and issues ejecting hot, fat tips as well as speeding up the overall process up.  I also load fast (50) though to the extruder, again to speed things up.
+* **`Rapido:`** The Rapido hotend has a very narrow heatbreak tube and several points where filament can potentially get caught during load and tip forming functions.  You "may" find that you need to slightly chamfer the bottom of the PTFE well in the heatsink and the inner edge of the heat break tube by hand using a suitable drill bit to improve this. Use a square/blunt piece of filament to check catch points but be careful not to remove too much material (you have been warned). I strongly recommend sorting this out before stressing about filament tips as you need reliable filament loading / unloading as it can interfere with the tip forming process. In my case, this fixed random 1 in 15 load failures.
+* Enabling Stallguard Senor-less homing on the selector stepper is recommended when using Happy Hare as it improves detection and recovery options if filament obstructs the encoder cart. Without this, should the cart gets obstructed ERCF will lose track of the gate and home position and will load the wrong filament unless paused and rehomed.
+* Happy Hare sensor-less filament homing works well and is the easiest option to get going (non-stallguard option as Easy Bird can only map diag port for one driver and recommend you use sensor-less stall guard homing for the selector).  Adjust extruder_homing_current down to make it less intense and likely to grind filament.  If considering a toolhead sensor the ball bearing microswitch approach is far more reliable and easy to setup than the orginal HAL affect sensor (yes the washer can and will jam).  I also found plain BMG gears in the extruder worked better than gucci coated options (Both TL sourced - better bite on the filament perhaps?). 
+
+## Filament Tips
+* WIP
+
+## Resource Summary
+|Resource|Link
+|-|-
+|Enraged Rabbit Project Home|                        https://github.com/EtteGit/EnragedRabbitProject
+|Discord Channel|                                    https://discord.com/channels/460117602945990666/909743915475816458
+|Happy Hare v3 ERCF Driver|                          https://github.com/moggieuk/ERCF-Software-V3
+|Excellent moggieuk encoder setup and tuning guide|  https://github.com/moggieuk/ERCF-Software-V3/blob/master/doc/ENCODER.md
+|Toolhead Dimensions and Tip Forming Settings|       https://docs.google.com/spreadsheets/d/1FcpQ37Cf5g9mw04MGYQnhk4WGluIm2uXc-2plKwKrf0/edit?usp=sharing         
