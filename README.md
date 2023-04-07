@@ -17,7 +17,7 @@ Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
 |E2 Out|   Chamber LEDs (PB3)
 |PA1|      Endstop - X
 |PA2|      Endstop - Y
-|PA3|      Klicky / Probe (Using Tap now)
+|PA3|      Klicky / Probe
 |PB14|     ERCF Tool Head Filament Sensor (Removed - using collision "sensorless" homing and standard CW2)
 |PB13|     N/C
 |PA0|      Endstop - Z 
