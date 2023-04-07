@@ -20,7 +20,7 @@ Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
 |PA3|      Klicky / Probe (Using Tap now)
 |PB14|     ERCF Tool Head Filament Sensor (Removed - using collision "sensorless" homing and standard CW2)
 |PB13|     N/C
-|PA0|      Endstop - Z (Not used, Tap)
+|PA0|      Endstop - Z 
 |PC0|      Extruder Thermistor
 |PC1|      Cabinet Thermistor
 |PC2|      N/C
@@ -41,6 +41,7 @@ Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
 ## Change Log
 
 
+* switch to moonraker backup scripts & printer_home for new RPi image
 * Update & parameterise mymakeklipper.sh to support individual MCU targets and no flash default. Functional but still a quick hack with hardwired elements. Also added on_error_gcode: cancel_print failsafe to [virtual_sdcard] section to always make sure heaters are disabled
 * Rework print start | end | cancel | pause | resume macros to use my_variables for common settings and constants. Also simplified safe homing & parking to use purge bucket location 
 * Since reinstating klicky I had another look at improving probing accuracy and reducing errors. In testing I found that increasing probe speed to 10 and sample_retract_distance to 3 improved reliability over my previous setup - YMMV (from 7.5 0.8 respectively)
