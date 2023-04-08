@@ -52,3 +52,12 @@ origin = https://github.com/moggieuk/ERCF-Software-V3.git
 install_script = install.sh
 managed_services = klipper
 
+[update_manager KlipperScreen-happy_hare]
+type = git_repo
+path = /home/pi/KlipperScreen
+origin = https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition.git
+env = /home/pi/.KlipperScreen-env/bin/python
+requirements = scripts/KlipperScreen-requirements.txt
+install_script = scripts/KlipperScreen-install.sh
+managed_services = KlipperScreen-happy_hare
+
