@@ -33,6 +33,9 @@ gcode_store_size = 1000
 [update_manager]
 enable_auto_refresh = True
 
+[machine]
+shutdown_action = poweroff
+
 [update_manager client fluidd]
 type = web
 repo = cadriel/fluidd
