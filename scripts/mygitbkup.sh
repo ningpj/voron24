@@ -15,7 +15,7 @@ for repo in "${gitrepos[@]}"; do
       else
          rev="${trimedRepo} on commit: $(git -C ${repo} tag -l | tail -1) $(git -C ${repo} rev-parse --short=7 HEAD)"
       fi
-      gitrevs=$gitrevs -m \"${rev}\"
+      gitrevs="$gitrevs -m \"${rev}\""
       echo $rev
    fi
 done
