@@ -1,6 +1,6 @@
 #!/bin/bash
 
-delay=100
+delay=120
 log=~/printer_data/logs/klippy.log
 tasmota_device=192.168.2.25
 
