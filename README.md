@@ -18,14 +18,14 @@ Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
 |PA1|      Endstop - X
 |PA2|      Endstop - Y
 |PA3|      Klicky / Probe
-|PB14|     ERCF Tool Head Filament Sensor (Removed - using collision "sensorless" homing and standard CW2)
+|PB14|     ~~ERCF Tool Head Filament Sensor~~ (Using "sensorless" homing with CW2 instead)
 |PB13|     N/C
 |PA0|      Endstop - Z 
 |PC0|      Extruder Thermistor
 |PC1|      Cabinet Thermistor
 |PC2|      N/C
 |PC3|      Bed Thermister
-|PC9|      Fysetc 12864 beeper
+|PC9|      ~~Fysetc 12864 beeper~~
 |PD3|      Stealth Neopixels - Spider neopixel port
 
 ## Slicer start print gcode
@@ -40,7 +40,8 @@ Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
 
 ## Change Log
 
-* Refine ERCF tip forming settings - Rapido & CW2
+* Replace 12864 screen with BTT Pi TFT50 v2 & KlipperScreen Happy Hare fork
+* * Refine ERCF tip forming settings - Rapido & CW2
 * Tidy up poweroff script, direct command output to klippy.log and clean up console/stdout/stderr messages
 & log commands to * cleanup GIT backup script, switch to legitimate moonraker backup scripts, repoint printer_home for new RPi build
 * Update & parameterise mymakeklipper.sh to support individual MCU targets and no flash default. Functional but still a quick hack with hardwired elements. Also added on_error_gcode: cancel_print failsafe to [virtual_sdcard] section to always make sure heaters are disabled
