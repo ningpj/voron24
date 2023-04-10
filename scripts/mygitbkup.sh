@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 export $(grep -v '^#' ~/printer_data/.mygittoken | xargs -0)
 
@@ -28,5 +29,5 @@ echo Pushing updates
 git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
 git add . -v
 current_date=$(date +"%Y-%m-%d %T")
-git commit -m "Backup triggered on $current_date" ${gitrevs}
+git commit -m "Backup triggered on $current_date" "$gitrevs"
 git push "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
