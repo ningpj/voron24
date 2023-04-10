@@ -15,7 +15,7 @@ for repo in "${gitrepos[@]}"; do
       else
          rev="${trimedRepo} on commit: $(git -C ${repo} tag -l | tail -1) $(git -C ${repo} rev-parse --short=7 HEAD)"
       fi
-      gitrevs="$gitrevs -m \"${rev}\""
+      gitrevs+=("-m \"${rev}\"")
       echo $rev
    fi
 done
@@ -30,5 +30,5 @@ git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.
 git add . -v
 current_date=$(date +"%Y-%m-%d %T")
 eval echo $gitrevs[@]
-git commit -m "Backup triggered on $current_date" $(eval gitrevs[@])
+git commit -m "Backup triggered on $current_date" "${gitrevs[@]}"
 git push "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
