@@ -44,7 +44,7 @@ Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
 * * Refine ERCF tip forming settings - Rapido & CW2
 * Tidy up poweroff script, direct command output to klippy.log and clean up console/stdout/stderr messages
 & log commands to * cleanup GIT backup script, switch to legitimate moonraker backup scripts, repoint printer_home for new RPi build
-* Update & parameterise mymakeklipper.sh to support individual MCU targets and no flash default. Functional but still a quick hack with hardwired elements. Also added on_error_gcode: cancel_print failsafe to [virtual_sdcard] section to always make sure heaters are disabled
+* Update & parameterise mymakeklipper.sh helper to support individual MCU targets and no flash default. Functional but still a quick hack with hardwired elements. Also added on_error_gcode: cancel_print failsafe to [virtual_sdcard] section to always make sure heaters are disabled
 * Rework print start | end | cancel | pause | resume macros to use my_variables for common settings and constants. Also simplified safe homing & parking to use purge bucket location 
 * Since reinstating klicky I had another look at improving probing accuracy and reducing errors. In testing I found that increasing probe speed to 10 and sample_retract_distance to 3 improved reliability over my previous setup - YMMV (from 7.5 0.8 respectively)
 
