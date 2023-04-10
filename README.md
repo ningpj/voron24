@@ -4,7 +4,7 @@ Klipper configuration backups.
 
 ## Description
 
-Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
+Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, ERCF and Easy Brd.
 
 ## Spider 1.1 MCU PIN Assignments
 
