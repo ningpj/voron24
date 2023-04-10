@@ -222,15 +222,6 @@ enable: {{ printer.idle_timeout.state != "Printing" }}
 show_disabled: True
 refresh_on: printer.idle_timeout.state
 
-[menu __main,__print ercf select_gates bypass}]
-name: {{ gettext('Select Bypass') }}
-icon: ercf_select_bypass
-method: printer.gcode.script
-params: {"script":"ERCF_SELECT_BYPASS"}
-enable: {{ printer.ercf.gate != -2 and printer.ercf.action == "Idle" }}
-show_disabled: True
-refresh_on: printer.ercf.gate, printer.ercf.action
-
 # Generated menus for each tool/gate...
 [menu __main,__print ercf select_gates G0]
 name: {{ gettext('Select Gate #0') }}
