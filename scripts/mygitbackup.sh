@@ -54,6 +54,7 @@ grab_version(){
     m4="Fluidd version: $fluidd_ver"
     echo $fluidd_ver
   fi
+git tag -l | tail -1
 }
 
 push_config(){
