@@ -53,7 +53,7 @@ Backups for Voron 2.4 300mm build based on Fysetc Spider 1.1 MCU.
   samples_result:             median
   sample_retract_dist:        3.0
   samples_tolerance:          0.0075
-  samples_tolerance_retries:  6```
+  samples_tolerance_retries:  6
 * Rework and optimise print_start to include heat soak and other refinements
 * Reverted tap and reinstated klicky/auto-z setup. I use Garolite / G10 build plates and found the nozzle was starting to mark the surface when probing at 150c and will need to look for higher temp epoxy options before trying again (3420 epoxy or better). Also lost 5mm on Y due to extra depth of tap carriage (need to extend front doors) and unresolved resonance issue on Y axis.  Like pixel peepers on camera forums the pursuit of better accuracy is admirable but is already pretty damn good :-)
 * Implemented Tap.  Auto-Z, Klicky macro's commented out, virtual end stop now in use.  Homes back right at the moment (x=300, y=290)
