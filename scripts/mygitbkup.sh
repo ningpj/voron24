@@ -10,7 +10,7 @@ gitrepos=(~/klipper ~/moonraker ~/mainsail ~/fluidd ~/ERCF-Software-V3 ~/Klipper
 printer_config=~/printer_data/config
 
 # Directory within your klipper configuration to hold a backup of the moonraker database 
-moonraker_backup=${printer_config}/.moonraker_database_backup/moonraker_db_backup
+moonraker_backup=${printer_config}/.moonraker_database_backup/database.backup
 
 # switch to the klipper config directory
 cd ${printer_config}
@@ -35,7 +35,6 @@ for repo in "${gitrepos[@]}"; do
 done
 
 # trigger moonraker backup
-echo Backing moonraker database
 ~/moonraker/scripts/backup-database.sh -o ${moonraker_backup}
 
 # push updates to remote git repo
