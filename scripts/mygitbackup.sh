@@ -1,76 +1,46 @@
 #!/bin/bash
 
+# File containing our github secret token held outside all git repos containing mygittoken=<token> 
 export $(grep -v '^#' ~/printer_data/.mygittoken | xargs -0)
 
-#####################################################################
-### Please set the paths accordingly. In case you don't have all  ###
-### the listed folders, just keep that line commented out.        ###
-#####################################################################
-### Path to config folder you want to backup
-config_folder=~/printer_data/config
+# GIT local repos installed on your printer. This is only to add version numbers references as messages for the commit 
+gitrepos=(~/klipper ~/moonraker ~/mainsail ~/fluidd ~/ERCF-Software-V3 ~/KlipperScreen)
 
-### Path to Klipper folder, by default that is '~/klipper'
-klipper_folder=~/klipper
+# Location of klipper configuration
+printer_config=~/printer_data/config
 
-### Path to Moonraker folder, by default that is '~/moonraker'
-moonraker_folder=~/moonraker
+# Directory within your klipper configuration to hold a backup of the moonraker database 
+moonraker_backup=${printer_config}/.moonraker_database_backup/database.backup
 
-### Path to Mainsail folder, by default that is '~/mainsail'
-#mainsail_folder=~/mainsail
+# switch to the klipper config directory
+cd ${printer_config}
+echo Backing up Klipper configuration and moonraker database
 
-### Path to Fluidd folder, by default that is '~/fluidd'
-fluidd_folder=~/fluidd
+# loop through local repos looking to grab version information for backup
+# if the repo contains a .version file, grab the first line otherwise 
+# execute git commands to grab the last tag (version) & git revision number 
 
-#####################################################################
-#####################################################################
+for repo in "${gitrepos[@]}"; do
+   trimedRepo="$(basename ${repo})"
 
+   if [ -d ${repo} ]; then                    
+      if [ -e ${repo}/.version ]; then
+         rev="${trimedRepo} on commit: $(head -n 1 ${repo}/.version)"
+      else
+         rev="${trimedRepo} on commit: $(git -C ${repo} tag -l | tail -1) $(git -C ${repo} rev-parse --short=7 HEAD)"
+      fi
+      gitrevs+=("-m \"${rev}\"")
+      echo $rev
+   fi
+done
 
-grab_version(){
-  if [ ! -z "$klipper_folder" ]; then
-    echo -n "Getting klipper version="
-    cd "$klipper_folder"
-    klipper_commit=$(git rev-parse --short=7 HEAD)
-    m1="Klipper on commit: $klipper_commit"
-    echo $klipper_commit
-    cd ..
-  fi
-  if [ ! -z "$moonraker_folder" ]; then
-    echo -n "Getting moonraker version="
-    cd "$moonraker_folder"
-    moonraker_commit=$(git rev-parse --short=7 HEAD)
-    m2="Moonraker on commit: $moonraker_commit"
-    echo $moonraker_commit
-    cd ..
-  fi
-  if [ ! -z "$mainsail_folder" ]; then
-    echo -n "Getting mainsail version="
-    mainsail_ver=$(head -n 1 $mainsail_folder/.version)
-    m3="Mainsail version: $mainsail_ver"
-    echo $mainsail_ver
-  fi
-  if [ ! -z "$fluidd_folder" ]; then
-    echo -n "Getting fluidd version="
-    fluidd_ver=$(head -n 1 $fluidd_folder/.version)
-    m4="Fluidd version: $fluidd_ver"
-    echo $fluidd_ver
-  fi
-git tag -l | tail -1
-}
+# trigger moonraker backup
+~/moonraker/scripts/backup-database.sh -o ${moonraker_backup}
 
-push_config(){
-  cd $config_folder
-
-  echo Creating backup copy of moonraker database
-  ~/moonraker/scripts/backup-database.sh -o ~/printer_data/config/.moonraker_database_backup/moonraker_db_backup
-  #cp ~/.moonraker_database/data.mdb .moonraker_database_backup
-
-  echo Pushing updates
-  git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
-  git add . -v
-  current_date=$(date +"%Y-%m-%d %T")
-  git commit -m "Backup triggered on $current_date" -m "$m1" -m "$m2" -m "$m2a" -m "$m3" -m "$m4"
-  git push "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
-}
-
-grab_version
-push_config
+# push updates to remote git repo
+echo Pushing GIT updates
+git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
+git add . -v
+current_date=$(date +"%Y-%m-%d %T")
+git commit -m "Backup triggered on $current_date" "${gitrevs[@]}"
+git push "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
