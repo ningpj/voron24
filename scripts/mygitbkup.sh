@@ -14,6 +14,7 @@ moonraker_backup=${printer_config}/.moonraker_database_backup/moonraker_db_backu
 
 # switch to the klipper config directory
 cd ${printer_config}
+echo Backing up Klipper configuration and moonraker database
 
 # loop through local repos looking to grab version information for backup
 # if the repo contains a .version file, grab the first line otherwise 
