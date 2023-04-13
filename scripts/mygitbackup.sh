@@ -19,7 +19,7 @@ moonraker_backup=${printer_config}/.moonraker_database_backup/database.backup
 
 # switch to the klipper config directory
 cd ${printer_config}
-echo -e "\nKlipper git repositories..."
+echo -e "\nKlipper local GIT repositories ..."
 
 # loop through local repos looking to grab version information for backup
 # if the repo contains a .version file, grab the first line otherwise 
@@ -40,11 +40,11 @@ for repo in "${gitrepos[@]}"; do
 done
 
 # trigger moonraker backup
-echo -e "\nBacking up moonraker database"
+echo -e "\nBacking up moonraker database ..."
 ~/moonraker/scripts/backup-database.sh -o ${moonraker_backup}
 
 # push updates to remote git repo
-echo -e "\nPushing GIT updates..."
+echo -e "\nPushing GIT updates ..."
 
 git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
 git add . -v
