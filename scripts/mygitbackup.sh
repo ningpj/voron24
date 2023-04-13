@@ -1,3 +1,4 @@
+[ -z $BASH ] && { exec bash "$0" "$@" || exit; }
 #!/bin/bash
 set -x
 
