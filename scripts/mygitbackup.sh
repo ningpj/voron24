@@ -1,8 +1,9 @@
 [ -z $BASH ] && { exec /bin/bash "$0" "$@" || exit; }
 #!/bin/bash
+set +x
 
-# NOTE: The gcode_shell_command executes scripts using /bin/sh. The first line above forces this script to be 
-be executed using bash. While I cound make the script fully POSX compliant, this is quicker.
+# NOTE: The gcode_shell_command executes scripts using /bin/sh. The first line above forces the script to
+# be executed using bash. While I could make the script POSX compliant, this is simple and quick.
 
 # File containing our github secret token held outside all git repos containing mygittoken=<token> 
 export $(grep -v '^#' ~/printer_data/.mygittoken | xargs -0)
