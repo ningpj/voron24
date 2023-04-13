@@ -1,5 +1,5 @@
 #!/bin/bash
-set +x
+set -x
 
 # File containing our github secret token held outside all git repos containing mygittoken=<token> 
 export $(grep -v '^#' ~/printer_data/.mygittoken | xargs -0)
