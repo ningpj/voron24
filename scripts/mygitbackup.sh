@@ -1,6 +1,8 @@
-[ -z $BASH ] && { exec bash "$0" "$@" || exit; }
+[ -z $BASH ] && { exec /bin/bash "$0" "$@" || exit; }
 #!/bin/bash
-set -x
+
+# NOTE: The gcode_shell_command executes scripts using /bin/sh. The first line above forces this script to be 
+be executed using bash. While I cound make the script fully POSX compliant, this is quicker.
 
 # File containing our github secret token held outside all git repos containing mygittoken=<token> 
 export $(grep -v '^#' ~/printer_data/.mygittoken | xargs -0)
