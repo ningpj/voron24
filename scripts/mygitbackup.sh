@@ -40,10 +40,12 @@ for repo in "${gitrepos[@]}"; do
 done
 
 # trigger moonraker backup
+echo -e "\nBacking up moonraker database"
 ~/moonraker/scripts/backup-database.sh -o ${moonraker_backup}
 
 # push updates to remote git repo
-echo Pushing GIT updates
+echo -e "\nPushing GIT updates..."
+
 git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
 git add . -v
 current_date=$(date +"%Y-%m-%d %T")
