@@ -68,7 +68,7 @@ Excellent encoder setup guide from the author of Happy Hare (https://github.com/
 * Happy Hare sensor-less filament homing works well and is the easiest option to get going (non-stallguard option as Easy Bird can only map diag port for one driver and recommend you use sensor-less stall guard homing for the selector).  Adjust extruder_homing_current down to make it less intense and likely to grind filament.  If considering a toolhead sensor the ball bearing microswitch approach is far more reliable and easy to setup than the orginal HAL affect sensor (yes the washer can and will jam).  I also found plain BMG gears in the extruder worked better than gucci coated options (Both TL sourced - better bite on the filament perhaps?). 
 
 ## Filament Tips
-Depending on hotend, filament, and temp, tips can be very difficult to tune as their are a number of variables to consider.
+Depending on hotend, filament, and temp, tips can be very difficult to tune as there are a number of variables to consider and tune. Rapido in my experience, likely due to the large melt pool and very narrow heatbreak is quite difficult to tune and prone to clog/jam if your filament tips aren't well formed or are fat.
 
 ABS tips (@ 245c) with eSun filament, CW2, Rapido HF and sensor-less homing to BMG.  
 
