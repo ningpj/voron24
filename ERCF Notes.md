@@ -78,11 +78,12 @@ I'm running all tip forming and ramming in SuperSlicer so I can tune per filamen
 ```
    variable_standalone = 0 # 0 slicer, 1 Happy Hare macro (turn off in slicer)
    variable_ss_ramming: 1
+ ```
 
 You also need to make sure you call the correct ERCF macro in your custom Slicer Tool Change g-code section if you have been using Happy Hare standalone tip forming e.g. 
 ```
    T[next_extruder] or ERCF_CHANGE_TOOL TOOL=[next_extruder]
-
+```
 ## Resource Summary
 |Resource|Link
 |-|-
