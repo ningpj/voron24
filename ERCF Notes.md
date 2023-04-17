@@ -75,10 +75,10 @@ ABS tips (@ 245c) with eSun filament, CW2, Rapido HF and sensor-less homing to B
 Sensor-less homing - home position to nozzle (melt pool) is the last move before printing. This is usually tuned until you see ooze then less a mm or so to prevent this from happening. This is set to `home_position_to_nozzle: 65` and while it could be 1mm or so longer to close gaps in the purge block, I prefer an ooze-less approach when changing filament out of prints. Note if you are using a toolhead sensor, this distance will usually be shorter by approximately 10mm. 
 
 I'm running all tip forming and ramming in SuperSlicer so I can tune per filament. Happy Hare is set to only tip form...This is controlled by these settings in `ercf_software.cfg`:
-variable_standalone = 0 # 0 slicer, 1 Happy Hare macro (turn off in slicer)
-variable_ss_ramming: 1
+```variable_standalone = 0 # 0 slicer, 1 Happy Hare macro (turn off in slicer)
+variable_ss_ramming: 1```
 
-You also need to make sure you call the correct ERCF macro in your custom Slicer Tool Change g-code if you have been using standalone tip forming  e.g. 
+You also need to make sure you call the correct ERCF macro in your custom Slicer Tool Change g-code section if you have been using Happy Hare standalone tip forming e.g. 
 ```T[next_extruder] or ERCF_CHANGE_TOOL TOOL=[next_extruder]```
 
 ## Resource Summary
