@@ -68,7 +68,7 @@ Excellent encoder setup guide from the author of Happy Hare (https://github.com/
 * Happy Hare sensor-less filament homing works well and is the easiest option to get going (non-stallguard option as Easy Bird can only map diag port for one driver and recommend you use sensor-less stall guard homing for the selector).  Adjust extruder_homing_current down to make it less intense and likely to grind filament.  If considering a toolhead sensor the ball bearing microswitch approach is far more reliable and easy to setup than the orginal HAL affect sensor (yes the washer can and will jam).  I also found plain BMG gears in the extruder worked better than gucci coated options (Both TL sourced - better bite on the filament perhaps?). 
 
 ## Filament Tips
-Depending on hotend, filament, and temp, tips can be very difficult to tune as there are a number of variables to consider and tune. Rapido in my experience, likely due to the large melt pool and very narrow heatbreak is quite difficult to tune and prone to clog/jam if your filament tips aren't well formed or are fat.
+Depending on hotend, filament, and temp, tips can be very difficult to tune as there are a number of variables to consider. Rapido in my experience, likely due to the large melt zone and very narrow heatbreak is quite difficult and prone to clog/jam if your filament tips aren't well formed or aref too fat.
 
 ABS tips (@ 245c) with eSun filament, CW2, Rapido HF and sensor-less homing to BMG.  
 
@@ -84,6 +84,30 @@ You also need to make sure you call the correct ERCF macro in your custom Slicer
 ```
    T[next_extruder] or ERCF_CHANGE_TOOL TOOL=[next_extruder]
 ```
+Tip forming settings for _ERCF_FORM_TIP_STANDALONE] macro.  These settings have been tested for eSUN ABS and attempt to keep the filament tip and cooling moves within the Rapido heat sink, PTFE & narrow heat break tube.  
+```# Unloading and Ramming values - Initial moves to form and shape tip
+variable_unloading_speed_start: 100    
+variable_unloading_speed: 30            
+variable_ramming_volume: 10             
+variable_ss_ramming: 1                  
+
+# Cooling Move Values - To cool the tip formed and separate from strings
+variable_cooling_tube_position: 19      
+variable_cooling_tube_length: 22       
+variable_initial_cooling_speed: 20     
+variable_final_cooling_speed: 100       
+variable_toolchange_temp: 0            
+variable_cooling_moves: 4              
+
+# SkinnyDip values - To burn off VERY FINE hairs only (This is NOT for long tip reshaping)
+variable_use_skinnydip: 1              
+variable_skinnydip_distance: 30        
+variable_dip_insertion_speed: 30       
+variable_dip_extraction_speed: 100     
+variable_melt_zone_pause: 0            
+variable_cooling_zone_pause: 1000      
+variable_use_fast_skinnydip: 0         ```
+
 ## Resource Summary
 |Resource|Link
 |-|-
