@@ -119,6 +119,11 @@ In SS, RETRACT_LENGTH_TOOLCHANGE on each extruder defaults to 10 and suspect thi
 Purge block gaps can be tuned by increasing home_position_to_nozzle but don't cause any problems.
 Tips for eSUN ABS Grey and Natural White
 
+![image](https://user-images.githubusercontent.com/36124687/232730186-cbbf6f0d-56cc-4b38-908f-508979e08ba0.png)
+![image](https://user-images.githubusercontent.com/36124687/232730256-f57181b3-59db-4692-89fa-c8d87ae472d9.png)
+![image](https://user-images.githubusercontent.com/36124687/232730293-9b8f924d-5e75-42e0-9236-ae7acaa04ef3.png)
+
+
 ## Resource Summary
 |Resource|Link
 |-|-
