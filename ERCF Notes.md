@@ -114,7 +114,7 @@ Standalone tip forming command line and arguments to play around with (CW2, Rapi
 ```
 Slicer (SS in my case) filament PARKING_POS_RETRACTION (Filament parking position) and EXTRA_LOADING_MOVE (Extra loading distance) are actually a simple calc. e.g. COOLING_TUBE_RETRACTION + (COOLING_TUBE_LENGTH / 2).  This is basically the upper bound and maximum retract distance from the melt zone. If you increase this the slicer will insert an unnecessary move.  Doesn't seem to have any useful purpose that I can tell. For the above setup, these are set to 30 & 29.9 respectively.
 
-In SS, RETRACT_LENGTH_TOOLCHANGE on each extruder defaults to 10 and suspect this may possibly explain why some are seeing differences between standalone tip forming and in-print standalone tip forming when using this setup.  I have this set to 0.
+In SS, RETRACT_LENGTH_TOOLCHANGE on each extruder defaults to 10 and suspect this "may" possibly explain why some are seeing differences between standalone tip forming and in-print standalone tip forming when using this setup.  I have this set to 0 on all extruders....that said, Im not sure under what circumstances this will generate an extra retraction as I havnt spotted it in generated gcode.
 
 Purge block gaps can be tuned by increasing home_position_to_nozzle but don't cause any problems.
 Tips for eSUN ABS Grey and Natural White
