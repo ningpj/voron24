@@ -106,7 +106,18 @@ variable_dip_insertion_speed: 30
 variable_dip_extraction_speed: 100     
 variable_melt_zone_pause: 0            
 variable_cooling_zone_pause: 1000      
-variable_use_fast_skinnydip: 0         ```
+variable_use_fast_skinnydip: 0
+```
+
+Standalone tip forming command line and arguments to play around with (CW2, Rapido HF) 
+```_ERCF_FORM_TIP_STANDALONE COOLING_TUBE_LENGTH=22 COOLING_TUBE_POSITION=19 INITIAL_COOLING_SPEED=20 FINAL_COOLING_SPEED=100 COOLING_MOVES=4 USE_SKINNYDIP=1 USE_FAST_SKINNYDIP=0 SKINNYDIP_DISTANCE=30 DIP_INSERTION_SPEED=30 DIP_EXTRACTION_SPEED=100 MELT_ZONE_PAUSE=0 COOLING_ZONE_PAUSE=1000 UNLOADING_SPEED_START=100 UNLOADING_SPEED=30 RAMMING_VOLUME=10 FINAL_EJECT=1 SS_RAMMING=0
+```
+Slicer (SS in my case) filament PARKING_POS_RETRACTION (Filament parking position) and EXTRA_LOADING_MOVE (Extra loading distance) are actually a simple calc. e.g. COOLING_TUBE_RETRACTION + (COOLING_TUBE_LENGTH / 2).  This is basically the upper bound and maximum retract distance from the melt zone. If you increase this the slicer will insert an unnecessary move.  Doesn't seem to have any useful purpose that I can tell. For the above setup, these are set to 30 & 29.9 respectively.
+
+In SS, RETRACT_LENGTH_TOOLCHANGE on each extruder defaults to 10 and suspect this may possibly explain why some are seeing differences between standalone tip forming and in-print standalone tip forming when using this setup.  I have this set to 0.
+
+Purge block gaps can be tuned by increasing home_position_to_nozzle but don't cause any problems.
+Tips for eSUN ABS Grey and Natural White
 
 ## Resource Summary
 |Resource|Link
