@@ -118,7 +118,7 @@ Slicer (SS in my case) filament PARKING_POS_RETRACTION (Filament parking positio
 <img width="377" alt="image" src="https://user-images.githubusercontent.com/36124687/232972450-78bda438-f9b6-42cb-8d8d-221b671cff7d.png">
 
 
-Also in SS, RETRACT_LENGTH_TOOLCHANGE on each extruder defaults to 10mm and suspect this "may" possibly explain why some see occasional differences between standalone tip forming and in-print standalone tip forming when using this setup.  I have this set to 0 on all extruders....that said, Im not sure under what circumstances slicer will actually generate the extra retraction as I havnt spotted it in generated gcode so far.
+Also in SS, RETRACT_LENGTH_TOOLCHANGE on each extruder defaults to 10mm and suspect this "may" possibly explain why some see occasional differences between standalone tip forming and in-print standalone tip forming when using this setup.  I have this set to 0 on all extruders....that said, Im not sure under what circumstances the slicer will actually generate the extra retraction as I havent spotted it in generated gcode so far.
 
 Purge block gaps can be tuned by increasing home_position_to_nozzle but don't cause any problems in practice.  If you see blobs on unload, you are likely dipping too far. If you see blobs on load, you may need to reduce home_position_to_nozzle or you have left off the negative sign on your extra loading distance setting.
 
