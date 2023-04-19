@@ -52,7 +52,7 @@ If the encoder isn't reading accurately, try the following:
 Excellent encoder setup guide from the author of Happy Hare (https://github.com/moggieuk/ERCF-Software-V3/blob/master/doc/ENCODER.md).
 
 ## Servo Issues
-* **`Easy Bird:`**  If you experience servo issues, replacing the 7805 linear voltage regulator with a buck convertor or bypassing it entirely and wiring 5v directly to the board will help as peak servo load can get close to exceeding 1A and triggering thermal limits of the 7805 package. I fitted a 7805 pin compatible 5v buck converter as a precaution to mitigate this.
+* **`Easy BRD:`**  If you experience servo issues, replacing the 7805 linear voltage regulator with a buck convertor or bypassing it entirely and wiring 5v directly to the board will help as peak servo load can get close to exceeding 1A and triggering thermal limits of the 7805 package. I fitted a 7805 pin compatible 5v buck converter as a precaution to mitigate this.
 
 * **`Savox:`**  Digital servos like the Gucci Savox option are proven to be less susceptible to 5v power issues or not holding position. In my experience Tower Pro clones can work reliably especially now there we have a custom Happy Hare servo driver and fix for Klipper PWM timing issue causing servos to move from their position when powering off. If you are using Happy Hare, make sure you are using an up-to-date version. The Savox also needs a small printed adaptor under the Options directory (Savox_Adapter.stl)
 
