@@ -84,7 +84,7 @@ You also need to make sure you call the correct ERCF macro in your custom Slicer
 ```
    T[next_extruder] or ERCF_CHANGE_TOOL TOOL=[next_extruder]
 ```
-Tip forming settings for _ERCF_FORM_TIP_STANDALONE macro.  These settings have been tested with eSUN ABS and have attemptted to keep the filament tip and cooling moves entirely withinthe Rapido heat sink, PTFE & narrow heat break tube. To work out where the tip is formed manually insert a peice of filament until it extrudes, mark the top at a known reference (e.g. the top of the ECAS connector) and extract and overlay this on a 1:1 scale view of the extruder.  In my case, the tip pulls away from the melt zone just below the heater block, maybe 2mm below.  This is important as all tip forming distances are relative to this point.     
+Tip forming settings for _ERCF_FORM_TIP_STANDALONE macro have been tested with eSUN ABS and attempt to confine filament tip and cooling moves within the Rapido heat sink and PTFE / narrow heat break tube. To work out where the tip is formed, manually insert a peice of filament until it extrudes, mark the top at a known reference point (e.g. the top of the ECAS connector) and extract the filament and measure / overlay this on a 1:1 scale view of the extruder.  In my case the tip pulls away from the melt zone just below the heater block, maybe 2mm below.  This is important as all tip forming distances are relative to this point.     
 ```# Unloading and Ramming values - Initial moves to form and shape tip
 variable_unloading_speed_start: 100    
 variable_unloading_speed: 30            
