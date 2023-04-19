@@ -127,7 +127,9 @@ Tips for eSUN ABS Fire Engine Red, Grey and Natural White @ 245c
 <img width="396" alt="image" src="https://user-images.githubusercontent.com/36124687/232974232-21193760-b80c-447c-8148-212633126fac.png">
 <img width="243" alt="image" src="https://user-images.githubusercontent.com/36124687/232974554-fd5a6c22-eb6a-4d67-ac5a-41017a78f250.png">
 
-Can they be improved....sure....are they good enough ABSOLUTELY!!!!   The goal here is getting reliable tips that dont cause jams, clogs, or leave whisps and junk in the extruder.
+Can they be improved....sure....are they good enough ABSOLUTELY!!!!   
+
+The goal here is getting reliable tips that dont cause jams, clogs, or leave whisps and junk in the extruder.
 
 ## Resource Summary
 |Resource|Link
