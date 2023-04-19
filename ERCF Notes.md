@@ -120,7 +120,7 @@ Slicer (SS in my case) filament PARKING_POS_RETRACTION (Filament parking positio
 
 Also in SS, RETRACT_LENGTH_TOOLCHANGE on each extruder defaults to 10mm and suspect this "may" possibly explain why some see occasional differences between standalone tip forming and in-print standalone tip forming when using this setup.  I have this set to 0 on all extruders....that said, Im not sure under what circumstances slicer will actually generate the extra retraction as I havnt spotted it in generated gcode so far.
 
-Purge block gaps can be tuned by increasing home_position_to_nozzle but don't cause any problems in practice.  If you see blobs on unload, you are likely dipping too far. If you see blobs on load, you may need to reduce home_position_to_nozzle or you have left off the negative sign on your extra loading distace setting.
+Purge block gaps can be tuned by increasing home_position_to_nozzle but don't cause any problems in practice.  If you see blobs on unload, you are likely dipping too far. If you see blobs on load, you may need to reduce home_position_to_nozzle or you have left off the negative sign on your extra loading distance setting.
 
 Tips for eSUN ABS Grey and Natural White
 
