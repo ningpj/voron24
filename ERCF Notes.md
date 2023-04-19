@@ -86,27 +86,27 @@ You also need to make sure you call the correct ERCF macro in your custom Slicer
 ```
 Tip forming settings for _ERCF_FORM_TIP_STANDALONE macro have been tested with eSUN ABS and attempt to confine filament tip and cooling moves within the Rapido heat sink and PTFE / narrow heat break tube. To work out where the tip is formed, manually insert a peice of filament until it extrudes, mark the top at a known reference point (e.g. the top of the ECAS connector) and extract the filament and measure / overlay this on a 1:1 scale view of the extruder.  In my case the tip pulls away from the melt zone just below the heater block, maybe 2mm below.  This is important as all tip forming distances are relative to this point.     
 ```# Unloading and Ramming values - Initial moves to form and shape tip
-variable_unloading_speed_start: 100    
-variable_unloading_speed: 30            
-variable_ramming_volume: 10             
-variable_ss_ramming: 1                  
+variable_unloading_speed_start: 100    # Fast here to seperate the filament from meltzone (Very intitial retract SS uses distance of E-15)
+variable_unloading_speed: 30           # Too fast forms excessively long tip or hair. Slow is better here UNLOADING_SPEED_START/COOLING_MOVES seems a good start
+variable_ramming_volume: 10            # in mm3 SS default values = 2, 5, 9, 13, 18, 23, 27. Only Used to Simulate SS Ramming during standalone
+variable_ss_ramming: 1                 # Set to 0 when using standalone or for tuning (RAMMING_VOLUME). After tuning input RAMMING_VOLUME into SS and set this to 1
 
 # Cooling Move Values - To cool the tip formed and separate from strings
-variable_cooling_tube_position: 19      
-variable_cooling_tube_length: 22       
-variable_initial_cooling_speed: 20     
-variable_final_cooling_speed: 100       
-variable_toolchange_temp: 0            
-variable_cooling_moves: 4              
+variable_cooling_tube_position: 19     # Dragon ST: 35, Dragon HF: 30, Mosquito: 3, Revo: 35, Phaetus Rapido HF: 43;  Measured from Top of Heater Block to Top of Heatsink
+variable_cooling_tube_length: 22       # Dragon ST: 15, Dragon HF: 10, Mosquito: 20, Revo: 10, Phaetus Rapido HF: 22; Measured from Nozzle to Top of Heater Block
+variable_initial_cooling_speed: 20     # Slow to solidify tip and cool string if formed.
+variable_final_cooling_speed: 100      # High speed break the string formed. Too fast = tip deformation during eject. Too Slow = long string/no seperation
+variable_toolchange_temp: 0            # Used if you want to lower temp during toolchanges default 0
+variable_cooling_moves: 4              # 2-4 is a good start
 
 # SkinnyDip values - To burn off VERY FINE hairs only (This is NOT for long tip reshaping)
-variable_use_skinnydip: 1              
-variable_skinnydip_distance: 30        
-variable_dip_insertion_speed: 30       
-variable_dip_extraction_speed: 100     
-variable_melt_zone_pause: 0            
-variable_cooling_zone_pause: 1000      
-variable_use_fast_skinnydip: 0
+variable_use_skinnydip: 1              # Tune this LAST, this is for removal of VERY FINE hairs only (Different than a long tip)
+variable_skinnydip_distance: 30        # Start just under Cooling_tube_position and increase - Will depend on how much Ramming Volume is used
+variable_dip_insertion_speed: 30       # Medium-Slow - Just long enough to melt the fine hairs. Too slow will pull up molten filament
+variable_dip_extraction_speed: 100     # Around 2x Insertion speed, Prevents forming new hairs
+variable_melt_zone_pause: 0            # in milliseconds - default 0
+variable_cooling_zone_pause: 1000      # in milliseconds - default 0 - If you need to adjust here its possible Dip Insertion too slow
+variable_use_fast_skinnydip: 0         # default 0
 ```
 
 Standalone tip forming command line and arguments to play around with (CW2, Rapido HF) 
