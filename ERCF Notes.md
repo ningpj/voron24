@@ -68,13 +68,13 @@ Excellent encoder setup guide from the author of Happy Hare (https://github.com/
 * Happy Hare sensor-less filament homing works well and is the easiest option to get going (non-stallguard option as Easy Bird can only map diag port for one driver and recommend you use sensor-less stall guard homing for the selector).  Adjust extruder_homing_current down to make it less intense and likely to grind filament.  If considering a toolhead sensor the ball bearing microswitch approach is far more reliable and easy to setup than the orginal HAL affect sensor (yes the washer can and will jam).  I also found plain BMG gears in the extruder worked better than gucci coated options (Both TL sourced - better bite on the filament perhaps?). 
 
 ## Filament Tips
-Depending on hotend, filament, and temp, tips can be very difficult to tune as there are a number of variables to consider. Rapido in my experience, likely due to the large melt zone and very narrow heatbreak is quite difficult and prone to clog/jam if your filament tips aren't well formed or aref too fat.
+Depending on hotend, filament, and temp, tips can be very difficult to tune as there are a number of variables to consider. Rapido in my experience, likely due to the large melt zone and very narrow heatbreak is quite difficult and prone to clog/jam if your filament tips aren't well formed or too fat.
 
 ABS tips (@ 245c) with eSun filament, CW2, Rapido HF and sensor-less homing to BMG.  
 
-Sensor-less homing - home position to nozzle (melt pool) is the last move before printing. This is usually tuned until you see ooze then less a mm or so to prevent this from happening. This is set to `home_position_to_nozzle: 65` and while it could be 1mm or so longer to close gaps in the purge block, I prefer an ooze-less approach when changing filament out of prints. Note if you are using a toolhead sensor, this distance will usually be shorter by approximately 10mm. 
+Sensor-less homing - home position to nozzle (melt pool) is the last move before printing. This is usually tuned until you see ooze then back off a mm or so until this no longer happens. This is set to `home_position_to_nozzle: 65` for my CW2/Rapido HF and while it could be 1mm or so longer to reduce gaps on the purge block, I prefer an ooze-less approach when changing filament out of prints. Note if you are using a toolhead sensor this distance will usually be shorter by approximately 10mm. 
 
-I'm running all tip forming and ramming in SuperSlicer so I can tune per filament. Happy Hare is set to only tip form...This is controlled by these settings in `ercf_software.cfg`:
+I'm running all tip forming and ramming in SuperSlicer so I can tune per filament. Happy Hare is set to only tip form...This is controlled by these settings in `Happy Hare ercf_software.cfg`:
 ```
    variable_standalone = 0 # 0 slicer, 1 Happy Hare macro (turn off in slicer)
    variable_ss_ramming: 1
@@ -84,7 +84,7 @@ You also need to make sure you call the correct ERCF macro in your custom Slicer
 ```
    T[next_extruder] or ERCF_CHANGE_TOOL TOOL=[next_extruder]
 ```
-Tip forming settings for _ERCF_FORM_TIP_STANDALONE] macro.  These settings have been tested for eSUN ABS and attempt to keep the filament tip and cooling moves within the Rapido heat sink, PTFE & narrow heat break tube.  
+Tip forming settings for _ERCF_FORM_TIP_STANDALONE macro.  These settings have been tested with eSUN ABS and have attemptted to keep the filament tip and cooling moves entirely withinthe Rapido heat sink, PTFE & narrow heat break tube. To work out where the tip is formed manually insert a peice of filament until it extrudes, mark the top at a known reference (e.g. the top of the ECAS connector) and extract and overlay this on a 1:1 scale view of the extruder.  In my case, the tip pulls away from the melt zone just below the heater block, maybe 2mm below.  This is important as all tip forming distances are relative to this point.     
 ```# Unloading and Ramming values - Initial moves to form and shape tip
 variable_unloading_speed_start: 100    
 variable_unloading_speed: 30            
