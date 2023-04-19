@@ -13,7 +13,8 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, ERCF and Easy Brd.
 |FAN0|     Hotend (PB0)
 |FAN1|     Part Fan (PB1)
 |FAN2|     Compartment Fan (PB2)
-|E1 Out|   Chamber Fan (PC8)
+|RGB-B|    Nevermore VOC scrubber (PB7) - RGB-R & RGB-G pins unused
+|E1 Out|   Exhaust / Chamber Fan (PC8)
 |E2 Out|   Chamber LEDs (PB3)
 |PA1|      Endstop - X
 |PA2|      Endstop - Y
