@@ -124,6 +124,8 @@ Purge block gaps can be tuned by increasing home_position_to_nozzle but don't ca
 
 Tips for eSUN ABS Fire Engine Red, Grey and Natural White @ 245c
 
+<img width="396" alt="image" src="https://user-images.githubusercontent.com/36124687/232974232-21193760-b80c-447c-8148-212633126fac.png">
+
 ![image](https://user-images.githubusercontent.com/36124687/232973341-150bf4ae-23e0-4acb-b64e-fe28efaa13fd.png)
 ![image](https://user-images.githubusercontent.com/36124687/232730186-cbbf6f0d-56cc-4b38-908f-508979e08ba0.png)
 ![image](https://user-images.githubusercontent.com/36124687/232730256-f57181b3-59db-4692-89fa-c8d87ae472d9.png)
