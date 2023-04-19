@@ -42,7 +42,7 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, ERCF and Easy Brd.
 ## Change Log
 
 * Replace 12864 screen with BTT Pi TFT50 v2 & KlipperScreen Happy Hare fork
-* * Refine ERCF tip forming settings - Rapido & CW2
+* Refine ERCF tip forming settings - Rapido & CW2
 * Tidy up poweroff script, direct command output to klippy.log and clean up console/stdout/stderr messages
 * cleanup GIT backup script, switch to legitimate moonraker backup scripts, repoint printer_home for new RPi build
 * Update & parameterise mymakeklipper.sh helper to support individual MCU targets and no flash default. Functional but still a quick hack with hardwired elements. Also added on_error_gcode: cancel_print failsafe to [virtual_sdcard] section to always make sure heaters are disabled
