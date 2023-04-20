@@ -21,7 +21,7 @@ moonraker_backup=${printer_config}/.moonraker_database_backup/database.backup
 cd ${printer_config}
 echo -e "\nKlipper local GIT repositories ..."
 
-# loop through local repos looking to grab version information for backup
+# loop through local repos looking for version information to post as a comment for reference.
 # if the repo contains a .version file, grab the first line otherwise 
 # execute git commands to grab the last tag (version) & git revision number 
 
