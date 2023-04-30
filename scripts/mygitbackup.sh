@@ -2,7 +2,7 @@
 #!/bin/bash
 set +x
 
-# NOTE: The gcode_shell_command executes scripts using /bin/sh. The first line above forces the script to
+# NOTE: If the gcode_shell_command executes this script using /bin/sh, the above forces the script to
 # be executed using bash. While I could make the script POSX compliant, this is simple and quick.
 
 # File containing our github secret token held outside all git repos containing mygittoken=<token> 
