@@ -15,7 +15,11 @@ arducam_vcm = CDLL('/home/pi/arducam/Motorized_Focus_Camera/python/lib/libarduca
 
 arducam_vcm.vcm_init()
 print("Setting arducam focus to ",focus)
+
+resp = -1
+
 try:
-  arducam_vcm.vcm_write(focus)
+  resp = arducam_vcm.vcm_write(focus)
+
 except:
-  print("Error calling arducam library")
+  print("Error calling arducam library " + str(resp))
