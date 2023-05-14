@@ -46,8 +46,8 @@ echo -e "\nBacking up moonraker database ..."
 # push updates to remote git repo
 echo -e "\nPushing GIT updates ..."
 
-git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
+git pull -v "https://nigelpjames:$mygittoken@github.com/nigelpjames/voron2.4.git"
 git add . -v
 current_date=$(date +"%Y-%m-%d %T")
 git commit -m "Backup triggered on $current_date" "${gitrevs[@]}"
-git push "https://nigelpjames:$mygittoken@github.com/nigelpjames/voronred300.git"
+git push "https://nigelpjames:$mygittoken@github.com/nigelpjames/voron2.4.git"
