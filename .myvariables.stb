@@ -1,28 +1,28 @@
 [Variables]
-air_filter_time = 273834.0
+air_filter_time = 317479.0
 ercf_calib_0 = 1.0
 ercf_calib_1 = 1.002314
 ercf_calib_2 = 1.000114
 ercf_calib_3 = 1.000114
 ercf_calib_4 = 1.00304
 ercf_calib_5 = 1.00048
-ercf_calib_clog_length = 6.7
+ercf_calib_clog_length = 6.1
 ercf_calib_ref = 1119.7
 ercf_calib_version = 3
 ercf_state_endless_spool_groups = [0, 1, 2, 3, 4, 5]
 ercf_state_gate_color = ['black', 'blue', 'red', 'gray', 'yellow', 'deddda']
 ercf_state_gate_material = ['ABS', 'ABS', 'ABS', 'ABS', 'ABS', 'ABS']
-ercf_state_gate_selected = 0
+ercf_state_gate_selected = 4
 ercf_state_gate_status = [1, 1, 1, 1, 1, 1]
 ercf_state_loaded_status = 8
-ercf_state_tool_selected = 0
+ercf_state_tool_selected = 4
 ercf_state_tool_to_gate_map = [0, 1, 2, 3, 4, 5]
-ercf_statistics_gate_0 = {'pauses': 0, 'loads': 0, 'load_distance': 77090.676, 'load_delta': 476.384, 'unloads': 0, 'unload_distance': 70304.676, 'unload_delta': 273.433, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
+ercf_statistics_gate_0 = {'pauses': 0, 'loads': 0, 'load_distance': 77090.676, 'load_delta': 476.384, 'unloads': 0, 'unload_distance': 71322.588, 'unload_delta': 289.772, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
 ercf_statistics_gate_1 = {'pauses': 1, 'loads': 0, 'load_distance': 31049.157, 'load_delta': -9.05, 'unloads': 0, 'unload_distance': 30550.84, 'unload_delta': -52.4, 'servo_retries': 1, 'load_failures': 1, 'unload_failures': 0}
 ercf_statistics_gate_2 = {'pauses': 0, 'loads': 0, 'load_distance': 43978.711, 'load_delta': 44.96, 'unloads': 0, 'unload_distance': 41763.374, 'unload_delta': -6.797, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
 ercf_statistics_gate_3 = {'pauses': 0, 'loads': 0, 'load_distance': 32273.33, 'load_delta': -13.592, 'unloads': 0, 'unload_distance': 30550.166, 'unload_delta': -13.982, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
-ercf_statistics_gate_4 = {'pauses': 1, 'loads': 0, 'load_distance': 34328.727, 'load_delta': 212.55, 'unloads': 0, 'unload_distance': 31584.928, 'unload_delta': 110.871, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
+ercf_statistics_gate_4 = {'pauses': 1, 'loads': 0, 'load_distance': 35412.705, 'load_delta': 270.691, 'unloads': 0, 'unload_distance': 31584.928, 'unload_delta': 110.871, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
 ercf_statistics_gate_5 = {'pauses': 2, 'loads': 0, 'load_distance': 53627.347, 'load_delta': 31.716, 'unloads': 0, 'unload_distance': 52979.278, 'unload_delta': 343.454, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
-ercf_statistics_swaps = {'total_swaps': 254, 'time_spent_loading': 3021.3, 'time_spent_unloading': 4744.9, 'total_pauses': 4, 'time_spent_paused': 470.8665668964386}
+ercf_statistics_swaps = {'total_swaps': 255, 'time_spent_loading': 3038.2, 'time_spent_unloading': 4768.0, 'total_pauses': 4, 'time_spent_paused': 470.8665668964386}
 pressure_advance = [{'id': 'ABS', 'val': [{'nozzle': 0.4, 'pa': 0.038, 'st': 0.025}, {'nozzle': 0.6, 'pa': 0.025, 'st': 0.25}]}]
 
