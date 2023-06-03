@@ -1,5 +1,5 @@
 [Variables]
-air_filter_time = 326964.0
+air_filter_time = 328534.0
 ercf_calib_0 = 1.0
 ercf_calib_1 = 1.002314
 ercf_calib_2 = 1.000114
@@ -13,9 +13,9 @@ ercf_state_endless_spool_groups = [0, 1, 2, 3, 4, 5]
 ercf_state_gate_color = ['black', 'blue', 'red', 'gray', 'yellow', 'deddda']
 ercf_state_gate_material = ['ABS', 'ABS', 'ABS', 'ABS', 'ABS', 'ABS']
 ercf_state_gate_selected = 0
-ercf_state_gate_status = [1, 1, 1, 1, 1, 1]
-ercf_state_loaded_status = 8
-ercf_state_tool_selected = 0
+ercf_state_gate_status = [1, 1, 1, 1, 0, 1]
+ercf_state_loaded_status = 0
+ercf_state_tool_selected = -1
 ercf_state_tool_to_gate_map = [0, 1, 2, 3, 4, 5]
 ercf_statistics_gate_0 = {'pauses': 0, 'loads': 0, 'load_distance': 78153.085, 'load_delta': 498.128, 'unloads': 0, 'unload_distance': 71322.588, 'unload_delta': 289.772, 'servo_retries': 0, 'load_failures': 0, 'unload_failures': 0}
 ercf_statistics_gate_1 = {'pauses': 1, 'loads': 0, 'load_distance': 31049.157, 'load_delta': -9.05, 'unloads': 0, 'unload_distance': 30550.84, 'unload_delta': -52.4, 'servo_retries': 1, 'load_failures': 1, 'unload_failures': 0}
