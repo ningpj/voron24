@@ -1,4 +1,4 @@
-# voronred300
+# voron 2.4
 
 Klipper configuration backups.
 
@@ -27,7 +27,7 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, ERCF and Easy Brd.
 |PC2|      N/C
 |PC3|      Bed Thermister
 |PC9|      ~~Fysetc 12864 beeper~~
-|PD3|      Stealth Neopixels - Spider neopixel port
+|PD3|      Stealth Burner Neopixels - Spider neopixel port
 
 ## Slicer start print gcode
 
