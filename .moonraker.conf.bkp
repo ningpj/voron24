@@ -44,13 +44,6 @@ origin = https://github.com/protoloft/klipper_z_calibration.git
 install_script = install.sh
 managed_services = klipper
 
-[update_manager ercf-happy_hare]
-type = git_repo
-path = ~/ERCF-Software-V3
-origin = https://github.com/moggieuk/ERCF-Software-V3.git
-install_script = install.sh
-managed_services = klipper
-
 [update_manager KlipperScreen-happy_hare]
 type = git_repo
 path = /home/pi/KlipperScreen
@@ -59,4 +52,11 @@ env = /home/pi/.KlipperScreen-env/bin/python
 requirements = scripts/KlipperScreen-requirements.txt
 install_script = scripts/KlipperScreen-install.sh
 managed_services = KlipperScreen-happy_hare
+
+[update_manager happy-hare]
+type = git_repo
+path = ~/Happy-Hare
+origin = https://github.com/moggieuk/Happy-Hare.git
+install_script = install.sh
+managed_services = klipper
 
