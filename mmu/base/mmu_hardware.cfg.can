@@ -68,13 +68,11 @@
 #
 [tmc2209 stepper_mmu_gear]
 uart_pin:                     mmu:MMU_GEAR_UART
-uart_address:                 0 			
 interpolate:                  True
 run_current:                  0.6                           ; LDO-35STH28-1004AC3DT - 1A Max, runs cool, low inductance
 hold_current:                 0.18
 sense_resistor:               0.110
 stealthchop_threshold:        0	
-
 #
 # Uncomment two lines below if you have TMC and want the ability to use filament "touch" homing with gear stepper
 diag_pin: mmu:MMU_GEAR_DIAG		                       ; Set to MCU pin connected to TMC DIAG pin for gear stepper
@@ -98,7 +96,6 @@ extra_endstop_names: mmu_gear_touch
 #
 [tmc2209 stepper_mmu_selector]
 uart_pin:                     mmu:MMU_SEL_UART
-;uart_address:                 0
 run_current:                  0.3                           ; LDO-42STH20-1004ASHVRN - 1A with higher inductance so less tolerant of higher currents (LDO kit option) :-(
 hold_current:                 0.18
 interpolate:                  True
