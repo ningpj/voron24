@@ -81,7 +81,7 @@ if [ $sht36 = 1 ]; then
   if [ $flash = 1 ]; then
     echo "Flashing Klipper to Fly SHT-36 V2 CAN Board"
     python3 ~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 6078c87b3085
-    read -p "Fly SHT-36 V2 CAn Board updated. Press [Enter] to continue or Ctrl-C to abort"
+    read -p "Fly SHT-36 V2 Can Board updated. Press [Enter] to continue or Ctrl-C to abort"
   else
     echo --flash not specified, flash step bypassed.
   fi
@@ -100,7 +100,8 @@ if [ $ercfcan = 1 ]; then
 
   if [ $flash = 1 ]; then
     echo "Flashing Klipper to Fly ERCF V1.1 CAN Board"
-    python3 ~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 16ebb6c69db4
+    #python3 ~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 16ebb6c69db4
+    python3 ~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u c0bfb3f3e9c9
     read -p "Fly ERCF V1.1 CAN Board updated. Press [Enter] to continue or Ctrl-C to abort"
   else
     echo --flash not specified, flash step bypassed.
