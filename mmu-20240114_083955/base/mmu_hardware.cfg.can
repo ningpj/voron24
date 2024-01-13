@@ -68,17 +68,15 @@
 #
 [tmc2209 stepper_mmu_gear]
 uart_pin:                     mmu:MMU_GEAR_UART
-uart_address:                 0 			
 interpolate:                  True
 run_current:                  0.6                           ; LDO-35STH28-1004AC3DT - 1A Max, runs cool, low inductance
 hold_current:                 0.18
 sense_resistor:               0.110
 stealthchop_threshold:        0	
-
 #
 # Uncomment two lines below if you have TMC and want the ability to use filament "touch" homing with gear stepper
 diag_pin: mmu:MMU_GEAR_DIAG		                       ; Set to MCU pin connected to TMC DIAG pin for gear stepper
-driver_SGTHRS: 125		                               ; 255 is most sensitive value, 0 is least sensitive
+driver_SGTHRS: 50			                               ; 255 is most sensitive value, 0 is least sensitive
 
 [stepper_mmu_gear]
 step_pin:                     mmu:MMU_GEAR_STEP
@@ -98,7 +96,6 @@ extra_endstop_names: mmu_gear_touch
 #
 [tmc2209 stepper_mmu_selector]
 uart_pin:                     mmu:MMU_SEL_UART
-;uart_address:                 0
 run_current:                  0.3                           ; LDO-42STH20-1004ASHVRN - 1A with higher inductance so less tolerant of higher currents (LDO kit option) :-(
 hold_current:                 0.18
 interpolate:                  True
@@ -107,7 +104,7 @@ stealthchop_threshold:        100
 #
 # Uncomment two lines below if you have TMC and want to use selector "touch" movement and homing
 diag_pin: ^mmu:MMU_SEL_DIAG 		                        ; Set to MCU pin connected to TMC DIAG pin for selector stepper
-driver_SGTHRS: 75			                                ; 255 is most sensitive value, 0 is least sensitive
+driver_SGTHRS: 40			                                ; 255 is most sensitive value, 0 is least sensitive
 
 [stepper_mmu_selector]
 step_pin:                     mmu:MMU_SEL_STEP
@@ -160,70 +157,3 @@ desired_headroom:             5.0			# The clog/runout headroom that MMU will att
 average_samples:              4			    # The "damping" effect of last measurement. Higher value means clog_length will be reduced more slowly
 flowrate_samples:             20			# How many "movements" on the encoder to measure over for flowrate calc
 
-## FILAMENT SENSORS ---------------------------------------------------------------------------------------------------------
-## Define the pins for optional sensors in the filament path. All but the pre-gate sensors will be automatically setup as
-## both endstops (for homing) and sensors for visibility purposes.
-##
-## 'pre_gate_switch_pin_X' .. 'mmu_pre_gate_X` sensor detects filament at entry to MMU. X=gate number (0..N)
-## 'toolhead_switch_pin'   .. 'toolhead' sensor detects filament after extruder entry
-## 'extruder_switch_pin'   .. 'extruder' sensor detects filament just before the extruder entry
-## 'gate_switch_pin'       .. shared 'mmu_gate' sensor detects filament at the gate of the MMU
-##
-## Uncomment sensors that are fitted. Note: older method of defining toolhead sensor still works but this way is recommended
-##
-#[mmu_sensors]
-##pre_gate_switch_pin_0: mmu:{pre_gate_0_pin}
-##pre_gate_switch_pin_1: mmu:{pre_gate_1_pin}
-##pre_gate_switch_pin_2: mmu:{pre_gate_2_pin}
-##pre_gate_switch_pin_3: mmu:{pre_gate_3_pin}
-##pre_gate_switch_pin_4: mmu:{pre_gate_4_pin}
-##pre_gate_switch_pin_5: mmu:{pre_gate_5_pin}
-##pre_gate_switch_pin_6: mmu:{pre_gate_6_pin}
-##pre_gate_switch_pin_7: mmu:{pre_gate_7_pin}
-##pre_gate_switch_pin_8: mmu:{pre_gate_8_pin}
-##pre_gate_switch_pin_9: mmu:{pre_gate_9_pin}
-##pre_gate_switch_pin_10: mmu:{pre_gate_10_pin}
-##pre_gate_switch_pin_11: mmu:{pre_gate_11_pin}
-#
-##gate_switch_pin: mmu:MMU_GATE_SENSOR
-##extruder_switch_pin: EXTRUDER_SENSOR
-## MMU OPTIONAL NEOPIXEL LED SUPPORT ----------------------------------------------------------------------------------------
-## Define the led connection, type and length
-##
-#[neopixel mmu_leds]
-#pin: mmu:MMU_NEOPIXEL
-#chain_count: 7			# Number gates x1 or x2 + 1 (if you want status)
-#color_order: GRBW		# Set based on your particular neopixel specification
-#
-#
-## MMU LED EFFECT SEGMENTS --------------------------------------------------------------------------------------------------
-## NOTE IT HARMLESS TO LEAVE THIS SECTION - IT IS INACTIVE UNLESS 'led_strip' can be found by uncommenting [neopixel] above
-##
-## Define neopixel LEDs for your MMU. The chain_count must be large enough for your defined effect ranges. These ranges are:
-##   exit   .. this set of LEDs, one for every gate, usually would be mounted at the exit point of the gate
-##   entry  .. this set of LEDs, one for every gate, could be mounted at the entry point of filament into the MMU
-##   status .. this single LED represents the status of the currently selected filament, typically  mounted on selection mechanism
-##
-## Note that all sets are optional. You can opt simple to have just the 'exit' set for example. The advantage to having
-## both entry and exit LEDs is that the 'entry'ones can display gate status while the 'exit' one displays the filament color
-## 
-## The effects requires the installation of Julian Schill's awesome LED effect module: https://github.com/julianschill/klipper-led_effect
-## LED's are indexed in the chain from 1..N. Thus to set up LED's on 'exit' and a single 'status' LED on a 4 gate MMU:
-##   exit_range:   1-4
-##   status_index: 5
-## In this example no 'entry' set is configured.
-##
-## Note the range order is important and depends on your wiring. Thus 1-4 and 4-1 both represent the same LED range but mapped
-## to different gates
-##
-## Happy Hare provides a convenience wrapper [mmu_led_effect] that not only creates an effect on each of the [mmu_leds] specified
-## segments but also each individual LED for atomic control.
-##
-#[mmu_leds]
-#num_gates: 6
-#led_strip: neopixel:mmu_leds
-#exit_range: 1-6
-##entry_range: 7-7
-#status_index: 7
-#frame_rate: 24
-#
