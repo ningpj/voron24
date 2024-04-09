@@ -23,14 +23,19 @@ https://github.com/EtteGit/EnragedRabbitProject/tree/main/usermods/CW2_with_ECAS
 
 * **`M5 Rods:`**  Leave tightening the main ERCF M5 rods until you have the ERCF on a flat surface or secured to a 2020 rail.  Its really easy to over tighten these and create a back bow which may prevent the main drive shaft form turning freely. The shaft should turn easily without any binding with the GT2 belt unattached. Remember when tightening, the rods only need to be snug not hulk tight.
 
-* **`Drive Shaft:`**  As above, during assembly check the main drive shaft spins freely. If you any feel resistance or binding (rubbing) recheck and adjust the tension of the M5 nuts on the main rods and check for binding in other areas e.g. 
-  * 80T centred & clearance, gearbox is 100% square, printed spacers are installed correctly on either side of the 80T.
-  * 80T GT2 20T hub is fully seated and you have used the correct button head screws (BHCS).
-  * BMG gears are centred in their carts and the grub screws aren't catching or protruding.
-
-* **`Top Hats:`**  Start with the same thickness e.g. One Dot and save tuning these until you have the ERCF secured to a 2020 rail or on a flat surface.  Assuming all BMG gears are from the same supplier all top hats "will" generally be the same thickness if the ERCF is true and flat.  Work your way up until your filament doesn’t slip. Its fine if one or two are thicker to account for part and BMG gear variations. However if you find you need thicker top hats on middle gates you may have a bowed ERCF.    
+* **`D-Drive Shaft:`**  During assembly check the main drive shaft spins freely. For example without the belt on it should be buttery smooth and spin for a 1/2-1+ revolution when you flick the knob. If you any feel resistance or binding (rubbing), your Gear stepper stalls and whines, recheck the following areas 
+  * 80T is centred & has clearance and isnt rubbing on gear box or motor mount.
+  * 80T GT2 20T hub is fully seated and you have used the correct button head screws to secure it (BHCS).
+  * BMG gears are all centred in their carts and grub screws aren't catching or protruding.
+  * You D-Shaft isnt bent (hard to verify post installation.
+  * GT2 belt isnt too tight or able to handle rotational variations of the printed 80T.
+  * Insufficent tollerance/play between motor mount/gearbox and 80T causing it to bind (try loosening motor mount / gear box bolts to verify).
+  * Manual D-shaft knob isnt pressing hard up against motor mount.
+  * Asking too much of your gear stepper speed & accel wise (older steppers may not be able to support default load from buffer speeds and accels.  Also check stepper crimps to make sure both windings/pairs are connected to prevent stepper running running at reduced power.
 
 * **`Drive Belt:`** There's a tendency to over tension the 80T GT2 belt …. don't, its not necessary.  In fact it needs to be looser than you think to compensate for rotational variations of the printed 80T part and hub.  Make sure the 80T wheel is as centred and square as you can get it though or use a printed jig during assembly (https://github.com/moggieuk/ERCF-Projects/tree/main/80T-Gear-Guide/STLs). Unfortunately you will never be able to get it perfectly true which is why the drive belt needs to be loose. If you don’t the Nema 14 will bind and make alarming noises or honk like a goose when spinning up and down. Alot of people are critical of the printed 80T for the above reasons. However given its relatively low mass, the Nema 14 is able to spin it very quickly...the need for speed!    
+
+* **`Top Hats:`**  Start with the same thickness e.g. One Dot and save tuning these until you have the ERCF secured to a 2020 rail or on a flat surface.  Assuming all BMG gears are from the same supplier all top hats "will" generally be the same thickness if the ERCF is true and flat.  Work your way up until your filament doesn’t slip. Its fine if one or two are thicker to account for part and BMG gear variations. However if you find you need thicker top hats on middle gates you may have a bowed ERCF.    
 
 * **`Nema 14:`**  Contrary to popular belief the Nema 14 is plenty fast and has low rotation mass so it can spin very quickly. It just doesn’t have much torque when initially spinning up so you need to make sure the main belt and drive shaft spin freely.  I load filament at 300mm/sec with run_current @ 0.5A on a LDO Nema 14 (LDO-35STH28-1004AC3DT) without issue.
 
