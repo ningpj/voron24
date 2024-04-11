@@ -45,14 +45,14 @@ origin = https://github.com/protoloft/klipper_z_calibration.git
 install_script = install.sh
 managed_services = klipper
 
-[update_manager KlipperScreen-happy_hare]
+[update_manager KlipperScreen]
 type = git_repo
-path = /home/pi/KlipperScreen
+path = ~/KlipperScreen
 origin = https://github.com/moggieuk/KlipperScreen-Happy-Hare-Edition.git
-env = /home/pi/.KlipperScreen-env/bin/python
+env = ~/.KlipperScreen-env/bin/python
 requirements = scripts/KlipperScreen-requirements.txt
 install_script = scripts/KlipperScreen-install.sh
-managed_services = KlipperScreen-happy_hare
+managed_services = KlipperScreen
 
 [update_manager happy-hare]
 type = git_repo
