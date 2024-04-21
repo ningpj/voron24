@@ -21,7 +21,6 @@ trusted_clients =
 
 [file_manager]
 enable_object_processing = True
-file_system_observer = none
 
 [octoprint_compat]
 
