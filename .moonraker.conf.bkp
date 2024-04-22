@@ -32,9 +32,10 @@ enable_auto_refresh = True
 [machine]
 shutdown_action = poweroff
 
-[update_manager client fluidd]
+[update_manager fluidd]
 type = web
-repo = cadriel/fluidd
+channel = stable
+repo = fluidd-core/fluidd
 path = ~/fluidd
 
 [update_manager client z_calibration]
