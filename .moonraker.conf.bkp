@@ -80,3 +80,12 @@ is_system_service = False
 enable_file_preprocessor = True
 enable_toolchange_next_pos = True
 
+[update_manager klipper_tmc_autotune]
+type = git_repo
+channel = dev
+path = ~/klipper_tmc_autotune
+origin = https://github.com/andrewmcgr/klipper_tmc_autotune.git
+managed_services = klipper
+primary_branch = main
+install_script = install.sh
+
