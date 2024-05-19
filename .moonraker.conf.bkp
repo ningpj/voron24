@@ -90,3 +90,9 @@ managed_services = klipper
 primary_branch = main
 install_script = install.sh
 
+[update_manager led_effect]
+type = git_repo
+path = ~/klipper-led_effect
+origin = https://github.com/julianschill/klipper-led_effect.git
+is_system_service = False
+
