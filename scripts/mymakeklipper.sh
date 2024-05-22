@@ -80,7 +80,7 @@ if [ $sht36 = 1 ]; then
 
   if [ $flash = 1 ]; then
     echo "Flashing Klipper to Fly SHT-36 V2 CAN Board"
-    python3 ~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 6078c87b3085
+    python3 ~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u d10a59dcf8cc
     read -p "Fly SHT-36 V2 Can Board updated. Press [Enter] to continue or Ctrl-C to abort"
   else
     echo --flash not specified, flash step bypassed.
