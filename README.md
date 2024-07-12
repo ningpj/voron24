@@ -33,7 +33,7 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 |MCU:PB14|                         Limit Switch/End stop 
 |MCU:PC0|                          Thermister
 |MCU:PC2|                          Thermister 
-|MCU:PC9|                          ~~Fysetc 12864 beeper~~
+|MCU:PC9|                          12864 beeper
 
 ## Slicer start print gcode
 
