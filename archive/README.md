@@ -29,35 +29,6 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, ERCF and Easy Brd.
 |PC9|      ~~Fysetc 12864 beeper~~
 |PD3|      Stealth Burner Neopixels - Spider neopixel port
 
-|PIN|Component
-|-|-
-|Hotend Fan|                       SHT:PB10/FAN0
-|Part Fan|                         SHT:PB11/FAN1
-|Component Fan|                    MCU:PB2
-|Chamber Fan|                      MCU:PC8
-|Chamber LEDS|                     MCU:PB3
-|Endstop - X|                      SHT:PA1/LIMIT_0
-|Endstop - Y|                      MCU:PA2
-|Endstop - Z|                      MCU:PA0
-|Probe - PCB Klicky|               SHT:PC15/PROBE_1
-|Toolhead sensor|                  SHT:PA2/LIMIT_1
-|Chamber Thermistor|               MCU:PC1   
-|Bed Thermister|                   MCU:PC3
-|Print Head Neopixels|             MCU:PD3
-|Nevermore|                        MCU:PB7 (LED-B 24V)
-
-|Spider 1.1 Spare Pins
-|-|-
-|FAN0|                             MCU:PB0
-|FAN1|                             MCU:PB1
-|End Stop|                         MCU:PA1
-|Probe|                            MCU:PA3
-|Limit Switch/End stop|            MCU:PB13
-|Limit Switch/End stop|            MCU:PB14 
-|Thermister|                       MCU:PC0
-|Thermister|                       MCU:PC2 
-|12864 Beeeper|                    MCU:PC9
-
 ## Slicer start print gcode
 
 * Super Slicer / Prusa Slicer <br>
