@@ -7,7 +7,8 @@ set -e
 rp_mcu=~/printer_data/config/scripts/config.rp_mcu
 spider_mcu=~/printer_data/config/scripts/config.spider_mcu
 sht36_mcu=~/printer_data/config/scripts/config.sht36v2
-sht36_can=d10a59dcf8cc
+#sht36_can=d10a59dcf8cc
+sht36_can=333f11f63709
 ercf_mcu=~/printer_data/config/scripts/config.ercfcanv1.1
 ercf_can=0cf6c395541c
 usb_mcu=/dev/serial/by-id/usb-Klipper_stm32f446xx_26001F000B50563046363120-if00
