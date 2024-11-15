@@ -58,15 +58,19 @@ MMU_START_CHECK
 ;
 PRINT_START EXTRUDER=[first_layer_temperature[initial_extruder]] BED=[first_layer_bed_temperature] CHAMBER=[chamber_temperature] FILAMENT=[filament_type] NOZZLE=[nozzle_diameter] TOOL=[initial_extruder] SIZE={first_layer_print_min[0]}_{first_layer_print_min[1]}_{first_layer_print_max[0]}_{first_layer_print_max[1]}
 ```
+
+
 **LAYER_CHANGE gcode (Orca)**
 ```
 SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num + 1}
 ```
 
-**FILAMENT_CHANGE gcode (Orca)
+
+**FILAMENT_CHANGE gcode (Orca)**
 ```
 T[next_extruder] ; MMU tool change
 ```
+
 
 **PRINT_END gcode (Orca)**
 ```
