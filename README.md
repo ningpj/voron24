@@ -46,9 +46,9 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 |12864 Beeeper|MCU:PC9
 
 
-## Slicer
+## Slicer (Orca)
 
-**PRINT_START gcode (Orca)**
+**PRINT_START gcode**
 ```
 SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]
 ;
@@ -59,20 +59,17 @@ MMU_START_CHECK
 PRINT_START EXTRUDER=[first_layer_temperature[initial_extruder]] BED=[first_layer_bed_temperature] CHAMBER=[chamber_temperature] FILAMENT=[filament_type] NOZZLE=[nozzle_diameter] TOOL=[initial_extruder] SIZE={first_layer_print_min[0]}_{first_layer_print_min[1]}_{first_layer_print_max[0]}_{first_layer_print_max[1]}
 ```
 
-
-**LAYER_CHANGE gcode (Orca)**
+**LAYER_CHANGE gcode**
 ```
 SET_PRINT_STATS_INFO CURRENT_LAYER={layer_num + 1}
 ```
 
-
-**FILAMENT_CHANGE gcode (Orca)**
+**FILAMENT_CHANGE gcode**
 ```
 T[next_extruder] ; MMU tool change
 ```
 
-
-**PRINT_END gcode (Orca)**
+**PRINT_END gcode**
 ```
 MMU_END
 PRINT_END
