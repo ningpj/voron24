@@ -18,7 +18,7 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 
 ## MCU PIN Assignments
 
-|Component|PIN
+|**Component**|**PIN**
 |-|-
 |Hotend Fan|SHT:PB10/FAN0
 |Part Fan|SHT:PB11/FAN1
@@ -34,7 +34,7 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 |Bed Thermister|MCU:PC3
 |Print Head Neopixels|MCU:PD3
 |Nevermore|MCU:PB7 (LED-B 24V)
-|Spares (Spider 1.1)|
+|**Spare Pins (Spider 1.1)**|
 |FAN0|MCU:PB0
 |FAN1|MCU:PB1
 |End Stop|MCU:PA1
