@@ -27,7 +27,7 @@ https://github.com/EtteGit/EnragedRabbitProject/tree/main/usermods/CW2_with_ECAS
   * 80T is centred & has clearance and isnt rubbing on gear box or motor mount.
   * 80T GT2 20T hub is fully seated and you have used the correct button head screws to secure it (BHCS).
   * BMG gears are all centred in their carts and grub screws aren't catching or protruding.
-  * You D-Shaft isnt bent (hard to verify post installation.
+  * Your D-Shaft isnt bent (hard to verify post installation.
   * GT2 belt isnt too tight or able to handle rotational variations of the printed 80T.
   * Insufficent tollerance/play between motor mount/gearbox and 80T causing it to bind (try loosening motor mount / gear box bolts to verify).
   * Manual D-shaft knob isnt pressing hard up against motor mount.
