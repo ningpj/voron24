@@ -59,8 +59,6 @@ camera="raspi"
 #camera_raspi_options="-x 1296 -y 972 -fps 15 -quality 75 -ex auto -awb auto"
 camera_raspi_options="-x 1296 -y 972 -fps 15 -quality 75"
 
-6unJma1T@Y5?X$uh1
-
 ## Configuration of camera HTTP output
 #
 # Usually you should NOT need to change this at all! Only touch if you
