@@ -9,7 +9,7 @@ set +x
 export $(grep -v '^#' ~/printer_data/.mygittoken | xargs -0)
 
 # GIT local repos installed on your printer. This is only to add version numbers references as messages for the commit 
-gitrepos=(~/klipper ~/moonraker ~/mainsail ~/fluidd ~/Happy-Hare ~/KlipperScreen ~/klipper_z_calibration)
+gitrepos=(~/klipper ~/moonraker ~/fluidd ~/Happy-Hare ~/KlipperScreen ~/klipper_z_calibration ~/klipper_tmc_autotune ~/klippain_shaketune)
 
 # Location of klipper configuration
 printer_config=~/printer_data/config
