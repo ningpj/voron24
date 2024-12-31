@@ -1,5 +1,5 @@
 # Include servo hardware definition separately to allow for automatic upgrade
-[include blobifier_hw.cfg]
+[include ../mmu/addons/blobifier_hw.cfg]
 
 ##########################################################################################
 
@@ -81,14 +81,14 @@ variable_brush_top: 1.4
 
 # These parameters define your scrubbing, travel speeds, safe z clearance and how many
 # times you want to wipe. Update as necessary.
-variable_clearance_z: 2          # When traveling, but not cleaning, the
+variable_clearance_z: 5          # When traveling, but not cleaning, the
                                            #   clearance along the z-axis between nozzle
                                            #   and brush.
 variable_wipe_qty: 3          # Number of complete (A complete wipe: left,
                                            #   right, left OR right, left, right) wipes.
-variable_travel_spd_xy: 10000          # Travel (not cleaning) speed along x and
+variable_travel_spd_xy: 36000 ;10000          # Travel (not cleaning) speed along x and
                                            #   y-axis in mm/min.
-variable_travel_spd_z: 1000          # Travel (not cleaning) speed along z axis
+variable_travel_spd_z: 1800 ;1000          # Travel (not cleaning) speed along z axis
                                            #   in mm/min.
 variable_wipe_spd_xy: 10000          # Nozzle wipe speed in mm/min.
 
@@ -187,30 +187,30 @@ variable_tray_angle_in: 0
 
 # The height to raise the nozzle above the tray before purging. This allows any built up 
 # pressure to escape before the purge.
-variable_purge_start: 0.4
+variable_purge_start: 0.0 ; 0.2
 
 # The amount to raise Z
-variable_z_raise: 12.6 
+variable_z_raise: 13 ;12.6 
 
 # As the nozzle gets higher and the blob wider, the Z raise needs to be reduced, this
 # follows the following formula: 
 #            (extruded_amount/max_purge_length)^z_raise_exp * z_raise
 # 1 is linear, below 1 will cause z to raise less quickly over time, above 1 will make it
 # raise quicker over time. 0.85 is a good starting point and you should not have it above 1
-variable_z_raise_exp: 0.95 ; 0.85
+variable_z_raise_exp: 1.1 ; 0.85
 
 # Lift the nozzle slightly after creating the blob te release pressure on the tray.
-variable_eject_hop: 1.0 
+variable_eject_hop: 4 ; 1.0 
 
 # Dwell time (ms) after purging and before cleaning to relieve pressure from the nozzle.
-variable_pressure_release_time: 1000
+variable_pressure_release_time: 2000 ;1000
 
 # Set the part cooling fan speed. Disabling can help prevent the nozzle from cooling down 
 # and stimulate flow, Enabling it can prevent blobs from sticking together. Values range 
 # from 0 .. 1, or -1 if you don't want it changed.
 #variable_part_cooling_fan: -1              # Leave it unchanged
 #variable_part_cooling_fan:  0              # Disable the fan
-variable_part_cooling_fan: 1               # Run it at full speed
+variable_part_cooling_fan: 1                # Run it at full speed
 
 
 # ========================================================================================
@@ -393,10 +393,11 @@ gcode:
       # ==================== POSITIONING ON TRAY ===========================================
       # ====================================================================================
       {% if safe.tray or ignore_safe %}
+        BLOBIFIER_SERVO POS=out ; NJ make sure tray is positioned properly before decending
         G1 Z{tray_top + purge_start} F{travel_spd_z}
 
         # Extend the blobifier
-        BLOBIFIER_SERVO POS=out
+        ; NJ - needs to extend before z move - BLOBIFIER_SERVO POS=out
       {% endif %}
 
       # ====================================================================================
@@ -426,6 +427,12 @@ gcode:
       {% set purge_per_pulse = purge_per_blob / pulses_per_blob %}
       {% set pulse_time_constant = purge_per_pulse * 0.95 / purge_spd / (purge_per_pulse * 0.95 / purge_spd + purge_per_pulse * 0.05 / 50) %}
       {% set pulse_duration = purge_per_pulse / purge_spd %}
+
+      ; NJ vvvvvvvvvv Save PA
+      {% set saved_pa = printer.extruder.pressure_advance %}
+      RESPOND MSG={"'BLOBIFIER: Setting PA to zero. Original PA (%f)'" % (saved_pa)}
+      SET_PRESSURE_ADVANCE ADVANCE=0
+      ; NJ ^^^^^^^^^^
 
       # Repeat the process until purge_len is reached
       {% for blob in range(blobs) %}
@@ -473,21 +480,39 @@ gcode:
           G1 Z{eject_hop} F{travel_spd_z}
           # Retract the tray
           BLOBIFIER_SERVO POS=in
+
+          ; NJ vvvvvvvvvv dwell to help blob detach from nozzle
+          G4 P{pressure_release_time}
+          ; NJ ^^^^^^^^^^
+
           # Move the toolhead down to purge_start height lowering the blob below the tray
           G90 # absolute positioning
           G1 Z{tray_top} F{travel_spd_z}
+                   
           # Extend the tray to 'cut off' the blob and prepare for the next blob
           BLOBIFIER_SERVO POS=out
           BLOBIFIER_SERVO POS=in
           BLOBIFIER_SERVO POS=out
+
+          ; NJ vvvvvvvvvv try to detach resistent blobs from nozzle
+          G1 X{printer.toolhead.axis_maximum.x} F{travel_spd_xy}
+          G1 X{purge_x} F{travel_spd_xy}
+          ; NJ ^^^^^^^^^^
+
           # Keep track of the # of blobs
           _BLOBIFIER_COUNT
         {% endif %}
       {% endfor %}
+
+      ; NJ vvvvvvvvvv Restore saved pressure advance
+      RESPOND MSG={"'BLOBIFIER: Restoring PA to (%f)'" % (saved_pa)}
+      SET_PRESSURE_ADVANCE ADVANCE={saved_pa}
+      ; NJ ^^^^^^^^^^
+
     {% endif %}
     {% if safe.tray or ignore_safe %}
       G1 Z{tray_top + 1} F{travel_spd_z}
-      G4 P{pressure_release_time}
+      ; NJ moved up - G4 P{pressure_release_time}
     {% endif %}
     {% if safe.brush or ignore_safe %}
       BLOBIFIER_CLEAN
@@ -498,6 +523,7 @@ gcode:
     # ======================================================================================
     # ==================== RESTORE STATE ===================================================
     # ======================================================================================
+
 
     G1 Z{restore_z} F{travel_spd_z}
     
@@ -610,7 +636,6 @@ gcode:
 # Define exclude objects for those who haven't already
 #
 [exclude_object]
-
 ##########################################################################################
 # Overwrite the existing EXCLUDE_OBJECT_DEFINE to also check for safe descend.
 #
@@ -884,3 +909,11 @@ gcode:
   {% set sv = {'current_blobs': count.current_blobs, 'last_shake': count.last_shake} %}
   SAVE_VARIABLE VARIABLE=blobifier VALUE="{sv}"
 
+
+[gcode_macro _BLOBIFIER_SERVO_TEST]
+gcode:
+    BLOBIFIER_SERVO POS=out
+    BLOBIFIER_SERVO POS=in
+    BLOBIFIER_SERVO POS=out
+    BLOBIFIER_SERVO POS=in
+    BLOBIFIER_SERVO POS=out
