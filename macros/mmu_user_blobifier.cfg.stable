@@ -268,8 +268,6 @@ variable_bucket_shake_frequency: 0.95
 variable_shaker_arm_z: 3
 
 
-
-
 # NJ: Orientation and location of your Blobifier. set to 0 if installed on the left, 1 if
 # installed on the right side of your printer 
 variable_orientation: 1
@@ -506,10 +504,10 @@ gcode:
           {% endfor %}
           BLOBIFIER_SERVO POS=out
 
-          ; Optional nozzle shaker to help detach belligerent blobs
+          ; Optional nozzle shaker to help detach belligerent filament blobs
           {% set nozzle_shake_XL, nozzle_shake_XR, nozzle_shakes = nozzle_shaker|map('float') %}
           {% if nozzle_shakes|default(0)|int > 0 and nozzle_shake_XL > 0 and nozzle_shake_XR > 0 %}
-              ; calc & apply move boundaries with 3mm allowance for shaker arm clearance (x positions always defined left to right)
+              ; calc & apply move boundaries with 3mm allowance for shaker arm clearance (x settings always defined left to right)
               {% set nozzle_shake_start = [purge_x - nozzle_shake_XL, printer.toolhead.axis_minimum.x + 3]|max|float %}                      
               {% set nozzle_shake_sweep = [purge_x + nozzle_shake_XR, printer.toolhead.axis_maximum.x - 3]|min|float - nozzle_shake_start %} 
               {% for shakes in range(nozzle_shakes|int) %}
@@ -798,50 +796,53 @@ gcode:
 
   {% if "xyz" not in printer.toolhead.homed_axes %}
     {action_raise_error("BLOBIFIER: Not homed. Home xyz first")}
-  {% else %}
+  {% endif %}
   
-      SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=last_shake VALUE={count.current_blobs}
-      _BLOBIFIER_SAVE_STATE
-      SAVE_GCODE_STATE NAME=shake_bucket
+  SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=last_shake VALUE={count.current_blobs}
+  _BLOBIFIER_SAVE_STATE
+  SAVE_GCODE_STATE NAME=shake_bucket
   
-      M400 ; wait for current moves to finish
-      M117 (^_^)
+  M400 # wait for current moves to finish
+  M117 (^_^)
 
-      G90 ; absolute positioning
-      {% set shakes = params.SHAKES|default(10)|int %}
-      {% set position_y = printer.toolhead.axis_maximum.y - bl.skew_correction|float %}
-          
-      {% if printer.toolhead.position.y != position_y %} ; move to save y if not already there
-        G1 X{bl.brush_start} Y{position_y} F{bl.travel_spd_xy}
-      {% endif %}
-
-      G1 Z{bl.shaker_arm_z} F{bl.travel_spd_z} ; hop up to engage shaker and to prevent oozing on tray
-      G1 X{position_x} F{bl.travel_spd_xy} ; move and engage shaker
-
-      M400 ; wait for current moves to finish
-      M117 (+(+_+)+)
-
-      {% if bl.shake_accel > 0 %} ; override accels if need be
-          SET_VELOCITY_LIMIT ACCEL={bl.shake_accel} MINIMUM_CRUISE_RATIO=0.1
-      {% endif %}
-  
-      {% for shake in range(1, shakes) %} ; shake it baby! (Move away from max.y)
-         G1 Y{position_y - 4}
-         G1 Y{position_y}
-      {% endfor %}
-
-      {% if bl.shake_accel > 0 %} ; restore access and cruise_ratio if changed
-          SET_VELOCITY_LIMIT ACCEL={printer.toolhead.max_accel} MINIMUM_CRUISE_RATIO={printer.toolhead.minimum_cruise_ratio} 
-      {% endif%}
-
-      G1 X{bl.purge_x} ; move away from shaker and back to purge spot
-
-      M400 ; wait for current moves to finish
-      M117 (X_x)
-
-      RESTORE_GCODE_STATE NAME=shake_bucket  
+  G90 # absolute positioning
+  {% set shakes = params.SHAKES|default(10)|int %}
+  {% set position_y = printer.toolhead.axis_maximum.y - bl.skew_correction|float %}
+    
+  # move to save y if not already there
+  {% if printer.toolhead.position.y != position_y %}
+    G1 X{bl.brush_start} Y{position_y} F{bl.travel_spd_xy}
   {% endif %}
 
+  # move up a bit to prevent oozing on base
+  G1 Z{bl.shaker_arm_z} F{bl.travel_spd_z}
+  # slide into the slot
+  G1 X{position_x} F{bl.travel_spd_xy}
+
+  M400 # wait for current moves to finish
+  M117 (+(+_+)+)
+
+  {% if bl.shake_accel > 0 %}
+      SET_VELOCITY_LIMIT ACCEL={bl.shake_accel} MINIMUM_CRUISE_RATIO=0.1
+  {% endif %}
+  
+  # Shake away!
+  {% for shake in range(1, shakes) %}
+     G1 Y{position_y - 4}
+     G1 Y{position_y}
+  {% endfor %}
+
+  {% if bl.shake_accel > 0 %}
+      SET_VELOCITY_LIMIT ACCEL={printer.toolhead.max_accel} MINIMUM_CRUISE_RATIO={printer.toolhead.minimum_cruise_ratio} ; restore access and cruise_ratio
+  {% endif%}
+
+  # move out of slot
+  G1 X{bl.purge_x}
+
+  M400 # wait for current moves to finish
+  M117 (X_x)
+
+  RESTORE_GCODE_STATE NAME=shake_bucket  
 
 ##########################################################################################
 # Calculate when the bucket should be shaken. 
