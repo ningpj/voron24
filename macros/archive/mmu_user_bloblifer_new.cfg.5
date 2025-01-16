@@ -1,112 +1,59 @@
-#####################################################################################################################################                                                                        
-;                            ██████╗ ██╗      ██████╗ ██████╗ ██╗███████╗██╗███████╗██████╗
-;                            ██╔══██╗██║     ██╔═══██╗██╔══██╗██║██╔════╝██║██╔════╝██╔══██╗
-;                            ██████╔╝██║     ██║   ██║██████╔╝██║█████╗  ██║█████╗  ██████╔╝
-;                            ██╔══██╗██║     ██║   ██║██╔══██╗██║██╔══╝  ██║██╔══╝  ██╔══██╗
-;                            ██████╔╝███████╗╚██████╔╝██████╔╝██║██║     ██║███████╗██║  ██║
-;                            ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
-#####################################################################################################################################                                                                        
-
+#####################################################################################################################################                                                                                                                               
+; ██████╗ ██╗      ██████╗ ██████╗ ██╗███████╗██╗███████╗██████╗ 
+; ██╔══██╗██║     ██╔═══██╗██╔══██╗██║██╔════╝██║██╔════╝██╔══██╗
+; ██████╔╝██║     ██║   ██║██████╔╝██║█████╗  ██║█████╗  ██████╔╝
+; ██╔══██╗██║     ██║   ██║██╔══██╗██║██╔══╝  ██║██╔══╝  ██╔══██╗
+; ██████╔╝███████╗╚██████╔╝██████╔╝██║██║     ██║███████╗██║  ██║
+; ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
+#####################################################################################################################################                                                                                                                               
 [include ../mmu/addons/blobifier_hw.cfg] # Include servo hardware definition separately to allow for automatic upgrade
 
+########################################################### DISCLAIMER ##############################################################
 
-#
-# Do away with purge blocks!! Macros and configuration for the Blobifier filament purging system, waste tray and nozzle scrubber.
-#
+# Macros and configuration to be used in conjunction with the Blobifier Purge Tray, Bucket & Nozzle # Scrubber mod. Created by Dendrowen 
+# (dendrowen on Discord). The Macro is based on a version, and Nozzle Scrubber is made by Hernsl (hernsl#8860 on Discord). The device
+# is designed around a Voron V2.4 300mm, but should work for 250mm and 350mm too. This version supports installation on either side
+# depending on preference.
 
-# The project was created and led by Dendrowen (@dendrowen on Discord) and has continued to evolve through community input with
-# innovative pulsating purge mechanism to quickly purge and clear colour from the hotend with minimal filament wastage, installation
-# on left (default) and now right hand sides at the rear of your printer, coordinated use of static (bed level) and gantry mounted
-# nozzle wiping and silicon rest solutions, zigzag and straight line nozzle scrubbing motions, nozzle shaker and other QOL
-# improvements to help manage ooze and eliminate colour contamination when swapping filaments.
-#
-# The macros are designed for use on a Voron 2.4 flying gantry setup and were originally developed using a Voron v2.4 300mm printer.
-# It's now a popular (some would say mandatory) addition to any Voron v2.4 used with a MMU like ERCF, Tradrack, Angry Beaver,
-# Box Turtle, etc.
-#
-# Head on over and join the Happy Hare MMU discord community here ( https://discord.gg/DZQWJhVH)
-#
-# Special thanks to contributions from:
-#
-#  > hernsl (hernsl#8860 on Discord) for the original nozzle scrubber design
-#  > igiannakas for helping develop and champion the pulsating purge action and awesome gantry nozzle wipe and rest
-#  > ningpj for macro refinements and redesign of nozzle wipe and rest option to incorporate silicon wipers and rests
-#  > others???
-#
-# *** Important Notice ***
-# ========================
-# Portions of your bed and print area will become unusable when using Blobifier as the toolhead needs to descend to the bed to poop
-# excess filament from the system & wipe/park. It can be installed on either side of the printer - left-rear or right-rear, making
-# a small section unavailable. If you are concerned about losing too much print volume, you can minimise this by not installing the
-# static nozzle wipe/rest that extends over the purge tray. For best results however, it is recommended to use both static and
-# and gantry wipe options in combination. Use of various nozzle wipe / rest options is controlled through Blobifier settings.
-# Macros also assume Blobifier has been installed at max_y of the print area and lines up with the centre of the purge tray and
-# nozzle wiper/rest options you want to use.  It is also recommended that you mask and define exclusion zones in your slicer
-# according to the dimensions of your hotend and enabled static wipe/park options.  Adjust as necessary for your specific setup.
-#
-# Suggested exclusion zone dimensions:
-# 
-# Left-rear:
-# ===========
-#  > Blobifier only       0:max_y-35, 65:max_y-35,  65:max_y,  0:max_y                       **** need to finalise measurements ****
-#  > Blobifier, static    0:max_y-35, 130:max_y-35, 130:max_y, 0:max_y                       **** need to finalise measurements ****
-#    & Rest/wiper
-#
-# Right-rear:
-# ===========
-#  > Blobifier only       max_x-65:max_y-35,  max_x:max_y-35, max_x:max_y, max_x-65:max_y    **** need to finalise measurements ****
-#  > Blobifier & static   max_x-130:max_y-35, max_x:max_y-35, max_x:max_y, max_x-130:max_y   **** need to finalise measurements ****
-#    rest/wiper
-#
-# Move and wipe options are optimised based on Blobifiers orientation and enabled wiper/rest options. In general, moves are optimised
-# to move away from the tray and swipe through the wiper to the rest if configured. The following configurations
-# are supported:
-#
-# Combined gantry wiper:  Preferred nozzle park/rest location and final wipe when swapping filament as the gantry doesn’t need to descend. 
-# and rest (optional)     Nozzle should also be parked here when the print is paused, ends or is cancelled. Coordinated Blobifier parking
-#                         moves in Happy Hare is enabled by setting the following in mmu_macro_vars.cfg:
-#                         variable_user_park_move_macro : '_BLOBIFIER_PARK'
-#
-# Static wiper and rest:  2nd preferred option when changing filament, while paused, etc. The gantry needs to descend to the bed and
-# (optional)              will do so provided OBJECT_PROCESSING is enabled and it can safely (only in print). Wiper and/or rest options 
-#                         can be enabled separately to suit requirements e.g. rest only, wiper only, rest and wiper
-#
-# Tray:                   This is the fall back when neither wiper/rest options are installed. As per static wiper/rest, the gantry
-#                         needs to be able to descend to the bed
-#
-# Project Goals
-# =============
-# The goal is simple - speed up the purging and disposal process of purged filament for multicolored print without needing a purge block
-# or print volume to accommodate it. Blobifier achieves this by purging onto a retractable tray, creating a series of tiny blobs that
-# are held in a bucked under the bed. Depending on the size of your v2.4 Voron printer, the bucket should be able to hold up to 400+
-# filament blobs/swaps for the 300mm V2 sized tray (depending on purge requirements needed to transition between dark & light colours).
-#
-# Installation and Usage
-# ======================
-#
-# *********************************************************  DISCLAIMER  ************************************************************
-#
-# You, and you alone are responsible for the correct configuration and use of these macros and gcode. Any damage that may occur to
-# your person or printer remains your responsibility. When setting up and executing the macros for the first times, make sure you
-# observe the process and behavour closely and keep your finger on the emergency stop button!!! 
-#
-#                                        All care, no responsibility, use at own risk :-)
-#
-# *********************************************************  DISCLAIMER  ************************************************************
- 
- 
-#####################################################################################################################################                                                                                                                              
+# IMPORTANT: The rear-left, rear-right side of your bed becomes unusable by this mod because the toolhead needs to lower down to 0. 
+# Be sure not to use the left-rear 130x35mm.
+
+# The goals of this combination of devices is to dispose of purged filament during a multicolored print without the need of a purge 
+# block and without the flurries of filament poops consuming your entire 3D printer room. The Blobifier achieves that by purging onto 
+# a retractable tray which causes the filament to turn into a tiny blob rather then a large spiral. This minimises waste.
+# The bucket should hold up to 400 filament blobs / swaps for the 300mm V2 sized tray.
+
+# Blobifier uses some room at the back-left side of your printer, depending on your printer limits and positions. 
+# (usually max_pos.y - toolhead_y and brush_start + brush_width + toolhead_x). If you do place objects within this region, Blobifier
+# will skip purging automatically. It does this by extending the EXCLUDE_OBJECT_* macro's, so make sure exclude objects is enabled in 
+# your slicer.
+
+# If you are using Blobifier in conjunction with a toolhead filament cutter, you can place the pin at max_pos.y - 7 
+# (e.g., if max pos y is 307, place it at 300). The pin will then poke through the cavity in your toolhead. (Be careful whan manually 
+# moving the toolhead as I have broken many filament cutter pins!!
+
+# It is advised to use the start_gcode from Happy Hare. Then you will be able to fully and efficiently use this mod. Check the Happy
+# Hare document at gcode_preprocessing.md in the Happy Hare github for more details.
+
+########################################################### DISCLAIMER ##############################################################
+# You, and you alone, are responsible for the correct execution of these macros and gcode. Any damage that may occur to your machine 
+# remains your responsibility. Especially when executing this macro for the first few times, keep an eye on your printer and keep 
+# your finger on the emergency stop.
+########################################################### DISCLAIMER ##############################################################
+
+
+#####################################################################################################################################                                                                                                                               
 ; ██████╗ ██╗      ██████╗ ██████╗ ██╗███████╗██╗███████╗██████╗     ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
 ; ██╔══██╗██║     ██╔═══██╗██╔══██╗██║██╔════╝██║██╔════╝██╔══██╗    ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝
 ; ██████╔╝██║     ██║   ██║██████╔╝██║█████╗  ██║█████╗  ██████╔╝    ███████╗█████╗     ██║      ██║   ██║██╔██╗ ██║██║  ███╗███████╗
 ; ██╔══██╗██║     ██║   ██║██╔══██╗██║██╔══╝  ██║██╔══╝  ██╔══██╗    ╚════██║██╔══╝     ██║      ██║   ██║██║╚██╗██║██║   ██║╚════██║
 ; ██████╔╝███████╗╚██████╔╝██████╔╝██║██║     ██║███████╗██║  ██║    ███████║███████╗   ██║      ██║   ██║██║ ╚████║╚██████╔╝███████║
 ; ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝    ╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
-#####################################################################################################################################                                                                                                                              
- 
+#####################################################################################################################################                                                                                                                               
+
 # Main macro and user settings. You should only need to call this or trigger it from Happy Hare as the _MMU_POST_LOAD macro by
 # adding to MMU_MACRO_VARS.cfg e.g variable_user_post_load_extension : 'BLOBIFIER'
- 
+
 # Notes on BLOBIFIER macro parameters:
 # PURGE_LENGTH=[float] (optional) The length to purge. If omited (default) it will check
 #                      the purge_volumes matrix or variable_purge_length. This can be used
@@ -114,94 +61,94 @@
 #
 [gcode_macro BLOBIFIER] # Main macro with BLOBIFIER user parameters to define and control the falament purge process.
 # Note that the control of retraction is set in 'mmu_macro_vars.cfg' which should be adjusted if you are experience oozing.
- 
-variable_purge_spd             :  9       # Speed, in mm/sec, for purge.       # 550 mm/min
-variable_purge_temp_min        :  220     # Minimum nozzle purge temperature.
-variable_toolhead_x            :  30      # From the nozzle to the left of your toolhead
-variable_toolhead_y            :  28      # From the nozzle to the front of your toolhead
- 
-# This macro will prevent a gcode movement downward while 'blobbing' if there might be a print in the way
-# (e.g. You print something large and need the area where Blobifier does its... 'business'). However, at low heights
+
+variable_purge_spd:       9       # Speed, in mm/sec, for purge.       # 550 mm/min
+variable_purge_temp_min:  220     # Minimum nozzle purge temperature.
+variable_toolhead_x:      30      # From the nozzle to the left of your toolhead
+variable_toolhead_y:      28      # From the nozzle to the front of your toolhead
+
+# This macro will prevent a gcode movement downward while 'blobbing' if there might be a print in the way 
+# (e.g. You print something large and need the area where Blobifier does its... 'business'). However, at low heights 
 # (or at print start) this might not be desirable. You can force a 'safe descend' with this variable. Keep in mind that
 # the height of the print is an estimation based on previous heights and certain assumptions so it might be wise to
 # include a safety margin of 0.2mm
 variable_force_safe_descend_height_until: 0.2
- 
+
 # Adjust this so the nozzle scrubs within the brush. Be careful not to go too low espeially with a silicon brush!!
 # Start out with a high value (like, 6) and go down from there.
-variable_brush_top             :  1.2
- 
+variable_brush_top:       1.2
+
 # These parameters define your scrubbing, travel speeds, safe z clearance and how many
 # times you want to wipe. Update as necessary.
-variable_clearance_z           :  3        # Minimum clearance along z when traveling, but not cleaning between nozzle & brush.
-variable_wipe_qty              :  4        # Number of complete wipes on the static brush (there and back is a single wipe).
-variable_travel_spd_xy         :  600      # Travel speed when not wiping along xy in mm/sec.               # default 10000 = 166.6mm/s
-variable_travel_spd_z          :  40       # Travel speed when not wiping along z in mm/sec.                # default 1000 = 16.6mm/s
-variable_wipe_spd_xy           :  200      # Nozzle wipe speed in mm/sec along x in mm/sec.                 # default 10000 = 166.6mm/s???
-;variable_travel_spd_xy        :  100      # Travel speed when not wiping along xy in mm/sec.               # default 10000 = 166.6mm/s
-;variable_travel_spd_z         :  20       # Travel speed when not wiping along z in mm/sec.                # default 1000 = 16.6mm/s
-;variable_wipe_spd_xy          :  80       # Nozzle wipe speed in mm/sec along x in mm/sec.                 # default 10000 = 166.6mm/s???
- 
+variable_clearance_z:     3        # Minimum clearance along z when traveling, but not cleaning between nozzle & brush.
+variable_wipe_qty:        4        # Number of complete wipes on the static brush (there and back is a single wipe).
+variable_travel_spd_xy:   600      # Travel speed when not wiping along xy in mm/sec.               # default 10000 = 166.6mm/s
+variable_travel_spd_z:    40       # Travel speed when not wiping along z in mm/sec.                # default 1000 = 16.6mm/s
+variable_wipe_spd_xy:     200      # Nozzle wipe speed in mm/sec along x in mm/sec.                 # default 10000 = 166.6mm/s???
+;variable_travel_spd_xy:   100      # Travel speed when not wiping along xy in mm/sec.               # default 10000 = 166.6mm/s
+;variable_travel_spd_z:    20       # Travel speed when not wiping along z in mm/sec.                # default 1000 = 16.6mm/s
+;variable_wipe_spd_xy:     80      # Nozzle wipe speed in mm/sec along x in mm/sec.                 # default 10000 = 166.6mm/s???
+
 # The acceleration to use when parking and wiping. If set to 0, it uses the printers current acceleration. However, in some cases
 # this might be a little too unpredictable and will depend on the gcode state and last acceleration set prior to the tool change
 # which could be a little slow.
-variable_brush_accel           :  10000
- 
+variable_brush_accel:     10000
+
 # Blobifier sends the toolhead to max.y during purge / park operations and min.x / max.x depending on its orientation when shaking
-# the tray. This can cause issues when klipper skew correction is enabled. If you have and are seeing 'move out of range' errors
-# when blobifier is triggered, try adjusting and increasing this value to move a small margin away from print limits.
+# the tray. This can cause issues when klipper skew correction is enabled. If you have and are seeing 'move out of range' errors 
+# when blobifier is triggered, try adjusting and increasing this value to move a small margin away from print limits. 
 # Blobifier enforces a maximum value of 0.5mm. Start with 0.1mm and increase until you no longer get 'move out of range' errors.
-variable_skew_correction       :  0
- 
+variable_skew_correction: 0
+
 # These parameters define the size of the static brush / silicon wiper. Update as necessary. A visual reference is provided below.
-# NOTE, All X settings are expressed from the left of the printer, regardless of blobifier install orientation.
- 
+# NOTE, All X settings are expressed from the left of the printer, regardless of blobifier's install orientation.
+
 #                  ←   brush_width   →
 #                   _________________
 #                  |                 |  ↑                Y position is assumed to be stepper_y max.
 #  brush_start (x) |                 |                   Adjust the brush / wiper physical y position so the nozzle if centred.
 #                  |_________________|  ↓                If zigzag wiping is enabled, position it so the nozzle is more towards
-#                          (y)                           the back of the brush / wipe as it will zig 2mm away from max.y when
+#                          (y)                           the back of the brush / wipe as it will zig 2mm away from max.y when 
 #                      brush_front                       wiping.
 # __________________________________________________________
 #                     PRINTER FRONT
- 
+
 # Start location for the static brush / wiper. Defaults for 250, 300 and 350mm provided below.
-# Uncomment as necessary.
-#variable_brush_start          :  34       # For 250mm builds.
-variable_brush_start           :  237      # For 300mm build # 67 
-#variable_brush_start          :  84       # for 350mm build
- 
+# Uncomment as necessary. 
+#variable_brush_start:    34       # For 250mm builds.
+variable_brush_start:     237      # For 300mm build # 67  
+#variable_brush_start:    84       # for 350mm build
+
 # width of the brush
-variable_brush_width           :  35.5
- 
-# Location of tray to create purge blobs. The tray is 15mm in length, so if you assemble it against either side of the bed,
-# set it 10mm higher than min.x or max.x depending on blobifier orientation. E.g. 10 for LH, max.x - 10 for RH setups.
-variable_purge_x               :  295
- 
+variable_brush_width:     35.5
+
+# Location of tray to create purge blobs. The tray is 15mm in length, so if you assemble it against either side of the bed, 
+# set it 10mm higher than min.x or max.x depending on blobifiers orientation. E.g. 10 for LH, max.x - 10 for RH setups.
+variable_purge_x:         295
+
 # Height of the tray. If it's below your bed, set this to a negative number. If it's above the bed, set ot to a positive
-# number. Determine this by homing, performing a QGL or equivalent and manually moving the toolhead and nozzle until its
-# above the tray, and lowering the print head using a piece of paper as you would to set your z-offset.
-# NOTE - Unlike the print bed, the blobifier tray can move a little in height so need to make sure that you dont set it too
-#        low causing the tray to collide with the nozzle when its extended to help detach completed blobs.
-variable_tray_top              :  0.2
- 
+# number. Determine this by homing, performing a QGL or equivalent and manually moving the toolhead and nozzle until its 
+# above the tray, and lowering the print head using a peice of paper as you would to set your z-offset. 
+# NOTE - Unlike the print bed, the blobifier tray can move a little in heightso need to make sure that you dont set it too
+#        low so the tray collides with the nozzle when its extended to help detach completed blobs.
+variable_tray_top:        0.2
+
 # Servo angles for tray positions
-# NOTE - The angles will be reversed if you have installed blobifier on the RH side of your printer. 
-variable_tray_angle_out        :  180      # The angle when extended
-variable_tray_angle_in         :  0        # The angle when retracted
-variable_dwell_time            :  300      # The time in ms to wait for the servo to finish extending / retracting the tray. # 200 default
- 
- 
-; ██████╗ ██╗      ██████╗ ██████╗     ████████╗██╗   ██╗███╗   ██╗██╗███╗   ██╗ ██████╗
-; ██╔══██╗██║     ██╔═══██╗██╔══██╗    ╚══██╔══╝██║   ██║████╗  ██║██║████╗  ██║██╔════╝
+# NOTE - The angles will be reversed if you have installed blobifier on the RH side of your printer.  
+variable_tray_angle_out:  180      # The angle when extended
+variable_tray_angle_in:   0        # The angle when retracted
+variable_dwell_time:      300      # The time in ms to wait for the servo to finish extending / retracting the tray. # 200 default
+
+
+; ██████╗ ██╗      ██████╗ ██████╗     ████████╗██╗   ██╗███╗   ██╗██╗███╗   ██╗ ██████╗ 
+; ██╔══██╗██║     ██╔═══██╗██╔══██╗    ╚══██╔══╝██║   ██║████╗  ██║██║████╗  ██║██╔════╝ 
 ; ██████╔╝██║     ██║   ██║██████╔╝       ██║   ██║   ██║██╔██╗ ██║██║██╔██╗ ██║██║  ███╗
 ; ██╔══██╗██║     ██║   ██║██╔══██╗       ██║   ██║   ██║██║╚██╗██║██║██║╚██╗██║██║   ██║
 ; ██████╔╝███████╗╚██████╔╝██████╔╝       ██║   ╚██████╔╝██║ ╚████║██║██║ ╚████║╚██████╔╝
-; ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝        ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝
- 
-# The following section defines how the purging sequence is executed. This is where you tune the purging to create pretty blobs.
-# Refer to the visual reference for a better understanding. The visual is populated with example values. Below are some guides
+; ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝        ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
+
+# The following section defines how the purging sequence is executed. This is where you tune the purging to create pretty blobs. 
+# Refer to the visual reference for a better understanding. The visual is populated with example values. Below are some guides 
 # provided to help with tuning.
 #
 #                          \_____________/
@@ -212,14 +159,14 @@ variable_dwell_time            :  300      # The time in ms to wait for the serv
 #                              /     \          ______________  < End of second iteration.
 #                             |       \                               HEIGHT:   2 x iteration_z_raise - 1 x iteration_z_change        (2 x 5 - 1 x 1.2 = 8.8)
 #                            /         |                              EXTRUDED: 2 x max_iteration_length                              (2 x 50 = 100)
-#                           |           \       ______________  < End of first iteration.
+#                           |           \       ______________  < End of first iteration. 
 #                          /             \                            HEIGHT:   1 x iteration_z_raise                                 (1 x 5 = 5)
 #                         |               |                           EXTRUDED: 1 x max_iteration_length                              (1 x 50 = 50)
 #___________               \             /      ______________  < Start height of the nozzle. default value: 1.5mm
 #           |_______________\___________/_      ______________  < Bottom of the tray
 #           |_____________________________|
 #           |
-#
+# 
 ########################### BLOB TUNING ##############################
 # +-------------------------------------+----------------------------+
 # |  Filament sticks to the nozzle at   | Incr. purge start          |
@@ -238,55 +185,56 @@ variable_dwell_time            :  300      # The time in ms to wait for the serv
 # |         later iterations            |     (Not above 1)          |
 # +-------------------------------------+----------------------------+
 #
- 
-# The height to raise the nozzle above the tray before purging. This allows any built up
+
+# The height to raise the nozzle above the tray before purging. This allows any built up 
 # pressure to escape before the purge.
-variable_purge_start           :  0.0         # 0.2
- 
+variable_purge_start: 0.0         # 0.2
+
 # The amount to raise Z
-variable_z_raise               :  12.6 
- 
+variable_z_raise: 12.6  
+
 # As the nozzle gets higher and the blob wider, the Z raise needs to be reduced, this
-# follows the following formula:
+# follows the following formula: 
 #            (extruded_amount/max_purge_length)^z_raise_exp * z_raise
 # 1 is linear, below 1 will cause z to raise less quickly over time, above 1 will make it
 # raise quicker over time. 0.85 is a good starting point and you should not have it above 1
-variable_z_raise_exp           :  0.85
- 
-# Lift the nozzle slightly after creating the blob to release pressure on the tray.
-variable_eject_hop             :  1.0 
- 
+variable_z_raise_exp: 0.85 
+
+# Lift the nozzle slightly after creating the blob te release pressure on the tray.
+variable_eject_hop: 1.0  
+
 # Dwell time (ms) after purging and before cleaning to relieve pressure from the nozzle.
-variable_pressure_release_time : 750 #1000
- 
-# Set the part cooling fan speed. Disabling can help prevent the nozzle from cooling down
-# and stimulate flow, Enabling it can prevent blobs from sticking together. Values range
+variable_pressure_release_time: 750 #1000
+
+# Set the part cooling fan speed. Disabling can help prevent the nozzle from cooling down 
+# and stimulate flow, Enabling it can prevent blobs from sticking together. Values range 
 # from 0 .. 1, or -1 if you don't want it changed.
-#variable_part_cooling_fan     :  -1         # Leave it unchanged
-#variable_part_cooling_fan     :  0          # Disable the fan
-variable_part_cooling_fan      :  0.5        # Run it at full speed
- 
+#variable_part_cooling_fan: -1              # Leave it unchanged
+#variable_part_cooling_fan:  0              # Disable the fan
+variable_part_cooling_fan: 0.5              # Run it at full speed
+
 # ========================================================================================
 # ==================== PURGE LENGTH TUNING ===============================================
 # ========================================================================================
- 
-# The absolute minimum to purge, even if you don't changed tools. This is to prime the
+
+# The absolute minimum to purge, even if you don't changed tools. This is to prime the 
 # nozzle before printing
-variable_purge_length_minimum  :  50
- 
-# The maximum amount of filament (in mm¹) to purge in a single blob. Blobifier will
-# automatically purge multiple blobs if the purge amount exceeds this.
-variable_purge_length_maximum  :  150
- 
-# Default purge length to fall back on when neither the tool map purge_volumes or
+;variable_purge_length_minimum: 50
+variable_purge_length_minimum: 20
+
+# The maximum amount of filament (in mm¹) to purge in a single blob. Blobifier will 
+# automatically purge multiple blobs if the purge amount exeeds this.
+variable_purge_length_maximum: 150
+
+# Default purge length to fall back on when neither the tool map purge_volumes or 
 # parameter PURGE_LENGTH is set.
-;variable_purge_length         :  70
-variable_purge_length          :  20
- 
-# The slicer values often are a bit too wasteful. Tune it here to get optimal values.
+;variable_purge_length: 70
+variable_purge_length: 20
+
+# The slicer values often are a bit too wastefull. Tune it here to get optimal values. 
 # 0.6 (60%) is a good starting point.
-variable_purge_length_modifier :  0.55
- 
+variable_purge_length_modifier: 0.55
+
 # Fixed length of filament to add after the purge volume calculation. Happy Hare already
 # shares info on the extra amount of filament to purge based on known residual filament,
 # tip cutting fragment and initial retraction setting. However this setting can add a fixed
@@ -294,85 +242,98 @@ variable_purge_length_modifier :  0.55
 # slicer purge matrix first.
 # When should you alter this value:
 #   INCREASE: When the dark to light swaps are good, but light to dark aren't.
-#   DECREASE: When the light to dark swaps are good, but dark to light aren't. Don't
+#   DECREASE: When the light to dark swaps are good, but dark to light aren't. Don't 
 #     forget to increase the purge_length_modifier
-variable_purge_length_addition : 0
- 
+variable_purge_length_addition: 0
+
 # ========================================================================================
 # ==================== BUCKET ============================================================
 # ========================================================================================
- 
-variable_max_blobs             : 500         # Max # blobs in bucket. Pause if exceeded
-variable_enable_shaker         : 1           # Enable the bucket shaker
-variable_bucket_shakes         : 14          # Number of shakes to distribute blobs
-variable_shake_accel           : 10000       # Override print accels for better dispersion
- 
-# The frequency at which to shake the bucket. A decimal value ranging from 0 to 1, where 0
-# is never, and 1 is every time. This way the shaking occurs more often as the bucket
+
+# Maximum number of blobs that fit in the bucket. Pauses the print if it exceeds this 
+# number.
+variable_max_blobs: 500
+# Enable the bucket shaker. You need to have the shaker.stl installed
+variable_enable_shaker: 1
+# The number of back-and-forth motions of one shake
+variable_bucket_shakes: 14
+# During shaking acceleration can often be higher because you don't neeed to keep print 
+# quality in mind. Higher acceleration helps better with dispersing the blobs.
+variable_shake_accel: 10000
+
+# The frequency at which to shake the bucket. A decimal value ranging from 0 to 1, where 0 
+# is never, and 1 is every time. This way the shaking occurs more often as the bucket 
 # fills up. Sensible values range from 0.75 to 0.95
 variable_bucket_shake_frequency: 0.95
-variable_shaker_arm_z          : 3           # Height of the shaker arm. Increase to clear tray 
- 
-# Nozzle shaker settings - negative & positive move distance and # iterations to shake the nozzle
-# along x axis. Shaking starts from the purge position, & away and back # iterations to detach 
-# belligerent blobs with the tray is extended. A 3mm minimum clearance is enforced to avoiding 
-# hitting the blobifier shaker arm.
-# Example: 3,5,2 moves the nozzle away 3mm, back 8mm twice.
-variable_nozzle_shaker         : 5, 2, 2
-variable_tray_iterations       : 1                     # The number of times to retract and extend the blobifier tray to help detach blobs
 
-variable_static_park_x         : 238                   # park x. set to -1 if not installed to disable
-variable_static_wipe_xwhpi     : 237.5, 38, 1.2, 1, 3  # x from left, wiper width, height of wiper, wipe pattern (0: straight, 1: zigzag), iterations
-;variable_gantry_park_x        : 124                   # x, y, wiper width
-;variable_gantry_wipe_xwpi     : 127,   38, 0, 3       # x from left, wiper width, wipe pattern (0: straight, 1: zigzag), iterations
-variable_gantry_park_x         : 121.6                 # x, y, wiper width
-variable_gantry_wipe_xwpi      : 126,   42, 0, 3       # x from left, wiper width, wipe pattern (0: straight, 1: zigzag), iterations
- 
+# Height of the shaker arm. If your hotend hits your tray during shaking, increase.
+variable_shaker_arm_z: 3
+
+
+
+
+
+# to do
+# setup delayed gcode to check for settings in the new variables and to copy them across if the exist in the old
+
+# Nozzle shaker settings - negative & positive move distances and # interations to shake the nozzle along the x axis. Shaking starts from the purge
+# position, moving away then back # iterations to try to shake and deteach belligerent blobs with the tray is extended. A 3mm minimum clearance 
+# is enforced to avoiding hitting the blobifier shaker arm.
+# Example: 3,5,2 moves the nozzle away 3mm, back 8mm twice.
+variable_nozzle_shaker: 5, 2, 2
+
+variable_tray_iterations:  1                  # The number of times to retract and extend the blobifier tray to help detach blobs 
+variable_static_park_x:    238                # park x. set to -1 if not installed to disable
+variable_static_wipe_xwti: 237.5,  38,  1,  3 # x from left, wiper width, type of wipe (straight: 0 | zigzag: 1), iterations
+variable_gantry_park_x:    124                # x, y, wiper width
+variable_gantry_wipe_xwti: 127,    38,  0,  3 # x from left, wiper width, type of wipe (straight: 0 | zigzag: 1), iterations
+
+#variable_static_park_x:    -1                 # park x. set to -1 if not installed to disable
+#variable_gantry_park_x:    -1                 # x, y, wiper width
+#variable_gantry_wipe_xwti: -1,     38,  0,  3  # x from left, wiper width, type of wipe (straight: 0 | zigzag: 1), iterations
  
 # Internal Use Only, do not set
-variable_orientation           : -1              # internal set using purge.x position to optimise LH/RH move/wipe actions
-variable_macro_auth            : -1              # internal ephemeral random number to restrict access to non-interactive macros 
+variable_orientation: -1 # internal field set using purge.x position for optimising move and wipe actions for LH & RH installations
 
- 
 #{% set bl.static_park_x = bl.purge_x if bl.static_park_x <= 0 and bl.purge_x > 0 else -1 %}
-#{% if bl.static_wipe_xwhpi[0] <= 0 and bl.brush_start > 0 %}
-#   {% set bl.static_wipe_xwhpi = [bl.brush_start] %}
+#{% if bl.static_wipe_xwti[0] <= 0 and bl.brush_start > 0 %}
+#   {% set bl.static_wipe_xwti = [bl.brush_start] %}
 #{% endif %}
-#{% set bl.static_wipe_xwhpi[0]|float = bl.brush_start if bl.static_wipe_xwhpi[0] <= 0 and bl.brush_start > 0 else -1 %}
-#{% set bl.static_wipe_xwhpi[1]|float = bl.brush_width if bl.static_wipe_xwhpi[1] <= 0 and bl.brush_width > 0 else -1 %}
-#{% set bl.static_wipe_xwhpi[2]|float = 1 if bl.static_wipe_xwhpi[0] <= 0 and bl.brush_start > 0 %}
- 
- 
+#{% set bl.static_wipe_xwti[0]|float = bl.brush_start if bl.static_wipe_xwti[0] <= 0 and bl.brush_start > 0 else -1 %}
+#{% set bl.static_wipe_xwti[1]|float = bl.brush_width if bl.static_wipe_xwti[1] <= 0 and bl.brush_width > 0 else -1 %}
+#{% set bl.static_wipe_xwti[2]|float = 1 if bl.static_wipe_xwti[0] <= 0 and bl.brush_start > 0 %}
+
+
 gcode:
- 
+
   # ======================================================================================
   # ==================== RECORD STATE (INCL. FANS, SPEEDS, ETC...) =======================
   # ======================================================================================
- 
+
   # General state
   SAVE_GCODE_STATE NAME=BLOBIFIER_state
- 
+
   # ======================================================================================
   # ==================== CHECK HOMING STATUS =============================================
   # ======================================================================================
- 
+  
   {% if "xyz" not in printer.toolhead.homed_axes %}
      RESPOND MSG="BLOBIFIER: Not homed! Home xyz before blobbing"
   {% elif printer.quad_gantry_level and printer.quad_gantry_level.applied == False %}
      RESPOND MSG="BLOBIFIER: QGL not applied! run quad_gantry_level before blobbing"
   {% else %}
-   
+    
      # override set part cooling fan if required
      {% if part_cooling_fan >= 0 %}
         M106 S{part_cooling_fan * 255}
      {% endif %}
- 
+
      M220 S100 # override feedrate to 100% for purge
- 
+
      # ======================================================================================
      # ==================== DEFINE BASIC VARIABLES ==========================================
      # ======================================================================================
-   
+    
      {% set sequence_vars          = printer['gcode_macro _MMU_SEQUENCE_VARS'] %}
      {% set park_vars              = printer['gcode_macro _MMU_PARK'] %}
      {% set filament_diameter      = printer.configfile.config.extruder.filament_diameter|float %}
@@ -386,22 +347,22 @@ gcode:
      {% set restore_z              = [printer['gcode_macro BLOBIFIER_PARK'].restore_z,pos.z]|max %}
      {% set pos_max                = printer.toolhead.axis_maximum %}
      {% set position_y             = pos_max.y - skew_correction %}
-   
-     # Get purge volumes from the slicer (if set up right. see
+    
+     # Get purge volumes from the slicer (if set up right. see 
      # https://github.com/moggieuk/Happy-Hare/wiki/Gcode-Preprocessing)
      {% set pv = printer.mmu.slicer_tool_map.purge_volumes %}
-   
+    
      # ======================================================================================
      # ==================== DETERMINE PURGE LENGTH ==========================================
      # ======================================================================================
- 
+
      {% if params.PURGE_LENGTH %} # =============== PARAM PURGE LENGTH ======================
         {action_respond_info("BLOBIFIER: param PURGE_LENGTH provided")}
         {% set purge_len = params.PURGE_LENGTH|float %}
      {% elif from_tool == to_tool and to_tool >= 0 %} # ==== TOOL DIDN'T CHANGE =============
         {action_respond_info("BLOBIFIER: Tool didn't change (T%s > T%s), %s" % (from_tool, to_tool, "priming" if purge_length_minimum else "skipping"))}
         {% set purge_len = 0 %}
- 
+
      {% elif pv %} # ============== FETCH FROM HAPPY HARE (LIKELY FROM SLICER) ==============
         {% if from_tool < 0 and to_tool >= 0%}
            {action_respond_info("BLOBIFIER: from tool unknown. Finding largest value for T? > T%d" % to_tool)}
@@ -415,49 +376,49 @@ gcode:
         {% endif %}
         {% set purge_len = purge_vol / filament_cross_section %}
         {% set purge_len = purge_len + printer.mmu.extruder_filament_remaining + park_vars.retracted_length + purge_length_addition %}
- 
+
       {% else %} # ========================= USE CONFIG VARIABLE =============================
          {action_respond_info("BLOBIFIER: No toolmap or PURGE_LENGTH. Using default")}
          {% set purge_len = purge_length|float + printer.mmu.extruder_filament_remaining + park_vars.retracted_length %}
       {% endif %}
- 
+
       # ==================================== APPLY PURGE MINIMUM =============================
       {% set purge_len = [purge_len,purge_length_minimum]|max|round(0, 'ceil')|int %}
       {action_respond_info("BLOBIFIER: Purging %dmm of filament" % (purge_len))}
- 
+
       # ======================================================================================
       # ==================== PURGING SEQUENCE ================================================
       # ======================================================================================
- 
+
       G90 # absolute positioning.
       {% if purge_len|float > 0 %} # something to purge?
- 
+
          _WHEREAMI macro=BLOBIFIER_START {RAWPARAMS}
- 
+
          # ====================================================================================
          # ==================== POSITIONING ===================================================
          # ====================================================================================
          # NJ vvvvvvvv need to think about this for right hand installations...I don't use filametrix
- 
-         # Move to the assembly, first a bit more to the right (brush_start) to avoid a
+
+         # Move to the assembly, first a bit more to the right (brush_start) to avoid a 
          # potential filametrix pin if it's not already on the same Y coordinate.
          {% if printer.toolhead.position.y != position_y %}
             G1 X{brush_start} Y{position_y} F{travel_spd_xy * 60}
          {% endif %}
          # Move over to the tray
          G1 X{purge_x} F{travel_spd_xy * 60}
- 
+
          # ====================================================================================
          # ==================== BUCKET SHAKE ==================================================
          # ====================================================================================
-     
+      
          {% if enable_shaker and (safe.shake or ignore_safe) %}
            {% if (bl_count.current_blobs + 1) >= bl_count.next_shake %}
               BLOBIFIER_SHAKE_BUCKET SHAKES={bucket_shakes}
               _BLOBIFIER_CALCULATE_NEXT_SHAKE
            {% endif %}
          {% endif %}
-     
+      
          # ====================================================================================
          # ==================== POSITIONING ON TRAY ===========================================
          # ====================================================================================
@@ -465,11 +426,11 @@ gcode:
             G1 Z{tray_top + purge_start} F{travel_spd_z * 60}
             BLOBIFIER_SERVO POS=out # extend tray
          {% endif %}
- 
+
          # ====================================================================================
          # ==================== HEAT HOTEND ===================================================
          # ====================================================================================
-     
+      
          {% if printer.extruder.temperature < purge_temp_min %}
             {% if printer.extruder.target < purge_temp_min %}
                M109 S{purge_temp_min}
@@ -477,12 +438,12 @@ gcode:
                TEMPERATURE_WAIT SENSOR=extruder MINIMUM={purge_temp_min}
             {% endif %}
          {% endif %}
- 
+
          # ====================================================================================
          # ==================== START ITERATING ===============================================
          # ====================================================================================
-     
-         # Calculate total number of iterations based on the purge length and the max_iteration
+      
+         # Calculate total number of iterations based on the purge length and the max_iteration 
          # length.
          {% set blobs               = (purge_len / purge_length_maximum)|round(0, 'ceil')|int %}
          {% set purge_per_blob      = purge_len|float / blobs %}
@@ -493,19 +454,19 @@ gcode:
          {% set purge_per_pulse     = purge_per_blob / pulses_per_blob %}
          {% set pulse_time_constant = purge_per_pulse * 0.95 / (purge_spd * 60) / (purge_per_pulse * 0.95 / (purge_spd * 60) + purge_per_pulse * 0.05 / 50) %}
          {% set pulse_duration      = purge_per_pulse / (purge_spd * 60) %}
- 
+
          SET_PRESSURE_ADVANCE ADVANCE=0 # disable PA for purge
- 
+
          {% for blob in range(blobs) %} # repeat the process until purge_len is reached
             RESPOND MSG={"'BLOBIFIER: Blob %d of %d (%.1fmm)'" % (blob + 1, blobs, purge_per_blob)}
- 
+
            {% if safe.tray or ignore_safe %}
               G1 Z{tray_top + purge_start} F{travel_spd_z * 60}
            {% endif %}
- 
+
            G91 # relative positioning
            M83 # relative extrusion
- 
+
            # Purge filament in a pulsating motion to purge the filament quicker and better
            {% for pulse in range(pulses_per_blob) %}
               # Calculations to determine z-speed
@@ -514,32 +475,32 @@ gcode:
               {% set z_pos            = purge_start + ((purged_this_blob + purge_per_pulse)/purge_length_maximum)**z_raise_exp * z_raise %}
               {% set z_up             = z_pos - z_last_pos %}
               {% set speed            = z_up / pulse_duration %}
- 
+
               G1 Z{z_up * pulse_time_constant} E{purge_per_pulse * 0.95} F{speed}           # Purge quickly
               G1 Z{z_up * (1 - pulse_time_constant)} E{purge_per_pulse * 0.05} F{speed}     # Purge a tiny bit slowly
- 
+
               {% if pulse % pulses_per_retract == 0 and pulse > 0 %}                        # retract and unretract filament every now and then for thorough cleaning
                  G1 E-2 F1800
                  G1 E2 F800
               {% endif %}
            {% endfor %}
- 
+
            # Retract to match what Happy Hare is expecting
            G1 E-{park_vars.retracted_length} F{sequence_vars.retract_speed * 60}
-       
+        
            # ==================================================================================
            # ==================== DEPOSIT BLOB ================================================
            # ==================================================================================
            {% if safe.tray or ignore_safe %}
               G1 Z{eject_hop} F{travel_spd_z * 60} # Raise z a bit to relieve pressure on the blob preventing it to go sideways
               BLOBIFIER_SERVO POS=in # Retract tray
- 
+
               G4 P{pressure_release_time}
-   
+    
               # Move the toolhead down to purge_start height lowering the blob below the tray
               G90 # absolute positioning
               G1 Z{tray_top} F{travel_spd_z * 60}
- 
+
               # Extend the tray n-times to 'cut off' and detach the blob
               {% set iterations = tray_iterations if tray_iterations > 0 else 1 %} # always default to 1
               {% for operations in range(iterations - 1) %}
@@ -547,122 +508,122 @@ gcode:
                  BLOBIFIER_SERVO POS=in
               {% endfor %}
               BLOBIFIER_SERVO POS=out
- 
+
               # Optional nozzle shaker to help detach belligerent blobs
               {% set nozzle_shake_XL, nozzle_shake_XR, nozzle_shakes = nozzle_shaker|map('float') %}
               {% if nozzle_shakes|default(0)|int > 0 and nozzle_shake_XL > 0 and nozzle_shake_XR > 0 %}
                   # calc & apply move boundaries with 3mm allowance for shaker arm clearance (x positions always defined left to right)
-                 {% set nozzle_shake_start = [purge_x - nozzle_shake_XL, printer.toolhead.axis_minimum.x + 3]|max|float %}                     
-                 {% set nozzle_shake_sweep = [purge_x + nozzle_shake_XR, printer.toolhead.axis_maximum.x - 3]|min|float - nozzle_shake_start %}
+                 {% set nozzle_shake_start = [purge_x - nozzle_shake_XL, printer.toolhead.axis_minimum.x + 3]|max|float %}                      
+                 {% set nozzle_shake_sweep = [purge_x + nozzle_shake_XR, printer.toolhead.axis_maximum.x - 3]|min|float - nozzle_shake_start %} 
                  {% for shakes in range(nozzle_shakes|int) %}
                       G1 X{nozzle_shake_start + (nozzle_shake_sweep * (1 - orientation))} F{travel_spd_xy * 60}
                       G1 X{nozzle_shake_start + (nozzle_shake_sweep * orientation)} F{travel_spd_xy * 60}
                  {% endfor %}
                  G1 X{purge_x} F{travel_spd_xy * 60}
               {% endif %}
- 
+
               # Keep track of overall blobs
               _BLOBIFIER_COUNT
            {% endif %}
         {% endfor %}
- 
+
         SET_PRESSURE_ADVANCE ADVANCE={printer.extruder.pressure_advance} # restore PA
      {% endif %}
- 
+
      # Debug - where are we going to end up?
      {% if gantry_park_x > 0 %}
         M118 Park Gantry
      {% elif static_park_x > 0 %}
         M118 Park Static
      {% endif %}
- 
+
      _WHEREAMI macro=_BLOBIFIER_before_purge {RAWPARAMS}
-     M118 Orientation={orientation} Wipe Speed={wipe_spd_xy} Travel Speed={travel_spd_xy} Safe.tray={safe.tray} ignore_safe={ignore_safe} safe.brush={safe.brush}
-     M118 Macro AUTH code required: {macro_auth}
-    
+     M118 Orientation={orientation} Wipe Speed={wipe_spd_xy} Travel Speed={travel_spd_xy} Safe.tray={safe.tray} ignore_safe={ignore_safe} safe.brush={safe.brush} 
+     M118 Macro AUTH code required: {printer.save_variables.variables.mmu__revision}
+     
      # >>>>>>>>> WIPING MAINLINE >>>>>>>>>>> Starts from last blob XYZ position
- 
+
      # Static wiper with optional nozzle park?
-     {% if static_wipe_xwhpi[0]|float > 0 %}
+     {% if static_wipe_xwti[0]|float > 0 %}
         {% if safe.tray or ignore_safe %} ; descend to tray
           G1 Z{tray_top + 1} F{travel_spd_z * 60}
         {% endif %}
- 
+
         {% if safe.brush or ignore_safe %} ; safe to wipe?
            G90 # absolute positioning
-           G1 X{static_wipe_xwhpi[0]|float + (static_wipe_xwhpi[1]|float * orientation)} F{travel_spd_xy * 60} # move to the start of the wiper according to blobifier orientation before final descent
+           G1 X{static_wipe_xwti[0]|float + (static_wipe_xwti[1]|float * orientation)} F{travel_spd_xy * 60} # move to the start of the wiper according to blobifier orientation before final descent 
            G1 Z{brush_top} F{travel_spd_z * 60} # drop for wipe
-           _BLOBIFIER_WIPE_PARK PARK_X={static_park_x} WIPE_X={static_wipe_xwhpi[0]|float} WIPE_W={static_wipe_xwhpi[1]|float} WIPES={static_wipe_xwhpi[4]|int} EVEN_WIPE={1 if static_park_x > 0 else 0} ZIGZAG_WIPE={static_wipe_xwhpi[3]|int} AUTH={macro_auth}
+           _BLOBIFIER_WIPE_PARK PARK_X={static_park_x} WIPE_X={static_wipe_xwti[0]|float} WIPE_W={static_wipe_xwti[1]|float} WIPES={static_wipe_xwti[3]|int} EVEN_WIPE={1 if static_park_x > 0 else 0} ZIGZAG_WIPE={static_wipe_xwti[2]|int} AUTH={printer.save_variables.variables.mmu__revision}
         {% endif %}
      {% endif %}
- 
+
      G1 Z{restore_z} F{travel_spd_z * 60} # restore Z prior to other wiping action
- 
-     {% if gantry_park_x > 0 or gantry_wipe_xwpi[0]|float > 0 %}
-       _BLOBIFIER_WIPE_PARK PARK_X={gantry_park_x} WIPE_X={gantry_wipe_xwpi[0]|float} WIPE_W={gantry_wipe_xwpi[1]|float} WIPES={gantry_wipe_xwpi[3]|int} EVEN_WIPE={1 if orientation == 1 else 0} ZIGZAG_WIPE={gantry_wipe_xwpi[2]|int} AUTH={macro_auth}
-     {% endif %}
- 
+
+     {% if gantry_park_x > 0 or gantry_wipe_xwti[0]|float > 0 %}
+       _BLOBIFIER_WIPE_PARK PARK_X={gantry_park_x} WIPE_X={gantry_wipe_xwti[0]|float} WIPE_W={gantry_wipe_xwti[1]|float} WIPES={gantry_wipe_xwti[3]|int} EVEN_WIPE={1 if orientation == 1 else 0} ZIGZAG_WIPE={gantry_wipe_xwti[2]|int} AUTH={printer.save_variables.variables.mmu__revision}
+     {% endif %} 
+
      {% if part_cooling_fan >= 0 %} # restore part cooling fan if it was changed
         M106 S{printer.fan.speed * 255|int}
      {% endif %}
- 
+  
      M220 S{printer.gcode_move.speed_factor * 100|int} # restore feedrate
   {% endif %}
- 
-  RESTORE_GCODE_STATE NAME=BLOBIFIER_state
- 
+  
+  RESTORE_GCODE_STATE NAME=BLOBIFIER_state 
+
 ####################################################################
-[gcode_macro _BLOBIFIER_WIPE_PARK]
+[gcode_macro _BLOBIFIER_WIPE_PARK] 
 ####################################################################
- 
+
 gcode:
    {% set bl                  = printer['gcode_macro BLOBIFIER'] %}     # blobifier user settings
-   {% set auth                = params.AUTH|default(0)|int %}           # manual execution check            
-   {% set park_x              = params.PARK_X|default(-1)|float %}     
-   {% set wipe_x              = params.WIPE_X|default(-1)|float %}      
+   {% set auth                = params.AUTH|default(0)|int %}           # manual execution check             
+   {% set park_x              = params.PARK_X|default(-1)|float %}      
+   {% set wipe_x              = params.WIPE_X|default(-1)|float %}       
    {% set wipe_w              = params.WIPE_W|default(-1)|float %}
    {% set even_wipe           = params.EVEN_WIPE|default(0)|int %}      # finish at the even vs odd end to optimise moves
    {% set wipes               = params.WIPES|default(1)|int %}          # number of wipes
    {% set zigzag_wipe         = params.ZIGZAG_WIPE|default(0)|int %}    # zigzag or normal wipe action
- 
-   {% set max_y               = printer.toolhead.axis_maximum.y - bl.skew_correction|float %}     
+
+   {% set max_y               = printer.toolhead.axis_maximum.y - bl.skew_correction|float %}      
    {% set zigzag_y_sweep      = 2 %}                                    # amplitude of zig zag peak
    {% set zigzag_segs         = 5 %}                                    # number of zigs for wiper width
-                 
+         	
    _WHEREAMI macro=_BLOBIFIER_WIPER_PARK {rawparams}
    M118 Orientation={bl.orientation} Wipe Speed={bl.wipe_spd_xy} Travel Speed={bl.travel_spd_xy} Zigzag={zigzag_wipe} Even Wipe End={even_wipe}
-   M118 Macro AUTH code required: {bl.macro_auth}
- 
-   {% if auth !=  bl.macro_auth %}  # prevent certain macros from being run interactively from console
-      {action_respond_info("BLOBIFIER: You cannot run this macro from the console")}
+   M118 Macro AUTH code required: {printer.save_variables.variables.mmu__revision}
+
+   {% if auth !=  printer.save_variables.variables.mmu__revision %}  # prevent macro from being run interactively
+      {action_respond_info("BLOBIFIER: You cannot run this macro from the console")} 
    {% else %}
       {% if "xy" not in printer.toolhead.homed_axes %}
          { action_raise_error("You must home XY axis first") }
       {% else %}
- 
+
          M400
          SAVE_GCODE_STATE NAME=_BLOBIFIER_WIPER
          SET_VELOCITY_LIMIT ACCEL=10000 MINIMUM_CRUISE_RATIO=0.1 # set for warp speed!
- 
+
          G90 # absolute positioning
- 
+
          {% if printer.gcode_move.gcode_position.y != max_y %} # reposition Y & compensate for skew if needed
-            G1 Y{max_y} F{bl.travel_spd_xy * 60}
+            G1 Y{max_y} F{bl.travel_spd_xy * 60} 
          {% endif %}
- 
+
          {% if wipe_x > 0 and wipes > 0 %}
-            G1 X{wipe_x} F{bl.travel_spd_xy * 60} # move X to start of wipe                        
- 
-            {% if zigzag_wipe == 1 %} # zigzag wipe motion away from Y start position
+            G1 X{wipe_x} F{bl.travel_spd_xy * 60} # move X to start of wipe                         
+
+            {% if zigzag_wipe == 1 %} # zigzag wipe motion away from Y start position 
                G91 # relative postioning
                {% set zigzags = (wipe_w / zigzag_segs)|int %} # number of complete zigs over width of wiper
                {% for wipe in range(bl.orientation, wipes * 2 + bl.orientation + even_wipe) %} # wipe using orientation to set correct direction using range. Option to finish opposite start
                   {% set direction = -1 if wipe % 2 == 0 else 1 %} # Set direction for pass
-                            {% for zigzag in range(zigzags) %} # full zigzag sweep in desired direction, initially away from start position conditional on orientation 
-                        G1 X{wipe_w / (zigzags * 2) * direction} Y-{zigzag_y_sweep} F{bl.wipe_spd_xy * 60} # zig away
-                               G1 X{wipe_w / (zigzags * 2) * direction} Y{zigzag_y_sweep}  F{bl.wipe_spd_xy * 60} # zag back
-         {% endfor %}
-          {% endfor %}
+   		         {% for zigzag in range(zigzags) %} # full zigzag sweep in desired direction, initially away from start position conditional on orientation  
+	 		       G1 X{wipe_w / (zigzags * 2) * direction} Y-{zigzag_y_sweep} F{bl.wipe_spd_xy * 60} # zig away 
+   		            G1 X{wipe_w / (zigzags * 2) * direction} Y{zigzag_y_sweep}  F{bl.wipe_spd_xy * 60} # zag back 
+		         {% endfor %}
+	          {% endfor %}
             {% else %} # normal straight line wiping motion
                 G90 # absolute positioning - assume nothing
                 {% for wipe in range(wipes) %}
@@ -670,25 +631,25 @@ gcode:
                    G1 X{wipe_x - (wipe_w * (1 - bl.orientation))} F{bl.wipe_spd_xy * 60}
                 {% endfor %}
                 {% if even_wipe > 0 %} # finish at other end
-                   G1 X{wipe_x + (wipe_w * bl.orientation)} F{bl.wipe_spd_xy * 60}
+                   G1 X{wipe_x + (wipe_w * bl.orientation)} F{bl.wipe_spd_xy * 60} 
                 {% endif %}
             {% endif %}
-         {% endif %}        
- 
+         {% endif %}         
+
          G90 # absolute positioning
-         {% if park_x > 0 %} # park up even if only temporary
-            G1 X{park_x} Y{max_y} F{bl.travel_spd_xy * 60}
+         {% if park_x > 0 %} # park up even if only temporary 
+            G1 X{park_x} Y{max_y} F{bl.travel_spd_xy * 60} 
          {% endif %}
- 
+
          SET_VELOCITY_LIMIT ACCEL={printer.toolhead.max_accel} MINIMUM_CRUISE_RATIO={printer.toolhead.minimum_cruise_ratio}
          RESTORE_GCODE_STATE NAME=_BLOBIFIER_WIPER
       {% endif %}
    {% endif %}
-   
- 
- 
+    
+
+
 ##########################################################################################
-# Park the nozzle on the tray to prevent oozing during filament swaps. Place this
+# Park the nozzle on the tray to prevent oozing during filament swaps. Place this 
 # extension in the post_form_tip extension in mmu_macro_vars.cfg:
 #   variable_user_post_form_tip_extension: "BLOBIFIER_PARK"
 #
@@ -700,17 +661,17 @@ gcode:
   {% set safe = printer['gcode_macro _BLOBIFIER_SAFE_DESCEND'] %}
   {% set pos_max = printer.toolhead.axis_maximum %}
   {% set position_y = pos_max.y - bl.skew_correction %}
- 
+
   _WHEREAMI macro=_BLOBIFIER_WIPER_PARK {RAWPARAMS}
   M118 Orientation={bl.orientation} Wipe Speed={bl.wipe_spd_xy} Travel Speed={bl.travel_spd_xy}
- 
+  
   SET_GCODE_VARIABLE MACRO=BLOBIFIER_PARK VARIABLE=restore_z VALUE={pos.z}
- 
+
   SAVE_GCODE_STATE NAME=blobifier_park_state
- 
+  
   {% if "xyz" in printer.toolhead.homed_axes and printer.quad_gantry_level and printer.quad_gantry_level.applied %}
     G90 # absolute positioning
- 
+
     G1 X{bl.brush_start} Y{position_y} F{bl.travel_spd_xy * 60}
     G1 X{bl.purge_x}
     {% if safe.tray or ignore_safe %}
@@ -719,10 +680,10 @@ gcode:
   {% else %}
     RESPOND MSG="Please home (and QGL) before parking"
   {% endif %}
- 
- 
+
+
 ##########################################################################################
-# Retract or extend the tray
+# Retract or extend the tray 
 # POS=[in|out] Retractor extend the tray
 #
 [gcode_macro BLOBIFIER_SERVO]
@@ -739,7 +700,7 @@ gcode:
     {action_respond_info("BLOBIFIER: provide POS=[in|out]")}
   {% endif %}
   SET_SERVO SERVO=blobifier WIDTH=0
- 
+
 ##########################################################################################
 # Define exclude objects for those who haven't already
 #
@@ -757,19 +718,19 @@ gcode:
   _EXCLUDE_OBJECT_DEFINE {rawparams}
   _BLOBIFIER_SAFE_DESCEND
   UPDATE_DELAYED_GCODE ID=BLOBIFIER_SHOW_SAFE_DESCEND DURATION=1
- 
+  
 [delayed_gcode BLOBIFIER_SHOW_SAFE_DESCEND]
 gcode:
   {% set safe = printer['gcode_macro _BLOBIFIER_SAFE_DESCEND'] %}
   {action_respond_info(
-    "BLOBIIER: Safe descend possible:\n - tray:  %s\n - wipe: %s\n - shake: %s" %
+    "BLOBIIER: Safe descend possible:\n - tray:  %s\n - wipe: %s\n - shake: %s" % 
     (
       "yes" if safe.tray else "no",
       "yes" if safe.brush else "no",
       "yes" if safe.shake else "no"
     )
   )}
- 
+
 ##########################################################################################
 # Use the EXCLUDE_OBJECT_START gcode macro to record the current height
 #
@@ -790,7 +751,7 @@ gcode:
       SET_GCODE_VARIABLE MACRO=_BLOBIFIER_SAFE_DESCEND VARIABLE=print_height VALUE={print_height}
     {% endif %}
   {% endif %}
- 
+
 ##########################################################################################
 # Reset the safe descend variables.
 #
@@ -802,7 +763,7 @@ gcode:
   SET_GCODE_VARIABLE MACRO=_BLOBIFIER_SAFE_DESCEND VARIABLE=first_layer VALUE=True
   SET_GCODE_VARIABLE MACRO=_BLOBIFIER_SAFE_DESCEND VARIABLE=print_height VALUE=0
   SET_GCODE_VARIABLE MACRO=_BLOBIFIER_SAFE_DESCEND VARIABLE=print_previous_height VALUE=0
- 
+
 ##########################################################################################
 # Determine if it is safe to drop the toolhead (e.g. not hit a print)
 #
@@ -822,7 +783,7 @@ gcode:
   {% set brush = [bl.brush_start + bl.brush_width + bl.toolhead_x, position_y - bl.toolhead_y] %}
   {% set shake = [bl.purge_x + bl.toolhead_x, position_y - bl.toolhead_y - 4] %}
   {% set objects = printer.exclude_object.objects | map(attribute='polygon') %}
- 
+
   {% for polygon in objects %}
     {% for point in polygon %}
       {% if point[0] < tray[0] and point[1] > tray[1] %}
@@ -836,9 +797,9 @@ gcode:
       {% endif %}
     {% endfor %}
   {% endfor %}
- 
+
 ##########################################################################################
-# Increment the blob count with 1 and check if the bucket is full. Pause
+# Increment the blob count with 1 and check if the bucket is full. Pause 
 # the printer if it is.
 #
 [gcode_macro _BLOBIFIER_COUNT]
@@ -857,11 +818,11 @@ gcode:
     SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=current_blobs VALUE={current_blobs + 1}
     _BLOBIFIER_SAVE_STATE
     {action_respond_info(
-      "BLOBIFIER: Blobs in bucket: %s/%s. Next shake @ %s"
+      "BLOBIFIER: Blobs in bucket: %s/%s. Next shake @ %s" 
       % (current_blobs + 1, bl.max_blobs, next_shake)
     )}
   {% endif %}
- 
+
 ##########################################################################################
 # Reset the blob count to 0
 #
@@ -870,9 +831,9 @@ gcode:
   SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=current_blobs VALUE=0
   SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=last_shake VALUE=0
   _BLOBIFIER_SAVE_STATE
- 
+  
   _BLOBIFIER_CALCULATE_NEXT_SHAKE
- 
+
 ##########################################################################################
 # Shake the blob bucket to disperse the blobs
 #
@@ -882,67 +843,67 @@ gcode:
   {% set bl = printer['gcode_macro BLOBIFIER'] %}
   {% set count = printer['gcode_macro _BLOBIFIER_COUNT'] %}
   {% set position_x = (printer.toolhead.axis_minimum.x + bl.skew_correction if bl.orientation == 0 else printer.toolhead.axis_maximum.x - bl.skew_correction|float) %}
- 
+
   {% if "xyz" not in printer.toolhead.homed_axes %}
     {action_raise_error("BLOBIFIER: Not homed. Home xyz first")}
   {% else %}
- 
+  
       SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=last_shake VALUE={count.current_blobs}
       _BLOBIFIER_SAVE_STATE
       SAVE_GCODE_STATE NAME=shake_bucket
- 
+  
       M400 # wait for current moves to finish
       M117 (^_^)
- 
+
       G90 # absolute positioning
       {% set shakes = params.SHAKES|default(10)|int %}
       {% set position_y = printer.toolhead.axis_maximum.y - bl.skew_correction|float %}
-         
+          
       {% if printer.toolhead.position.y != position_y %} # move to save y if not already there
         G1 X{bl.brush_start} Y{position_y} F{bl.travel_spd_xy * 60}
       {% endif %}
- 
+
       G1 Z{bl.shaker_arm_z} F{bl.travel_spd_z * 60} # hop up to engage shaker and to prevent oozing on tray
       G1 X{position_x} F{bl.travel_spd_xy * 60} # move and engage shaker
- 
+
       M400 # wait for current moves to finish
       M117 (+(+_+)+)
- 
+
       {% if bl.shake_accel > 0 %} # override accels if need be
           SET_VELOCITY_LIMIT ACCEL={bl.shake_accel} MINIMUM_CRUISE_RATIO=0.1
       {% endif %}
- 
+  
       {% for shake in range(1, shakes) %} # shake it baby! (Move away from max.y)
          G1 Y{position_y - 4}
          G1 Y{position_y}
       {% endfor %}
- 
+
       {% if bl.shake_accel > 0 %} # restore access and cruise_ratio if changed
-          SET_VELOCITY_LIMIT ACCEL={printer.toolhead.max_accel} MINIMUM_CRUISE_RATIO={printer.toolhead.minimum_cruise_ratio}
+          SET_VELOCITY_LIMIT ACCEL={printer.toolhead.max_accel} MINIMUM_CRUISE_RATIO={printer.toolhead.minimum_cruise_ratio} 
       {% endif%}
- 
+
       G1 X{bl.purge_x} # move away from shaker and back to purge spot
- 
+
       M400 # wait for current moves to finish
       M117 (X_x)
- 
-      RESTORE_GCODE_STATE NAME=shake_bucket 
+
+      RESTORE_GCODE_STATE NAME=shake_bucket  
   {% endif %}
- 
- 
+
+
 ##########################################################################################
-# Calculate when the bucket should be shaken.
+# Calculate when the bucket should be shaken. 
 #
 [gcode_macro _BLOBIFIER_CALCULATE_NEXT_SHAKE]
 gcode:
   {% set bl = printer['gcode_macro BLOBIFIER'] %}
   {% set count = printer['gcode_macro _BLOBIFIER_COUNT'] %}
- 
+
   {% set remaining_blobs = bl.max_blobs - count.last_shake %}
   {% set next_shake = (1 - bl.bucket_shake_frequency) * remaining_blobs + count.last_shake %}
   _BLOBIFIER_SAVE_STATE
   _BLOBIFIER_SET_NEXT_SHAKE VALUE={next_shake|int}
- 
+
 ##########################################################################################
 # Set when the bucket should be shaken next
 # VALUE=[int] At what amount of blobs should it be shaken
@@ -956,7 +917,7 @@ gcode:
   {% else %}
     {action_respond_info("BLOBIFIER: Provide parameter VALUE=")}
   {% endif %}
- 
+
 ##########################################################################################
 # Some sanity checks
 #
@@ -965,71 +926,70 @@ initial_duration: 3.0
 gcode:
   _BLOBIFIER_INIT
   BLOBIFIER_SERVO POS=out
-  SET_GCODE_VARIABLE MACRO=BLOBIFIER VARIABLE=macro_auth VALUE={(range(32768)|random)}
- 
+
 [gcode_macro _BLOBIFIER_INIT]
 gcode:
   {% set bl = printer['gcode_macro BLOBIFIER'] %}
- 
+
   # Valid part cooling fan setting
   {% if bl.part_cooling_fan != -1 and (bl.part_cooling_fan < 0 or bl.part_cooling_fan > 1) %}
     {action_emergency_stop("BLOBIFIER: Value %f is invalid for variable part_cooling_fan. Either -1 or a value from 0 .. 1 is valid." % (bl.part_cooling_fan))}
   {% endif %}
- 
+
   # Valid bucket shake frequency
   {% if bl.bucket_shake_frequency < 0 or bl.bucket_shake_frequency > 1 %}
     {action_emergency_stop("BLOBIFIER: Value %f is invalid for variable bucket_shake_frequency. Change it to a value between 0 .. 1" % (bl.bucket_shake_frequency))}
-  {% endif %} 
- 
+  {% endif %}  
+
   # Check if position is on 'next'
   {% if printer.mmu %}
     {% if printer['gcode_macro _MMU_SEQUENCE_VARS'].restore_xy_pos != 'next' %}
       {action_respond_info("BLOBIFIER: If not using a wipe tower, consider setting restore_xy_pos: 'next' in mmu_macro_vars.cfg")}
     {% endif %}
   {% endif %}
- 
+
   # Check the z_raise variable for normal values
   {% if bl.z_raise < 3 %}
     {action_respond_info("BLOBIFIER: variable_z_raise: %f is very low. This is the value z raises in total on a single blob. Make sure the value is correct before continuing." % (bl.z_raise))}
   {% endif %}
- 
+
   # Z raise exponent
   {% if bl.z_raise_exp > 1 or bl.z_raise_exp < 0.5 %}
     {action_respond_info("BLOBIFIER: variable_z_raise_exp has value: %f. This value is out of spec (0.5 ... 1.0)." % (bl.z_raise))}
   {% endif %}
- 
-  # automatically set orientation for managing and optimising moves for LH and RH configurations. Based on purge_x within 5% of min or max x
+
+  # automatically set orientation for managing and optimising moves for LH and RH configurations. Based on purge_x within 5% of min or max x 
   {% set orientation = 1 if bl.purge_x >= printer.toolhead.axis_maximum.x * 0.95 else 0 %}
   SET_GCODE_VARIABLE MACRO=BLOBIFIER VARIABLE=orientation VALUE={orientation}
- 
-  # cap skew_correction at 0.5 to minimise possible collisions (bed, endstop, etc) if the blobifier tray is below bed height
+
+  # cap skew_correction at 0.5 to minimise possible collisions (bed, endstop, etc) if the blobifier tray is below bed height 
   {% if bl.skew_correction > 0.5 %}
      {action_respond_info("BLOBIFIER: variable_skew_correction has value: %f. This value is out of spec (0 ... 0.5)." % (bl.skew_correction))}
      SET_GCODE_VARIABLE MACRO=BLOBIFIER VARIABLE=skew_correction VALUE=0.5
   {% endif %}
- 
+
 [delayed_gcode BLOBIFIER_LOAD_STATE]
 initial_duration: 2.0 # Give it some time to boot up
 gcode:
   {% set sv = printer.save_variables.variables.blobifier %}
- 
+
   {% if sv %}
     # Restore state
     SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=last_shake VALUE={sv.last_shake}
     SET_GCODE_VARIABLE MACRO=_BLOBIFIER_COUNT VARIABLE=current_blobs VALUE={sv.current_blobs}
   {% endif %}
   _BLOBIFIER_CALCULATE_NEXT_SHAKE
- 
+
 [gcode_macro _BLOBIFIER_SAVE_STATE]
 gcode:
   {% set count = printer['gcode_macro _BLOBIFIER_COUNT'] %}
   {% set sv = {'current_blobs': count.current_blobs, 'last_shake': count.last_shake} %}
   SAVE_VARIABLE VARIABLE=blobifier VALUE="{sv}"
- 
+
 ###################################################################
 [gcode_macro _WHEREAMI]
 ###################################################################
- 
+
 gcode:
   {% set macro = params.MACRO|default('Unknown Macro')|string %}
   M118 >>> You are here...{macro}
@@ -1038,65 +998,65 @@ gcode:
   {% set escaped_msg = rawparams.split(';', 1)[0].split('\x23', 1)[0]|replace('"', '\\"') %}
   SET_DISPLAY_TEXT MSG="{escaped_msg}"
   RESPOND TYPE=command MSG="{escaped_msg}"
- 
+
 ###################################################################
 [gcode_macro MMU_PARK]
 ###################################################################
- 
+
 gcode:
   _MMU_PARK force_park=1
- 
- 
+
+
 ###################################################################
 [gcode_macro _MMU_USER_GANTRY_PARK]
 ####################################################################
- 
+
 gcode:
     {% set bl = printer['gcode_macro BLOBIFIER'] %}
     {% set tc = printer['gcode_macro _MMU_CUT_TIP_VARS'] %}
- 
+
     {% if "xy" not in printer.toolhead.homed_axes %}
        { action_raise_error("You must home XY axis first") }
     {% else %}
        M400
        SAVE_GCODE_STATE NAME=_MMU_USER_PARK
- 
+
        _WHEREAMI macro=_MMU_USER_GANTRY_WIPE {rawparams}
- 
- 
+
+
        ; *** TODO *** check if we are already parked & bypass (need location from config)
-      
+       
        {% if bl.gantry_park_x > 0 %}
           {% set park_x = bl.gantry_park_x %}
-          {% set wipe_x, wipe_w, wipe_type, wipes = bl.gantry_wipe_xwpi|map('float') %}
+          {% set wipe_x, wipe_w, wipe_type, wipes = bl.gantry_wipe_xwti|map('float') %}
           M118 Park Gantry possible
        {% elif bl.static_park_x > 0 %}
           {% set park_x = bl.static_park_x %}
-          {% set wipe_x, wipe_w, wipe_height, wipe_pattern, wipes = bl.static_wipe_xwhpi|map('float') %}
+          {% set wipe_x, wipe_w, wipe_type, wipes = bl.static_wipe_xwti|map('float') %}
           M118 Park Static possible
        {% else %}
           {% set park_x = bl.purge_x %}
           {% set wipe_x, wipe_w = [0,0] %}
           M118 Park Tray fall back
        {% endif %}
- 
+
        {% set wipe_y = printer.toolhead.axis_maximum.y + bl.skew_correction %}
        {% set park_y = printer.toolhead.axis_maximum.y + bl.skew_correction %}
- 
+
        M118 Park {park_x},{park_y}
        M118 Wipe {wipe_x},{wipe_y} width {wipe_w}
- 
+
        ; if not already parked, park
        {% if park_x != printer.gcode_move.gcode_position.x or printer.gcode_move.gcode_position.y < park_y + bl.skew_correction %} ;
           SAVE_GCODE_STATE NAME=_MMU_USER_PARK
           SET_VELOCITY_LIMIT ACCEL=10000 MINIMUM_CRUISE_RATIO=0.1 ; go fast!
-         
-          G90 ; absolute positioning
- 
+          
+          G90 ; absolute positioning 
+
           {% if printer.gcode_move.gcode_position.z < 3 %} ; need to work out how to call directly - e.g mmu_park Vs directly so I dont double up z-hops down low
             G1 Z3 F{bl.travel_spd_z * 60} ; min z_hop floor
-          {% endif %}
- 
+          {% endif %} 
+
           ; safety move inboard if needed to avoid filametrix depressor pin if tip cut enabled and over print area
           {% if printer['gcode_macro _MMU_CUT_TIP_VARS'] is defined and printer.configfile.config.mmu.form_tip_macro == '_MMU_CUT_TIP' and
                 printer.gcode_move.gcode_position.y < printer.toolhead.axis_maximum.y - 15 %}
@@ -1104,32 +1064,32 @@ gcode:
              {% if printer.gcode_move.gcode_position.x < depressor_safe_x %}
                 G1 X{depressor_safe_x} F{bl.travel_spd_xy * 60}
              {% endif %}
-          {% endif %}
+          {% endif %} 
  
           {% if printer.gcode_move.gcode_position.x >= 105 and printer.gcode_move.gcode_position.x <= 182 and printer.gcode_move.gcode_position.y > 264 %}
             G1 X176 F{bl.travel_spd_xy * 60}             ; move from behind wiper
           {% endif %}
- 
+
           {% if printer.gcode_move.gcode_position.y > 302 %}
             G1 Y302 F{bl.travel_spd_xy * 60}             ; move forward
           {% endif %}
- 
+
           {% if wipe_x > 0 %} ; if wiper fitted, park moving through wiper to knock off blob / ooze
              G1 X{wipe_x + (wipe_w * bl.orientation)} Y{wipe_y - 5} F{bl.travel_spd_xy * 60} ; position just in front of start of wiper
              G1 Y{wipe_y} F{bl.travel_spd_xy * 60} ; line up with wiper
           {% else %}
              G1 X{park_x} Y{park_y} F{bl.travel_spd_xy * 60} ; position to rest
           {% endif %}
- 
-          # Do we need to descend to static wiper?
+
+          # Do we need to descend to static wiper? 
           {% set safe = printer['gcode_macro _BLOBIFIER_SAFE_DESCEND'] %}
           {% if bl.gantry_park_x != park_x and safe.tray or ignore_safe %} ; descend to wipe
              {% set park_z = bl.tray_top if park_x == bl.purge_x else bl.brush_top %}
              G1 Z{park_z} F{bl.travel_spd_z * 60}
           {% endif %}
- 
+
           G1 X{park_x} Y{park_y} F{bl.travel_spd_xy * 60} ; park position
- 
+
           SET_VELOCITY_LIMIT ACCEL={printer.toolhead.max_accel} MINIMUM_CRUISE_RATIO={printer.toolhead.minimum_cruise_ratio}
           RESTORE_GCODE_STATE NAME=_MMU_USER_PARK
        {% endif %}
