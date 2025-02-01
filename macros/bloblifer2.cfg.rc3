@@ -670,15 +670,15 @@ gcode:
    # =========================  PRIORTISE PARKING SPOT  ==============================
  
    {% if g2g %}  # good to go ?
-      {% set wipe_x, wipe_w, wipe_h, wipe_pattern, wipes = [0,0,0,0,0] %}
       {% if bl.gantry_park > 0 and not purging %}
          {% set park_x = bl.gantry_park %}
          {% set wipe_x, wipe_w, wipe_pattern, wipes = bl.gantry_wiper|map('float') %}
       {% elif bl.static_park[0] > 0 and not purging %}
          {% set park_x = bl.static_park[0] %}
-         {% set wipe_x, wipe_w, wipe_h, wipe_pattern, wipes = bl.static_wiper|map('float') %}
+         {% set wipe_x, wipe_w, wipe_height, wipe_pattern, wipes = bl.static_wiper|map('float') %}
       {% else %}  # tray it is
          {% set park_x = bl.purge_x %}
+         {% set wipe_x, wipe_w, wipe_h = [0,0,0] %}
          BLOBIFIER_SERVO POS=out  # make sure tray is extended
       {% endif %}
  
@@ -694,8 +694,8 @@ gcode:
             SET_VELOCITY_LIMIT ACCEL={bl.wipe_accel} MINIMUM_CRUISE_RATIO=0.1  # set for warp speed!
          {% endif %}
  
-         {% if printer.gcode_move.gcode_position.z < [bl.clearance_z, bl.tray_top + 0.4, (wipe_h + 2.0 if wipe_x > 0 else 0)]|max %}  # safety z-hop to minimum clearance height before XY moves. 
-            G1 Z{[bl.clearance_z, bl.tray_top + 0.4, (wipe_h + 2.0 if wipe_x > 0 else 0)]|max} F{bl.travel_spd_z * 60}  # min z_hop floor
+         {% if printer.gcode_move.gcode_position.z < [bl.clearance_z, bl.tray_top + 0.4]|max %}  # safety z-hop to minimum height before XY moves
+            G1 Z{[bl.clearance_z, bl.tray_top + 0.4]|max} F{bl.travel_spd_z * 60}  # min z_hop floor
          {% endif %}
  
          # =========================  AVOID FILAMETRIX PIN  =============================
@@ -732,7 +732,7 @@ gcode:
             {% endif %}
             
             {% if wipe_x > 0 and wipe_w > 0 %}  # static wiper
-               G1 Z{wipe_h} F{bl.travel_spd_z * 60}  # align with wiper level
+               G1 Z{bl.static_wiper[2]} F{bl.travel_spd_z * 60}  # align with wiper level
                G1 X{wipe_x + (wipe_w if park_x < wipe_x else 0)} F{bl.travel_spd_xy * 60}  # wipe through to end of wiper
             {% endif %}
  
@@ -1019,9 +1019,8 @@ gcode:
   # automatically set orientation to optimise moves for LH and RH setups. If purge_x within 10% of max_x its RH else LH. Note set here rather than _blobifier_init in case it doesn't get set due to "soft" jinga2 data mapping errors 
   {% set orientation = 1 if printer['gcode_macro BLOBIFIER'].purge_x >= printer.toolhead.axis_maximum.x * 0.90 else 0 %}
   SET_GCODE_VARIABLE MACRO=BLOBIFIER VARIABLE=orientation VALUE={orientation}
-  SET_GCODE_VARIABLE MACRO=BLOBIFIER VARIABLE=macro_auth VALUE={(range(32768)|random)} # simple ephemeral auth check value to prevent users from executing certain macros from the command-line
  
-  ;_BLOBIFIER_INIT
+  _BLOBIFIER_INIT
   BLOBIFIER_SERVO POS=out 
   
 [gcode_macro _BLOBIFIER_INIT]
@@ -1031,7 +1030,8 @@ gcode:
   # ===========================  VALIDATE KEY USER SETTINGS  ==============================
  
   {% set bl = printer['gcode_macro BLOBIFIER'] %}
-  
+  SET_GCODE_VARIABLE MACRO=BLOBIFIER VARIABLE=macro_auth VALUE={(range(32768)|random)} # simple ephemeral auth check value to prevent users from executing certain macros from the command-line
+ 
   {% if bl.part_cooling_fan != -1 and (bl.part_cooling_fan < 0 or bl.part_cooling_fan > 1) %}  # valid part cooling fan setting
      {action_emergency_stop("BLOBIFIER: Value %f is invalid for part_cooling_fan. Either -1 or a value from 0 .. 1 is valid." % (bl.part_cooling_fan))}
   {% endif %}
@@ -1054,10 +1054,10 @@ gcode:
      {action_respond_info("BLOBIFIER: z_raise_exp has value: %f. This value is out of spec (0.5 ... 1.0)." % (bl.z_raise))}
   {% endif %}
  
-;  {% if (orientation == 0 and bl.purge_x > 15) or (orientation == 1 and printer.toolhead.axis_maximum.x - bl.purge_x > 15) %}  # Valid purge_x position <= 15mm from outer edges of the print area
-     ;{action_emergency_stop("BLOBIFIER: purge_x needs to be within 15mm of print area. Its set to %2.2fmm (%2.2fmm in from the edge)." % (bl.purge_x, bl.purge_x if orientation == 0 else printer.toolhead.axis_maximum.x - bl.purge_x))}
-;     {action_respond_info("BLOBIFIER: purge_x needs to be within 15mm of print area. Its set to %2.2fmm (%2.2fmm in from the edge)." % (bl.purge_x, bl.purge_x if orientation == 0 else printer.toolhead.axis_maximum.x - bl.purge_x))}
-;  {% endif %}
+  
+  {% if (orientation == 0 and bl.purge_x > 15) or (orientation == 1 and printer.toolhead.axis_maximum.x - bl.purge_x > 15) %}  # Valid purge_x position <= 15mm from outer edges of the print area
+     {action_emergency_stop("BLOBIFIER: purge_x needs to be within 15mm of print area. Its set to %2.2fmm (%2.2fmm in from the edge)." % (bl.purge_x, bl.purge_x if orientation == 0 else printer.toolhead.axis_maximum.x - bl.purge_x))}
+  {% endif %}
   
   # cap skew_correction at 1.0mm to minimise possible collisions (bed, endstop, etc) if the Blobifier tray is below bed height
   {% if bl.skew_correction < 0 and bl.skew_correction > 1.0 %}
