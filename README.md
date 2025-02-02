@@ -34,12 +34,13 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 |Bed Thermister|MCU:PC3
 |Print Head Neopixels|MCU:PD3
 |Nevermore|MCU:PB7 (LED-B 24V)
+|Blobifier tray/bucket|MCU:PB13
+|Blobifier servo|MCU:PA3
+
 |**Spare Pins (Spider 1.1)**|
 |FAN0|MCU:PB0
 |FAN1|MCU:PB1
 |End Stop|MCU:PA1
-|Probe|MCU:PA3
-|Limit Switch/End stop|MCU:PB13
 |Limit Switch/End stop|MCU:PB14
 |Thermister|MCU:PC0
 |Thermister|MCU:PC2
