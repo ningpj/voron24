@@ -44,7 +44,7 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 |Limit Switch/End stop|MCU:PB14
 |Thermister|MCU:PC0
 |Thermister|MCU:PC2
-|12864 Beeeper|MCU:PC9
+|12864 Beeper|MCU:PC9
 
 
 ## Slicer (Orca)
