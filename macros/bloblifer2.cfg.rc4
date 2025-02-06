@@ -716,7 +716,6 @@ gcode:
  
       G90 # absolute positioning.
       {% if park_x != printer.gcode_move.gcode_position.x or printer.gcode_move.gcode_position.y < y_pos %}  # if not already parked up, park
-         M118 1 {park_x} != {printer.gcode_move.gcode_position.x} or {printer.gcode_move.gcode_position.y} < {y_pos} %}
          M400
          SET_GCODE_VARIABLE MACRO=BLOBIFIER_PARK VARIABLE=restore_z VALUE={printer.gcode_move.gcode_position.z}
          SAVE_GCODE_STATE NAME=blobifier_park_state
@@ -745,13 +744,11 @@ gcode:
          # ===============  POSITION AND MOVE THROUGH WIPER TO PARK  ====================
  
          {% if wipe_x > 0 and wipe_w > 0 %}  # if wiper specified, we want to position ourselves so we can park swiping through it to maximise the cleaning opportunity 
-             M118 2 if ({park_x} < {wipe_x} and {printer.gcode_move.gcode_position.x} < {wipe_x + wipe_w} or {park_x} > {wipe_x} and {printer.gcode_move.gcode_position.x} > {wipe_x} ) %} 
             {% if (park_x < wipe_x and printer.gcode_move.gcode_position.x < wipe_x + wipe_w or park_x > wipe_x and printer.gcode_move.gcode_position.x > wipe_x ) %}  # if coming from the wrong side, position just in front of wiper 
                G1 X{wipe_x + (wipe_w if park_x < wipe_x else 0)} Y{y_pos - 5} F{bl.travel_spd_xy * 60}  
             {% endif %}
             G1 Y{y_pos} F{bl.travel_spd_xy * 60}  # line up with wiper centre
          {% else %}
-            M118 4 G1 X{park_x} Y{y_pos} F{bl.travel_spd_xy * 60}  # else move straight to designated xy parking spot
             G1 X{park_x} Y{y_pos} F{bl.travel_spd_xy * 60}  # else move straight to designated xy parking spot
          {% endif %}
  
@@ -773,7 +770,6 @@ gcode:
             G1 Z{z_pos} F{bl.travel_spd_z * 60}
          {% endif %}
  
-         M118 3 G1 X{park_x} Y{y_pos}
          G1 X{park_x} Y{y_pos} F{bl.travel_spd_xy * 60}  # finalise parking move
  
          {% if bl.wipe_accel > 0 %}  # restore accels if changed
@@ -788,45 +784,34 @@ gcode:
 [gcode_macro _BLOBIFIER_RESTORE_POSITION]  # restore position and maneuver around obsticales 
 ############################################################################################
  
-
+#
 gcode:
   {% set bl    = printer['gcode_macro BLOBIFIER'] %}
   {% set avoid = True %}
 
-  ;BLOBIFIER_RESTORE_Z AUTH={bl.macro_auth}  # safety first
+  _BLOBIFIER_RESTORE_Z AUTH={bl.macro_auth}  # safety first
 
-  ;M118 _BLOBIFIER_RESTORE_POSITION: {rawparams}
-  ;M118 Current xy: {printer.gcode_move.gcode_position.x}/{printer.gcode_move.gcode_position.y} max_y:{printer.toolhead.axis_maximum.y}
-  ;M118 Gantry: {bl.gantry_park} {bl.gantry_wiper}
+  M118 _BLOBIFIER_RESTORE_POSITION: {rawparams}
+  M118 Current xy: {printer.gcode_move.gcode_position.x}/{printer.gcode_move.gcode_position.y} max_y:{printer.toolhead.axis_maximum.y}
+  M118 Gantry: {bl.gantry_park}
 
+  {% set safe_margin = 5 %}
+  {% set x = [bl.gantry_park - bl.toolhead_x - safe_margin, bl.gantry_wiper[0] - bl.toolhead_x - safe_margin]|select("greaterthan",0)|min if bl.orientation == 1 else [bl.gantry_park + bl.toolhead_x + safe_margin, bl.gantry_wiper[0] + bl.toolhead_x + safe_margin]|select("greaterthan",0)|max %}
 
   {% if avoid and printer.gcode_move.gcode_position.y == printer.toolhead.axis_maximum.y + bl.skew_correction %}
-     ;printer.toolhead.axis_minimum.x
-     {% set gantry_x1 = [bl.gantry_park, bl.gantry_wiper[0]]|select("greaterthan",0)|min %}
-     {% set gantry_x2 = [bl.gantry_park, bl.gantry_wiper[0] + bl.gantry_wiper[1]]|select("greaterthan",0)|max %}
-     ;M118 gantry_x1:{gantry_x1} gantry_x2:{gantry_x2}
-
-     {% if printer.gcode_move.gcode_position.x >= gantry_x1|float and printer.gcode_move.gcode_position.x <= gantry_x2|float %}
-        ;M118 On gantry, may need to maneuver
-
-        {% set left  = printer.gcode_move.gcode_position.x - gantry_x1 + bl.toolhead_x %}
-        {% set right = gantry_x2 - printer.gcode_move.gcode_position.x + bl.toolhead_x %}
-        ;M118 {left} < {right} right test:{printer.toolhead.axis_maximum.x - gantry_x2 - bl.toolhead_x}
-
-        G91 # relative positioning.
-
-        {% if (left|float < right|float and gantry_x1 - bl.toolhead_x >= 40) or printer.toolhead.axis_maximum.x - gantry_x2 - bl.toolhead_x <= 40 %} ; move left if nearest and clearance or if theres no clearence to the right
-           G1 X-{left} F{bl.travel_spd_xy * 60}  # move left
-        {% else %}
-           G1 X{right} F{bl.travel_spd_xy * 60}  # move right
-        {% endif %}
-
-        G1 Y-{bl.toolhead_y + 20} F{bl.travel_spd_xy * 60}  # move foward
-
+     G91 # relative positioning.
+     {% if bl.gantry_park > 0 and bl.gantry_park == printer.gcode_move.gcode_position.x %}  # parked up on gantry 
+        M118 Parked on gantry and will need to maneuver
+        G1 X{(bl.toolhead_x + 5) * -1 if bl.gantry_wiper[0] > bl.gantry_park else bl.toolhead_x + 5} F{bl.travel_spd_xy * 60}  # move to short side away from wiper if defined
+        G1 Y-{bl.toolhead_y + 15} F{bl.travel_spd_xy * 60}  # move foward
         G4 P4000
-        G90 # absolute positioning.
+     {% elif bl.static_park[0] > 0 and bl.static_park[0] == printer.gcode_move.gcode_position.x %}
+        M118 Parked on static and may need to maneuver
+        ;G1 X{(bl.toolhead_x + 5) * (-1 if bl.orientation == 1 else 1)} F{bl.travel_spd_xy * 60}
+        ;G1 Y-{bl.toolhead_y + 15} F{bl.travel_spd_xy * 60}
+        ;G4 P4000
      {% endif %}
-
+     G90 # absolute positioning.
   {% endif %}
      
 ############################################################################################
