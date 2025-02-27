@@ -23,6 +23,7 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 |Hotend Fan|SHT:PB10/FAN0
 |Part Fan|SHT:PB11/FAN1
 |Component Fan|MCU:PB2
+|Toolhead PCB cooler|sht:PROBE_2
 |Chamber Fan|MCU:PC8
 |Chamber LEDS|MCU:PB3
 |Endstop - X|SHT:PA1/LIMIT_0
