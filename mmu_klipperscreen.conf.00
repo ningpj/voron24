@@ -269,7 +269,7 @@ refresh_on: printer.mmu.print_state
 name: {{ gettext('Eject Gate #0') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=0" }
+params: { "script":"MMU_EJECT GATE=0" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[0] != 0 and printer.mmu.num_gates > 0 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -277,7 +277,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #1') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=1" }
+params: { "script":"MMU_EJECT GATE=1" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[1] != 0 and printer.mmu.num_gates > 1 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -285,7 +285,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #2') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=2" }
+params: { "script":"MMU_EJECT GATE=2" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[2] != 0 and printer.mmu.num_gates > 2 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -293,7 +293,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #3') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=3" }
+params: { "script":"MMU_EJECT GATE=3" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[3] != 0 and printer.mmu.num_gates > 3 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -301,7 +301,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #4') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=4" }
+params: { "script":"MMU_EJECT GATE=4" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[4] != 0 and printer.mmu.num_gates > 4 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -309,7 +309,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #5') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=5" }
+params: { "script":"MMU_EJECT GATE=5" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[5] != 0 and printer.mmu.num_gates > 5 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -317,7 +317,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #6') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=6" }
+params: { "script":"MMU_EJECT GATE=6" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[6] != 0 and printer.mmu.num_gates > 6 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -325,7 +325,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #7') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=7" }
+params: { "script":"MMU_EJECT GATE=7" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[7] != 0 and printer.mmu.num_gates > 7 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -333,7 +333,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #8') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=8" }
+params: { "script":"MMU_EJECT GATE=8" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[8] != 0 and printer.mmu.num_gates > 8 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -341,7 +341,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #9') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=9" }
+params: { "script":"MMU_EJECT GATE=9" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[9] != 0 and printer.mmu.num_gates > 9 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -349,7 +349,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #10') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=10" }
+params: { "script":"MMU_EJECT GATE=10" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[10] != 0 and printer.mmu.num_gates > 10 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
@@ -357,7 +357,7 @@ refresh_on: printer.mmu.gate, printer.mmu.action
 name: {{ gettext('Eject Gate #11') }}
 icon: mmu_eject
 method: printer.gcode.script
-params: { "script":"MMU_EJECT FORCE=1 GATE=11" }
+params: { "script":"MMU_EJECT GATE=11" }
 enable: {{ printer.mmu.action == "Idle" and printer.mmu.gate_status[11] != 0 and printer.mmu.num_gates > 11 }}
 show_disabled: True
 refresh_on: printer.mmu.gate, printer.mmu.action
