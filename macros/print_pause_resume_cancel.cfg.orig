@@ -18,17 +18,21 @@ gcode:
 
 rename_existing: BASE_PAUSE
 gcode:
+
   {% if printer.pause_resume.is_paused %}                       ; check we are entering a paused state
-    M118 Printer is already paused.
+    _MSG RESPOND PREFIX=⚠️ MSG="Print is already paused ..."
   {% else %} 
+     _MSG PREFIX=⚠️ MSG="Print paused ..."
+
      SAVE_GCODE_STATE NAME=PAUSE_state
      BASE_PAUSE
 
      G92 E0                                                     ; zero the extruder
      G91                                                        ; relative positioning
      G1 E-{printer["gcode_macro _MY_VARIABLES"].print_ooze_retraction} F3600 ; retract a little
-     _PRINTPARK Z_HOP=5                                         ; park up over purge bucket
+     _PRINTPARK Z_HOP=5                                         ; park up
   {% endif %}  
+
 
 ####################################################################
 [gcode_macro RESUME] ; resume printing
@@ -37,11 +41,16 @@ gcode:
 rename_existing: BASE_RESUME
 gcode:
   {% if not printer.pause_resume.is_paused %}                   ; check if we are already paused
-    M118 Printer isnt paused, resume ignored.
+    MSG PREFIX=🛑 MSG="Print isn't paused, resuming anyway ..."
   {% else %}
+    MSG PREFIX=🛑 MSG="Resuming print ..."
+
     RESTORE_GCODE_STATE NAME=PAUSE_state MOVE=1 MOVE_SPEED={printer["gcode_macro _MY_VARIABLES"].motion_travel_speed} 
     BASE_RESUME
+    
+    UPDATE_DELAYED_GCODE ID=_CLEARMSG DURATION=4              ; clear the display message area
   {% endif %}
+
 
 ####################################################################
 [gcode_macro CANCEL_PRINT] ; cancel the running print - From ERCF
@@ -49,6 +58,8 @@ gcode:
 
 rename_existing: BASE_CANCEL_PRINT
 gcode:
+  _MSG PREFIX=🛑 MSG="Print cancelled"
+
   G92 E0                                                        ; zero the extruder
   G91                                                           ; relative positioning
   G1 E-{printer["gcode_macro _MY_VARIABLES"].print_ooze_retraction} F3600 ; retract a little
@@ -63,4 +74,3 @@ gcode:
   STATUS_READY                                                  ; set Stealth Burner LEDs to READY
   M107                                                          ; turn off part fan
   
-  M117 Print Cancelled
