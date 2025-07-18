@@ -9,15 +9,6 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead
 
 <img width="600" height="600" alt="voron24" src="https://github.com/user-attachments/assets/f9b218f5-d06e-45f1-a554-127916537c42" />
 
-## MCU PIN Assignments
-
-# voron 2.4
-
-Klipper configuration backups.
-
-## Description
-
-Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Fly-SHT36 Toolhead MCU, ERCF v2 with Fly Easy Brd CAN 1.1 MCU.
 
 ## MCU PIN Assignments
 
