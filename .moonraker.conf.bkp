@@ -91,3 +91,9 @@ managed_services = klipper
 primary_branch = main
 install_script = install.sh
 
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+install_script = tools/pkglist.sh
+
