@@ -15,9 +15,11 @@ cd ${printer_config}
 git fetch origin
 git reset --hard origin/master
 
-read -p "*** WARNING *** The moonraker database will now be restored - press [Enter] to continue or Ctrl-C to abort"
+if [ -f ${moonraker_backup} ]; then
+  ls -alh $moonraker_backup
+  read -p "*** WARNING *** The moonraker database will now be restored - press [Enter] to continue or Ctrl-C to abort"
 
-sudo systemctl stop moonraker
-ls -alh $moonraker_backup
-cp ${moonraker_backup} ~/printer_data/database/moonraker-sql.db
-sudo systemctl start moonraker
+  sudo systemctl stop moonraker
+  cp ${moonraker_backup} ~/printer_data/database/moonraker-sql.db
+  sudo systemctl start moonraker
+fi
