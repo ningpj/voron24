@@ -15,6 +15,8 @@ Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Mellow Fly SHT-36 
 |**Component**|**PIN**
 |-|-
 |Hotend Fan|SHT:PB10/FAN0
+|Hotend Heater|SHT:HE0
+|Hotend Sensor|SHT:TH0
 |Part Fan|SHT:PB11/FAN1
 |Component Fan|MCU:PB2
 |Toolhead PCB cooler|SHT:PROBE_2
