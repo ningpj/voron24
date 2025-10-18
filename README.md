@@ -4,8 +4,8 @@ Klipper configuration backups.
 
 ## Description
 
-Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Mellow Fly SHT-36 v2/UTOC, Tradrack with Fly Easy Brd CAN 1.1 MCU. <br>
-12 Lane Tradrack also has EREC cutter and Binky encoder.
+Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Mellow Fly SHT-36 v2/UTOC, Tradrack with Mellow Fly Easy Brd CAN 1.1 MCU. <br>
+12 Lane Tradrack, Binky Encoder, Blobifier (custom macros for right hand use) and EREC cutter.
 
 <img width="600" height="600" alt="voron24" src="https://github.com/user-attachments/assets/f9b218f5-d06e-45f1-a554-127916537c42" />
 
