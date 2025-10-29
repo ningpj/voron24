@@ -4,8 +4,18 @@ Klipper configuration backups.
 
 ## Description
 
-Backups for Voron 2.4 300mm build with Fysetc Spider 1.1 MCU, Mellow Fly SHT-36 v2/UTOC, Tradrack with Mellow Fly Easy Brd CAN 1.1 MCU. 
-wwG2 Extruder, Yavoth, Rapido HF, 12 Lane Tradrack, Binky Encoder, Blobifier (custom macros for right hand use) and ~~EREC~~ Crossbow filament cutter.
+Backups for Voron 2.4 300mm build 
++ Fysetc Spider 1.1 MCU
++ Mellow Fly SHT-36 v2
++ Mellow UTOC
++ 12 Lane Tradrack
+ + Mellow Fly Easy Brd CAN 1.1 MCU
+ + Binky Encoder
+ + Blobifier (custom macros for right hand use)
+ + ~~EREC~~ Crossbow filament cutter
++ wwG2 Extruder
++ Yavoth
++ Rapido v1 HF
 
 <img width="600" height="600" alt="voron24" src="https://github.com/user-attachments/assets/f9b218f5-d06e-45f1-a554-127916537c42" />
 
