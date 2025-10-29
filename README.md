@@ -16,6 +16,7 @@ Backups for Voron 2.4 300mm build
 + wwG2 Extruder
 + Yavoth
 + Rapido v1 HF
++ 130° Aliexpress Wideangle Picam
 
 <img width="600" height="600" alt="voron24" src="https://github.com/user-attachments/assets/f9b218f5-d06e-45f1-a554-127916537c42" />
 
