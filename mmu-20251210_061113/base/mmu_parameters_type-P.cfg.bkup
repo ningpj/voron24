@@ -416,14 +416,14 @@ sync_purge: 1				# Synchronize during standalone purging (last part of load)
 #   compression   tension        compression-only                      tension-only
 #
 sync_feedback_enabled: 1		# Turn off even if sensor is installed and active
-sync_feedback_buffer_range: 15 ;10		# Travel in "buffer" between compression/tension or one sensor and end (see above)
-sync_feedback_buffer_maxrange: 15	# Absolute maximum end-to-end travel (mm) provided by buffer (see above)
-sync_feedback_speed_multiplier: 4	# % "twolevel" gear speed delta to keep filament neutral in buffer (recommend 5%)
-sync_feedback_boost_multiplier: 5	# % "twolevel" extra gear speed boost for finding initial neutral position (recommend 3%)
+sync_feedback_buffer_range: 7		# Travel in "buffer" between compression/tension or one sensor and end (see above)
+sync_feedback_buffer_maxrange: 7	# Absolute maximum end-to-end travel (mm) provided by buffer (see above)
+sync_feedback_speed_multiplier: 4	# % - "twolevel" mmu speed delta to keep filament neutral in buffer (recommend 4%)
+sync_feedback_boost_multiplier: 5	# % - "twolevel" extra mmu speed boost for finding initial neutral position (recommend 5%)
 sync_feedback_extrude_threshold: 5	# Extruder movement (mm) for updates (keep small but set > retract distance)
 
-# If defined this forces debugging to a telemetry log file "sync_<gate>.jsonl". This is great if trying to tune clog/tangle
-# detection or for getting help on the Happy Hare forum. To plot graph of sync-feedback operation, run:
+# If defined this forces debugging to a telemetry log file /tmp/sync.jsonl. This is great if trying to tune clog/tangle detection
+# or for getting help on the Happy Hare forum. To plot graph of sync-feedback operation, run:
 #  ~/Happy-Hare/utils/plot_sync_feedback.sh
 #
 sync_feedback_debug_log: 1		# 0 = disable (normal operation), 1 = enable telemetry log (for debugging)
@@ -435,11 +435,11 @@ flowguard_enabled: 1			# 0 = Flowguard protection disabled, 1 = Enabled
 # value is more sensitive to triggering. Since the relief depends on 'sync_feedback speed_multiplier' and 'sync_feedback_buffer_range'
 # it is generally a good starting point if using 5% sync_feedback_speed_multiplier to use about the same distance as sync_feedback_buffer_range.
 # Note that one sided switches (Compression-only and Tension-only) can generally be lower.
-flowguard_max_relief: 8
+flowguard_max_relief: 6
 
 # The max_motion is the absolute max permitted extruder movement while the sensor is in an extreme state. Consider this added
 # protection on top of the primary max_relief amount. Again a smaller value is more sensitive to triggering.
-flowguard_max_motion: 80
+flowguard_max_motion: 15
 
 
 # ESpooler control -----------------------------------------------------------------------------------------------------
@@ -612,7 +612,7 @@ console_always_output_full: 0	# 1 = Show full table, 0 = Only show totals out of
 autocal_bowden_length: 1	# Automated bowden length calibration. 1=automatic, 0=manual/off
 autotune_bowden_length: 0	# Automated bowden length tuning. 1=on, 0=off
 skip_cal_rotation_distance: 0	# Skip rotation distance calibration (MMU_CALIBRATE_GEAR), 1=skip, 0=require
-autotune_rotation_distance: 0	# Automated gate calibration/tuning. 1=automatic, 0=manual/off
+autotune_rotation_distance: 1	# Automated gate calibration/tuning. 1=automatic, 0=manual/off
 skip_cal_encoder: 0		# Skip encoder calibration (MMU_CALIBRATE_ENCODER), 1=skip, 0=require
 autotune_encoder: 0		# Automated encoder tuning. 1=automatic, 0=manual/off
 
