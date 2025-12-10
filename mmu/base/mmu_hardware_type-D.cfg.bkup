@@ -289,7 +289,7 @@ sync_feedback_compression_pin: ^mmu:gpio12
 ;sync_feedback_analog_pin: mmu:gpio29            # The ADC pin where the proportional filament pressure sensor is installed
 ;sync_feedback_analog_reversed: False            # Whether to invert compression vs. tension. For example if hall magnet is installed backwards
 ;sync_feedback_analog_set_point: 0.526           # Neutral point (0..1), maps that raw value to 0.0
-;sync_feedback_analog_scale: 1.02                # ADC value scaling (for the FPS it is 1.0)
+;sync_feedback_analog_scale: 1.038               # ADC value scaling (for the FPS it is 1.0)
                                                 # For Hall sensor plugged to dedicated MCU pin (no resistors) it is 2.0
                                                 # For resistor/potentiometer value, it depends on resistor value choice
 ;sync_feedback_analog_debug: True
