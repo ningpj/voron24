@@ -280,25 +280,16 @@ extruder_switch_pin:
 ;toolhead_switch_pin: ^PB14
 toolhead_switch_pin: ^sht:LIMIT_1
 
-sync_feedback_tension_pin: 
-sync_feedback_compression_pin: 
-
+sync_feedback_tension_pin: ^mmu:gpio28
+sync_feedback_compression_pin: ^mmu:gpio12
 
 # Proportional sync feedback sensor configuration. Leave empty if not fitted.
 # (if you have a proportional sensor the sync_feedback_tension_pin and sync_feedback_compression_pin would likely be empty)
 #
-sync_feedback_analog_pin: mmu:gpio29            # The ADC pin where the proportional filament pressure sensor is installed
-sync_feedback_analog_max_compression: 0.07      # Raw sensor reading at max filament compression (buffer squeezed)
-sync_feedback_analog_max_tension: 0.984         # Raw sensor reading at max filament tension (buffer expanded)
-;sync_feedback_analog_max_compression: 0.97      # Raw sensor reading at max filament compression (buffer squeezed)
-;sync_feedback_analog_max_tension: 0.03         # Raw sensor reading at max filament tension (buffer expanded)
-sync_feedback_analog_set_point: 0.52           # Biasing of neutral point (sensor value 0). Normally close to 0.5
-
-
 ;sync_feedback_analog_pin: mmu:gpio29            # The ADC pin where the proportional filament pressure sensor is installed
 ;sync_feedback_analog_reversed: False            # Whether to invert compression vs. tension. For example if hall magnet is installed backwards
 ;sync_feedback_analog_set_point: 0.526           # Neutral point (0..1), maps that raw value to 0.0
-;sync_feedback_analog_scale: 1.02                # ADC value scaling (for the FPS it is 1.0)
+;sync_feedback_analog_scale: 1.038               # ADC value scaling (for the FPS it is 1.0)
                                                 # For Hall sensor plugged to dedicated MCU pin (no resistors) it is 2.0
                                                 # For resistor/potentiometer value, it depends on resistor value choice
 ;sync_feedback_analog_debug: True
