@@ -44,6 +44,9 @@ done
 echo -e "\nBacking up moonraker database ..."
 cp ~/printer_data/database/moonraker-sql.db ${moonraker_backup}
 
+# find symlinks to ignore using .gitignore 
+find ~/printer_data/config/mmu/. -type l | sed -e s'/^\.\///g' >> ~/printer_data/config/mmu/.gitignore
+
 # push updates to remote git repo
 echo -e "\nPushing GIT updates ..."
 
