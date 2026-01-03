@@ -8,3 +8,13 @@
 /home/pi/printer_data/config/mmu/./base/mmu_form_tip.cfg
 /home/pi/printer_data/config/mmu/./base/mmu_software.cfg
 /home/pi/printer_data/config/mmu/./base/mmu_state.cfg
+/home/pi/printer_data/config/mmu/./optional/mmu_menu.cfg
+/home/pi/printer_data/config/mmu/./optional/client_macros.cfg
+/home/pi/printer_data/config/mmu/./optional/mmu_ercf_compat.cfg
+/home/pi/printer_data/config/mmu/./base/mmu_sequence.cfg
+/home/pi/printer_data/config/mmu/./base/mmu_cut_tip.cfg
+/home/pi/printer_data/config/mmu/./base/mmu_leds.cfg
+/home/pi/printer_data/config/mmu/./base/mmu_purge.cfg
+/home/pi/printer_data/config/mmu/./base/mmu_form_tip.cfg
+/home/pi/printer_data/config/mmu/./base/mmu_software.cfg
+/home/pi/printer_data/config/mmu/./base/mmu_state.cfg
