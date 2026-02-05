@@ -279,20 +279,20 @@ gate_switch_pin: ^mmu:MMU_GATE_SENSOR
 ;extruder_switch_pin: 
 toolhead_switch_pin: ^sht:LIMIT_1
 
-sync_feedback_tension_pin: ^mmu:gpio12
-sync_feedback_compression_pin: ^mmu:gpio28
+;sync_feedback_tension_pin: 
+;sync_feedback_compression_pin: 
 
 
 # Proportional sync feedback sensor configuration. Leave empty if not fitted.
 # (if you have a proportional sensor the sync_feedback_tension_pin and sync_feedback_compression_pin would likely be empty)
 #
-;sync_feedback_analog_pin: mmu:gpio29              # The ADC pin where the proportional filament pressure sensor is installed
+sync_feedback_analog_pin: mmu:gpio29              # The ADC pin where the proportional filament pressure sensor is installed
 ;sync_feedback_analog_max_compression: 0.9931      # Raw sensor reading at max filament compression (buffer squeezed)
 ;sync_feedback_analog_max_tension: 0.0038          # Raw sensor reading at max filament tension (buffer expanded)
 ;sync_feedback_analog_neutral_point: 0.4984        # Neutral point
-;sync_feedback_analog_max_compression: 0.9903      # Raw sensor reading at max filament compression (buffer squeezed)
-;sync_feedback_analog_max_tension: 0.0049          # Raw sensor reading at max filament tension (buffer expanded)
-;sync_feedback_analog_neutral_point: 0.4976        # Neutral point
+sync_feedback_analog_max_compression: 0.9903      # Raw sensor reading at max filament compression (buffer squeezed)
+sync_feedback_analog_max_tension: 0.0049          # Raw sensor reading at max filament tension (buffer expanded)
+sync_feedback_analog_neutral_point: 0.4976        # Neutral point
 
 
 # MMU OPTIONAL NEOPIXEL LED SUPPORT ------------------------------------------------------------------------------------
