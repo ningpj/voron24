@@ -212,8 +212,8 @@ CONFIG_VAR_SEQUENCE_USER_POST_UNLOAD_EXTENSION="''" #~DEFAULT~#
 CONFIG_VAR_SEQUENCE_USER_PRE_LOAD_EXTENSION="''" #~DEFAULT~#
 CONFIG_VAR_SEQUENCE_USER_POST_LOAD_EXTENSION="''" #~DEFAULT~#
 CONFIG_VAR_SEQUENCE_USER_POST_PRELOAD_EXTENSION="''" #~DEFAULT~#
-CONFIG_BOOL_SEQUENCE_AUTO_HOME=y #~DEFAULT~#
-CONFIG_VAR_SEQUENCE_AUTO_HOME="True" #~DEFAULT~#
+# CONFIG_BOOL_SEQUENCE_AUTO_HOME is not set #~DEFAULT~#
+CONFIG_VAR_SEQUENCE_AUTO_HOME="False" #~DEFAULT~#
 # CONFIG_BOOL_SEQUENCE_TIMELAPSE is not set #~DEFAULT~#
 CONFIG_VAR_SEQUENCE_TIMELAPSE="False" #~DEFAULT~#
 CONFIG_VAR_SEQUENCE_USER_PARK_MOVE_MACRO="'BLOBIFIER_SAFE_PARK'"
@@ -564,9 +564,12 @@ CONFIG_BOARD_TYPE_MELLOW_EASY_BRD_CAN_1=y
 #   MCU connection
 # CONFIG_CHOICE_MMU_CONNECTION_TYPE_SERIAL is not set #~DEFAULT~#
 CONFIG_CHOICE_MMU_CONNECTION_TYPE_CANBUS=y #~DEFAULT~#
+# CONFIG_CHOICE_MMU_CANBUS_UUID_PREVIOUS is not set #~DEFAULT~#
 CONFIG_CHOICE_MMU_CANBUS_UUID_OTHER=y #~DEFAULT~#
 CONFIG_MMU_CANBUS_UUID_OTHER="0cf6c395541c"
+CONFIG_MMU_CANBUS_INTERFACE_OTHER="can0"
 CONFIG_PARAM_MMU_CANBUS_UUID="0cf6c395541c" #~DEFAULT~#
+CONFIG_PARAM_MMU_CANBUS_INTERFACE="can0" #~DEFAULT~#
 #   end of MCU connection
 #   Pins / TMC
 CONFIG_CHOICE_GEAR_TMC2209=y #~DEFAULT~#
@@ -795,3 +798,6 @@ CONFIG_W3=y
 #   MMU environment sensor is enabled but sensor name(s) not defined
 #   Sync-feedback buffer configured but it had no sensors defined
 #   Warning: Sync-feedback buffer configured with both analog and digital inputs
+#   NFC neighbor eviction jog must be backward (<=0) unless gate endstop is mmu_exit
+#   NFC gate clear jog must be backward (<=0) unless gate endstop is mmu_exit
+#   NFC preload clear jog must be backward (<=0) unless preload endstop is mmu_exit
