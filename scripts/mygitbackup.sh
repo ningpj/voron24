@@ -50,8 +50,8 @@ cp ~/printer_data/database/moonraker-sql.db ${moonraker_backup}
 # push updates to remote git repo
 echo -e "\nPushing GIT updates ..."
 
-git pull -v "https://ningpj:$mygittoken@github.com/ningpj/voron24-HH4.0.git"
+git pull -v "https://ningpj:$mygittoken@github.com/ningpj/voron24.git"
 git add . -v
 current_date=$(date +"%Y-%m-%d %T")
 git commit -m "Backup triggered on $current_date" "${gitrevs[@]}"
-git push "https://ningpj:$mygittoken@github.com/ningpj/voron24-HH4.0.git"
+git push "https://ningpj:$mygittoken@github.com/ningpj/voron24.git"
