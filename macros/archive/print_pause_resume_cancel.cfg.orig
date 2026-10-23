@@ -1,0 +1,76 @@
+####################################################################
+[gcode_macro _PRINTPARK] ; 
+####################################################################
+
+gcode:
+  {% set Z_HOP = params.Z_HOP|default(5)|float %}
+  ; use purge bucket location to park up
+  {% set x_park, y_park = printer["gcode_macro _MY_VARIABLES"].motion_park_position_xy|map('float') %}
+  {% set z_safe = [printer.toolhead.position.z|float + Z_HOP, printer.toolhead.axis_maximum.z|float]|min %}  ; z-hop by argument or to maximum_z
+
+  G90                                                           ; absolute positioning
+  G1 Z{z_safe} F900                                             ; safe z-hop
+  G0 X{x_park} Y{y_park} F{printer["gcode_macro _MY_VARIABLES"].motion_travel_speed * 60} ; go to park position
+
+####################################################################
+[gcode_macro PAUSE] ; print pause
+####################################################################
+
+rename_existing: BASE_PAUSE
+gcode:
+
+  {% if printer.pause_resume.is_paused %}                       ; check we are entering a paused state
+    _MSG RESPOND PREFIX=⚠️ MSG="Print is already paused ..."
+  {% else %} 
+     _MSG PREFIX=⚠️ MSG="Print paused ..."
+
+     SAVE_GCODE_STATE NAME=PAUSE_state
+     BASE_PAUSE
+
+     G92 E0                                                     ; zero the extruder
+     G91                                                        ; relative positioning
+     G1 E-{printer["gcode_macro _MY_VARIABLES"].print_ooze_retraction} F3600 ; retract a little
+     _PRINTPARK Z_HOP=5                                         ; park up
+  {% endif %}  
+
+
+####################################################################
+[gcode_macro RESUME] ; resume printing
+####################################################################
+
+rename_existing: BASE_RESUME
+gcode:
+  {% if not printer.pause_resume.is_paused %}                   ; check if we are already paused
+    MSG PREFIX=🛑 MSG="Print isn't paused, resuming anyway ..."
+  {% else %}
+    MSG PREFIX=🛑 MSG="Resuming print ..."
+
+    RESTORE_GCODE_STATE NAME=PAUSE_state MOVE=1 MOVE_SPEED={printer["gcode_macro _MY_VARIABLES"].motion_travel_speed} 
+    BASE_RESUME
+    
+    UPDATE_DELAYED_GCODE ID=_CLEARMSG DURATION=4              ; clear the display message area
+  {% endif %}
+
+
+####################################################################
+[gcode_macro CANCEL_PRINT] ; cancel the running print - From ERCF
+####################################################################
+
+rename_existing: BASE_CANCEL_PRINT
+gcode:
+  _MSG PREFIX=🛑 MSG="Print cancelled"
+
+  G92 E0                                                        ; zero the extruder
+  G91                                                           ; relative positioning
+  G1 E-{printer["gcode_macro _MY_VARIABLES"].print_ooze_retraction} F3600 ; retract a little
+  _PRINTPARK Z_HOP=5                                            ; park up over purge bucket 
+
+  TURN_OFF_HEATERS
+  BED_MESH_CLEAR
+  CLEAR_PAUSE
+  BASE_CANCEL_PRINT
+  _LOWERZAMPS                                                   ; revert to low power z state    
+  _CASELIGHTS_DIM                                               ; dim case lights
+  STATUS_READY                                                  ; set Stealth Burner LEDs to READY
+  M107                                                          ; turn off part fan
+  

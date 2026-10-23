@@ -1,0 +1,14 @@
+[Unit]
+Description=Set Arducam camera focus
+After=network-online.target
+[Service]
+Type=simple
+User=pi
+RemainAfterExit=no
+ExecStart=/home/pi/printer_data/config/scripts/myfocus.py 
+WorkingDirectory=/home/pi/arducam/Motorized_Focus_Camera/python/lib/
+StandardOutput=inherit
+StandardError=inherit
+Restart=no
+[Install]
+WantedBy=multi-user.target
