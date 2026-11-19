@@ -23,11 +23,12 @@ Backups for Voron 2.4 300mm build
 |**Component**|**PIN**|**Port**
 |-|-|-
 |Hotend Fan                       |SHT:PB10|FAN0
-|Hotend Heater                    |SHT:HE0
-|Hotend Sensor                    |SHT:TH0
+|Hotend Heater                    |SHT:PA8|HE0
+|Hotend Thermistor                |SHT:PA3|TH0
 |Part Fan                         |SHT:PB11|FAN1
 |Component Fan                    |MCU:PA8|VF0
-|Chamber Fan                      |MCU:PE5|VF1
+|VOC/Chamber Fan                  |MCU:PE5|VF1
+|Bed Fan                          |MCU:PD12|VF2
 |Chamber LEDS                     |MCU:PA3|HE1
 |Endstop - X                      |SHT:PA1|LIMIT_0
 |Endstop - Y                      |MCU:PG6|STOP-0
@@ -36,6 +37,7 @@ Backups for Voron 2.4 300mm build
 |Blobifier bucket                 |MCU:PG11|STOP-3
 |Probe - PCB Klicky               |SHT:PC15|PROBE_1
 |Toolhead sensor                  |SHT:PA2|LIMIT_1
+|Toolhead MCU/Driver Fan          |SHT:PB1|PROBE_2
 |Chamber Thermistor               |MCU:PF4|T0   
 |Bed Thermister                   |MCU:PF3|TB
 |Print Head Neopixels             |SHT:PB0|RGBLED
