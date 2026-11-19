@@ -29,6 +29,8 @@ Backups for Voron 2.4 300mm build
 |Component Fan                    |MCU:PA8|VF0
 |VOC/Chamber Fan                  |MCU:PE5|VF1
 |Bed Fan                          |MCU:PD12|VF2
+|Bed Thermister                   |MCU:PF3|TB
+|Chamber Thermistor               |MCU:PF4|T0   
 |Chamber LEDS                     |MCU:PA3|HE1
 |Endstop - X                      |SHT:PA1|LIMIT_0
 |Endstop - Y                      |MCU:PG6|STOP-0
@@ -38,9 +40,7 @@ Backups for Voron 2.4 300mm build
 |Probe - PCB Klicky               |SHT:PC15|PROBE_1
 |Toolhead sensor                  |SHT:PA2|LIMIT_1
 |Toolhead MCU/Driver Fan          |SHT:PB1|PROBE_2
-|Chamber Thermistor               |MCU:PF4|T0   
-|Bed Thermister                   |MCU:PF3|TB
-|Print Head Neopixels             |SHT:PB0|RGBLED
+|Toolhead Neopixels               |SHT:PB0|RGBLED
 
 
 ## Slicer (Orca)
