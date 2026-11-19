@@ -5,7 +5,7 @@ Klipper configuration backups.
 ## Description
 
 Backups for Voron 2.4 300mm build 
-+ Octopus Pro 1.1 MCU - 2240's on XY & Z
++ Octopus Pro 1.1 MCU - 2240's on XYZ. XY @ 36v, Z @ 24v
 + Mellow Fly SHT-36 v2
 + 12 Lane Tradrack
  + Mellow Fly Easy Brd CAN 1.1 MCU
